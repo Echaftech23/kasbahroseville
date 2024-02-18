@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tasks', function (Blueprint $table) {
-            $table->id();
+        Schema::create('facility_room', function (Blueprint $table) {
+            $table->foreignId('type_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('room_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
@@ -22,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('facilities_rooms');
     }
 };
