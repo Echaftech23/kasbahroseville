@@ -19,7 +19,6 @@ class Room extends Model
         'type_id',
     ];
 
-    // Define the relationship with Type
     public function type()
     {
         return $this->belongsTo(Type::class);
@@ -27,11 +26,11 @@ class Room extends Model
 
     public function reservations()
     {
-        return $this->belongsTo(Reservation::class);
+        return $this->belongsToMany(Reservation::class);
     }
 
     public function facilities()
     {
-        return $this->belongsTo(Facility::class);
+        return $this->belongsToMany(Facility::class);
     }
 }

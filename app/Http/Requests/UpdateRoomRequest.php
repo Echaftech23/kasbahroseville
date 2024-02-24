@@ -11,7 +11,7 @@ class UpdateRoomRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,14 @@ class UpdateRoomRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string',
+            'price' => 'required|numeric',
+            'statut' => 'required|in:dirty,cleaning,clean',
+            'priority' => 'required|in:low,high',
+            'capacity' => 'required|integer',
+            'image' => 'required|string',
+            'type_id' => 'required|exists:types,id',
+            'facility_id' => 'array',
         ];
     }
 }
