@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\TypeController;
+use App\Http\Controllers\Admin\FacilityController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\AuthController\Auth;
 use Illuminate\Http\Request;
@@ -33,4 +34,5 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 
-Route::resource('types', TypeController::class);
+Route:: resource('types', TypeController::class);
+Route::resource('facilities', FacilityController::class);
