@@ -1,13 +1,13 @@
 (function ($) {
   "use strict";
 
-  var roberto_window = $(window);
+  var kasbah_window = $(window);
 
   // ****************************
   // :: 1.0 Preloader Active Code
   // ****************************
 
-  roberto_window.on("load", function () {
+  kasbah_window.on("load", function () {
     $("#preloader").fadeOut("1000", function () {
       $(this).remove();
     });
@@ -230,7 +230,7 @@
   // ***********************
   // :: 11.0 WOW Active Code
   // ***********************
-  if (roberto_window.width() > 767) {
+  if (kasbah_window.width() > 767) {
     new WOW().init();
   }
 
@@ -247,19 +247,9 @@
   // :: 13.0 Scrollup Active Code
   // ****************************
   if ($.fn.scrollUp) {
-    roberto_window.scrollUp({
+    kasbah_window.scrollUp({
       scrollSpeed: 1500,
-      scrollText: '<i class="arrow_carrot-up"</i>',
-    });
-  }
-
-  // ******************************
-  // :: 14.0 Counter Up Active Code
-  // ******************************
-  if ($.fn.counterUp) {
-    $(".counter").counterUp({
-      delay: 15,
-      time: 1500,
+      scrollText: '<i class="arrow_carrot-up"></i>',
     });
   }
 
@@ -270,19 +260,6 @@
     $.preventDefault();
   });
 
-  // *****************************
-  // :: 16.0 Countdown Active Code
-  // *****************************
-  if ($.fn.countdown) {
-    $("#clock").countdown("2021/10/10", function (event) {
-      $(this).html(
-        event.strftime(
-          "<div>%D <span>Days</span></div> <div>%H <span>Hours</span></div> <div>%M <span>Mins</span></div> <div>%S <span>Sec</span></div>"
-        )
-      );
-    });
-  }
-
   // *******************************
   // :: 17.0 Nice Select Active Code
   // *******************************
@@ -290,48 +267,17 @@
     $("select").niceSelect();
   }
 
-  // ******************************
-  // :: 18.0 Datepicker Active Code
-  // ******************************
-  if ($.fn.datepicker) {
-    $(".input-daterange").datepicker({
-      format: "dd/mm/yy",
-      multidate: true,
-      keyboardNavigation: false,
-      forceParse: false,
-      daysOfWeekHighlighted: "0,1,2,3,4,5,6",
-      todayHighlight: true,
+  $(function () {
+    $("#sliderRangePrice").on("input", function () {
+      $("#sliderValue").text($(this).val());
     });
-  }
 
-  // ********************************
-  // :: 19.0 Range Slider Active Code
-  // ********************************
-  $(".slider-range-price").each(function () {
-    var min = jQuery(this).data("min");
-    var max = jQuery(this).data("max");
-    var unit = jQuery(this).data("unit");
-    var value_min = jQuery(this).data("value-min");
-    var value_max = jQuery(this).data("value-max");
-    var label_result = jQuery(this).data("label-result");
-    var t = $(this);
-    $(this).slider({
-      range: true,
-      min: min,
-      max: max,
-      values: [value_min, value_max],
-      slide: function (event, ui) {
-        var result =
-          label_result +
-          " " +
-          unit +
-          ui.values[0] +
-          " - " +
-          unit +
-          ui.values[1];
-        console.log(t);
-        t.closest(".slider-range").find(".range-price").html(result);
-      },
+    $("#sliderRangePrice").on("input", function () {
+      var x = $(this).val();
+      var percentage = (x / 300) * 100;
+      var color = `linear-gradient(90deg, #e42c76 ${percentage}%, #e8f1f8 ${percentage}%)`;
+      $(this).css("background", color);
     });
   });
+
 })(jQuery);

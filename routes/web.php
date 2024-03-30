@@ -13,6 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('dashboard', function () {
+    return view('admin.rooms.create');
+})->name('dashboard');
+
 Route::get('/', function () {
     return view('home.index');
+});
+
+Route::get('admin', function () {
+    return view('admin.index');
 });

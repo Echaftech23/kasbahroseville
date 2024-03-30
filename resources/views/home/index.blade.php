@@ -6,9 +6,19 @@
 
     <!-- Favicon -->
     <link rel="icon" href="img/core-img/favicon.ico" />
+
     <!-- Style files  -->
     <link rel="stylesheet" href="{{ mix('resources/css/app.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
+    <link href="{{ asset('css/animate.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/default-assets/classy-nav.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/magnific-popup.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/nice-select.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    {{--  Google fonts --}}
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700" rel="stylesheet">
 
 </head>
  <body>
@@ -1045,12 +1055,10 @@
     <!-- **** All JS Files ***** -->
     <!-- jQuery 2.2.4 -->
     <script src="{{ asset('js/jquery.min.js') }}"></script>
-    <!-- Popper -->
-    <script src="{{ asset('js/popper.min.js') }}"></script>
-    <!-- Bootstrap -->
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <!-- home -->
+    <script src="{{ asset('js/home.min.js') }}"></script>
     <!-- All Plugins -->
-    <script src="{{ asset('js/roberto.bundle.js') }}"></script>
+    <script src="{{ asset('js/kasbah.bundle.js') }}"></script>
     <!-- Active -->
     <script src="{{ asset('js/default-assets/active.js') }}"></script>
   </body>
