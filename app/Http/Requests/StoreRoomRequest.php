@@ -24,12 +24,12 @@ class StoreRoomRequest extends FormRequest
         return [
             'name' => 'required|string',
             'price' => 'required|numeric',
+            'size' => 'required|numeric',
             'statut' => 'required|in:dirty,cleaning,clean',
             'priority' => 'required|in:low,high',
             'capacity' => 'required|integer',
-            'image' => 'required|string',
             'type_id' => 'required|exists:types,id',
-            'facility_id' => 'array',
+            'facility_id' => 'required|exists:facilities,id',
         ];
     }
 }

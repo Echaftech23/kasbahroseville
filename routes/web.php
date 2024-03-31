@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\RoomController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,3 +25,6 @@ Route::get('/', function () {
 Route::get('admin', function () {
     return view('admin.index');
 });
+
+
+Route::resource('rooms', RoomController::class);
