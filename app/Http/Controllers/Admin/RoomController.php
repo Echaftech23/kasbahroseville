@@ -87,22 +87,16 @@ class RoomController extends Controller
      */
     public function edit(Room $room)
     {
-        try {
+        // try {
             abort_if(!$room, 404, 'Room not found.');
 
             $facilities = Facility::all();
             $types = Type::all();
 
-            return response()->json([
-                'data' => $room,
-                'facilities' => $facilities,
-                'types' => $types,
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Something went wrong!',
-            ], 500);
-        }
+            return view('admin.rooms.edit', compact('room', 'facilities', 'types'));
+        // } catch (\Exception $e) {
+        //     return back()->with('error', 'Something went wrong!');
+        // }
     }
 
     /**
@@ -131,14 +125,14 @@ class RoomController extends Controller
      */
     public function destroy(Room $room)
     {
-        // try {
-        abort_if(!$room, 404, 'Room not found.');
+        try {
+            abort_if(!$room, 404, 'Room not found.');
 
-        $room->delete();
+            $room->delete();
 
-        return redirect()->route('rooms.index')->with('success', 'Room deleted successfully.');
-        // } catch (\Exception $e) {
-        //     return back()->with('error', 'Something went wrong! Please try again.');
-        // }
+            return redirect()->route('rooms.index')->with('success', 'Room deleted successfully.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Something went wrong! Please try again.');
+        }
     }
 }
