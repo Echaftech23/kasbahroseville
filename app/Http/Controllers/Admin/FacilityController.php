@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Facility;
 use App\Http\Requests\StoreFacilityRequest;
 use App\Http\Requests\UpdateFacilityRequest;
+use App\Models\Type;
 
 class FacilityController extends Controller
 {
@@ -14,11 +15,10 @@ class FacilityController extends Controller
      */
     public function index()
     {
-        $facilities = Facility::latest()->get();
+        $facilities = Facility::latest()->paginate(5,['*'], 'facilities_page');
+        $types = Type::latest()->paginate(5, ['*'], 'types_page');
 
-        return response()->json([
-            'data' =>  $facilities,
-        ], 200);
+        return view('admin.facilities.index', compact(['facilities', 'types']));
     }
 
     /**

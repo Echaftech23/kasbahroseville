@@ -320,188 +320,193 @@
         <!-- Booking Section Details main -->
         <div class="card">
             <div class="min-w-full overflow-x-auto">
-            <table class="w-full text-left">
-                <thead>
-                    <tr class="bg-[#F8FAFC] border-b-[0.7px]">
-                        <th
-                        class="whitespace-nowrap px-4 py-3 text-[13px] text-[#364A62] lg:px-5"
-                        >
-                        #
-                        </th>
-                        <th
-                        class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5"
-                        >
-                        Image
-                        </th>
-                        <th
-                        class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5"
-                        >
-                        Name
-                        </th>
-                        <th
-                        class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5"
-                        >
-                        Room Type
-                        </th>
-                        <th
-                        class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5"
-                        >
-                        Price
-                        </th>
-
-                        <th
-                        class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5"
-                        >
-                        Status
-                        </th>
-
-                        <th
-                        class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5"
-                        >
-                        Capacity
-                        </th>
-
-                        <th
-                        class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5"
-                        >
-                        Priority
-                        </th>
-
-                        <th
-                        class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5"
-                        >
-                        More
-                        </th>
-                    </tr>
-                </thead>
-                <tbody x-data="{expanded:false}">
-                    @foreach($rooms as $room)
-                        <tr class="border-y border-transparent">
-                            <td class="whitespace-nowrap px-4 py-3 sm:px-5">{{$room->id}}</td>
-                            <td class="px-4 py-3 sm:px-5">
-                            <div
-                                class="block w-9 h-9 overflow-hidden rounded-full shadow focus:outline-none"
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="bg-[#F8FAFC] border-b-[0.7px]">
+                            <th
+                            class="whitespace-nowrap px-4 py-3 text-[13px] text-[#364A62] lg:px-5"
                             >
-                                <img
-                                class="object-cover w-full h-full"
-                                src="https://images.unsplash.com/photo-1528892952291-009c663ce843?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=296&amp;q=80"
-                                alt="Your avatar"
-                                />
-                            </div>
-                            </td>
-                            <td
-                            class="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5"
+                            #
+                            </th>
+                            <th
+                            class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5"
                             >
-                                {{$room->name}}
-                            </td>
-                            <td
-                            class="text-[13px] whitespace-nowrap text-orange-500 text-xs font-semibold px-4 py-3 sm:px-5"
+                            Image
+                            </th>
+                            <th
+                            class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5"
                             >
-                                {{$room->type->type}}
-                            </td>
-                            <td
-                            class="text-[13px] whitespace-nowrap text-[#1d1c1c] font-bold text-sm px-4 py-3 sm:px-5"
+                            Name
+                            </th>
+                            <th
+                            class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5"
                             >
-                                <span class="font-bold">$</span>{{$room->price}}
-                            </td>
-                            <td class="whitespace-nowrap px-4 py-3 sm:px-5">
-                                <div class="flex space-x-2">
-                                    <div
-                                    class="rounded-full border text-[11px] px-[8px] py-[3px] font-semibold
-                                        {{ $room->statut == 'clean' ? 'bg-green-200 border-green-500 text-green-500' :
-                                        ($room->statut == 'dirty' ? 'bg-red-200 border-red-500 text-red-500' :
-                                        'bg-[#fcf3ec] border-orange-500 text-orange-500') }}"
-                                    >
-                                        {{$room->statut}}
-                                    </div>
+                            Room Type
+                            </th>
+                            <th
+                            class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5"
+                            >
+                            Price
+                            </th>
+
+                            <th
+                            class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5"
+                            >
+                            Status
+                            </th>
+
+                            <th
+                            class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5"
+                            >
+                            Capacity
+                            </th>
+
+                            <th
+                            class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5"
+                            >
+                            Priority
+                            </th>
+
+                            <th
+                            class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5"
+                            >
+                            More
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody x-data="{expanded:false}">
+                        @foreach($rooms as $room)
+                            <tr class="border-y">
+                                <td class="whitespace-nowrap px-4 py-3 sm:px-5">{{$room->id}}</td>
+                                <td class="px-4 py-3 sm:px-5">
+                                <div
+                                    class="block w-9 h-9 overflow-hidden rounded-full shadow focus:outline-none"
+                                >
+                                    <img
+                                    class="object-cover w-full h-full"
+                                    src="https://images.unsplash.com/photo-1528892952291-009c663ce843?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=296&amp;q=80"
+                                    alt="Your avatar"
+                                    />
                                 </div>
-                            </td>
-                            <td
-                            class="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5"
-                            >
-                                {{$room->capacity}} Persons
-                            </td>
-                            <td class="whitespace-nowrap px-4 py-3 sm:px-5">
-                                <div class="flex space-x-2">
-                                    <div
-                                    class="rounded-full border text-[11px] px-[8px] py-[3px] font-semibold
-                                        {{ $room->priority == 'low' ? 'bg-green-200 border-green-500 text-green-500' :
-                                        'bg-red-200 border-red-500 text-red-500'}}"
-                                    >
-                                    {{$room->priority}}
+                                </td>
+                                <td
+                                class="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5"
+                                >
+                                    {{$room->name}}
+                                </td>
+                                <td
+                                class="text-[13px] whitespace-nowrap text-orange-500 text-xs font-semibold px-4 py-3 sm:px-5"
+                                >
+                                    {{$room->type->type}}
+                                </td>
+                                <td
+                                class="text-[13px] whitespace-nowrap text-[#1d1c1c] font-bold text-sm px-4 py-3 sm:px-5"
+                                >
+                                    <span class="font-bold">$</span>{{$room->price}}
+                                </td>
+                                <td class="whitespace-nowrap px-4 py-3 sm:px-5">
+                                    <div class="flex space-x-2">
+                                        <div
+                                        class="rounded-full border text-[11px] px-[8px] py-[3px] font-semibold
+                                            {{ $room->statut == 'clean' ? 'bg-green-200 border-green-500 text-green-500' :
+                                            ($room->statut == 'dirty' ? 'bg-red-200 border-red-500 text-red-500' :
+                                            'bg-[#fcf3ec] border-orange-500 text-orange-500') }}"
+                                        >
+                                            {{$room->statut}}
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="whitespace-nowrap px-4 py-3 sm:px-5">
-                                <div class="flex justify-center items-center">
-                                    <!-- Show Details Icon -->
-                                    <a
-                                    href="{{ route('rooms.show', $room->id)}}"
-                                    class="mr-2"
-                                    >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
-                                        width="22"
-                                        height="22"
-                                        fill="none"
-                                        stroke="#3367d1"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    >
-                                        <circle cx="12" cy="12" r="10" />
-                                        <line x1="12" y1="16" x2="12" y2="12" />
-                                        <line x1="12" y1="8" x2="12" y2="8" />
-                                    </svg>
-                                    </a>
-                                    <!-- Edit Icon -->
-                                    <a href="{{ route('rooms.edit', $room->id)}}">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 32 32"
-                                        width="32"
-                                        fill="#364A62"
-                                        height="32"
-                                    >
-                                        <path
-                                        d="M19.7 8.3c-.4-.4-1-.4-1.4 0l-10 10c-.2.2-.3.4-.3.7v4c0 .6.4 1 1 1h4c.3 0 .5-.1.7-.3l10-10c.4-.4.4-1 0-1.4l-4-4zM12.6 22H10v-2.6l6-6 2.6 2.6-6 6zm7.4-7.4L17.4 12l1.6-1.6 2.6 2.6-1.6 1.6z"
-                                        ></path>
-                                    </svg>
-                                    </a>
-                                    <!-- Delete Icon -->
-                                    <form
-                                        action="{{ route('rooms.destroy', $room->id) }}"
-                                        method="POST"
-                                        onsubmit="return confirm('Are You sure You want To Delete This Room?')"
-                                    >
-                                        @csrf
-                                        @method('DELETE')
-
-                                        <button type="submit">
-                                            <svg
-                                            class="mt-1"
+                                </td>
+                                <td
+                                class="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5"
+                                >
+                                    {{$room->capacity}} Persons
+                                </td>
+                                <td class="whitespace-nowrap px-4 py-3 sm:px-5">
+                                    <div class="flex space-x-2">
+                                        <div
+                                        class="rounded-full border text-[11px] px-[8px] py-[3px] font-semibold
+                                            {{ $room->priority == 'low' ? 'bg-green-200 border-green-500 text-green-500' :
+                                            'bg-red-200 border-red-500 text-red-500'}}"
+                                        >
+                                        {{$room->priority}}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="whitespace-nowrap px-4 py-3 sm:px-5">
+                                    <div class="flex justify-center items-center">
+                                        <!-- Show Details Icon -->
+                                        <a
+                                        href="{{ route('rooms.show', $room->id)}}"
+                                        class="mr-2"
+                                        >
+                                        <svg
                                             xmlns="http://www.w3.org/2000/svg"
-                                            fill="#E11D48"
+                                            viewBox="0 0 24 24"
+                                            width="22"
+                                            height="22"
+                                            fill="none"
+                                            stroke="#3367d1"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        >
+                                            <circle cx="12" cy="12" r="10" />
+                                            <line x1="12" y1="16" x2="12" y2="12" />
+                                            <line x1="12" y1="8" x2="12" y2="8" />
+                                        </svg>
+                                        </a>
+                                        <!-- Edit Icon -->
+                                        <a href="{{ route('rooms.edit', $room->id)}}">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 32 32"
                                             width="32"
+                                            fill="#364A62"
                                             height="32"
-                                            stroke-width="1"
-                                            >
-                                            <path d="M13 15h2v6h-2zM17 15h2v6h-2z"></path>
+                                        >
                                             <path
-                                                d="M20 9c0-.6-.4-1-1-1h-6c-.6 0-1 .4-1 1v2H8v2h1v10c0 .6.4 1 1 1h12c.6 0 1-.4 1-1V13h1v-2h-4V9zm-6 1h4v1h-4v-1zm7 3v9H11v-9h10z"
+                                            d="M19.7 8.3c-.4-.4-1-.4-1.4 0l-10 10c-.2.2-.3.4-.3.7v4c0 .6.4 1 1 1h4c.3 0 .5-.1.7-.3l10-10c.4-.4.4-1 0-1.4l-4-4zM12.6 22H10v-2.6l6-6 2.6 2.6-6 6zm7.4-7.4L17.4 12l1.6-1.6 2.6 2.6-1.6 1.6z"
                                             ></path>
-                                            </svg>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                                        </svg>
+                                        </a>
+                                        <!-- Delete Icon -->
+                                        <form
+                                            action="{{ route('rooms.destroy', $room->id) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('Are You sure You want To Delete This Room?')"
+                                        >
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="submit">
+                                                <svg
+                                                class="mt-1"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="#E11D48"
+                                                viewBox="0 0 32 32"
+                                                width="32"
+                                                height="32"
+                                                stroke-width="1"
+                                                >
+                                                <path d="M13 15h2v6h-2zM17 15h2v6h-2z"></path>
+                                                <path
+                                                    d="M20 9c0-.6-.4-1-1-1h-6c-.6 0-1 .4-1 1v2H8v2h1v10c0 .6.4 1 1 1h12c.6 0 1-.4 1-1V13h1v-2h-4V9zm-6 1h4v1h-4v-1zm7 3v9H11v-9h10z"
+                                                ></path>
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
+            @if ($rooms->hasPages())
+                <div class="py-4 px-4">
+                    {{ $rooms->links() }}
+                </div>
+            @endif
         </div>
         </div>
     </section>

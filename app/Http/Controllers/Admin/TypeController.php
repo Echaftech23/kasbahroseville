@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Type;
 use App\Http\Requests\StoreTypeRequest;
 use App\Http\Requests\UpdateTypeRequest;
+use App\Models\Facility;
 
 class TypeController extends Controller
 {
@@ -14,11 +15,10 @@ class TypeController extends Controller
      */
     public function index()
     {
-        $types = Type::all();
+        $facilities = Facility::latest()->paginate(5, ['*'], 'facilities_page');
+        $types = Type::latest()->paginate(5, ['*'], 'types_page');
 
-        return response()->json([
-            'data' =>  $types,
-        ], 200);
+        return view('admin.facilities.index', compact(['facilities', 'types']));
     }
 
     /**

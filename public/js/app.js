@@ -518,16 +518,38 @@ window.addEventListener("load", () => {
     })();
 });
 
-// Drag and Drop : Room Images Upload
+
+// Drag and Drop : Room Images Upload for Edit Room :
 
 document.addEventListener("DOMContentLoaded", function () {
-
     const fileInput = document.getElementById("file-input");
     const dropZone = document.getElementById("drop-zone");
     const selectedImages = document.getElementById("selected-images");
     const selectedFilesCount = document.getElementById("selected-files-count");
     const dragDropText = document.getElementById("drag-drop-text");
-    
+
+    // Array to keep track of the selected files
+    let selectedFiles = [];
+
+    // Handle initial images For edit room section
+    const initialImages = document.querySelectorAll("#selected-images img");
+    initialImages.forEach((img) => {
+        const imageWrapper = img.parentElement;
+        const removeButton = imageWrapper.querySelector("button");
+
+        removeButton.addEventListener("click", () => {
+            imageWrapper.remove();
+            // Remove the corresponding file from selectedFiles
+            const index = selectedFiles.findIndex(
+                (file) => file.name === img.alt
+            );
+            if (index !== -1) {
+                selectedFiles.splice(index, 1);
+            }
+            updateSelectedFilesCount();
+        });
+    });
+
     fileInput.addEventListener("change", handleFiles);
     dropZone.addEventListener("dragover", handleDragOver);
     dropZone.addEventListener("dragleave", handleDragLeave);
@@ -601,12 +623,13 @@ document.addEventListener("DOMContentLoaded", function () {
             imageWrapper.appendChild(image);
             imageWrapper.appendChild(removeButton);
             selectedImages.appendChild(imageWrapper);
+            selectedFiles.push(file);
         }
         updateSelectedFilesCount();
     }
 
     function updateSelectedFilesCount() {
-        const count = dropZone.children.length;
+        const count = selectedImages.children.length;
         if (count > 0) {
             selectedFilesCount.textContent = `${count} file${
                 count === 1 ? "" : "s"

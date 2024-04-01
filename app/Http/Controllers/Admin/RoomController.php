@@ -16,7 +16,7 @@ class RoomController extends Controller
      */
     public function index()
     {
-        $rooms = Room::with('type', 'facilities')->latest()->get();
+        $rooms = Room::with('type', 'facilities')->latest()->paginate(10);
 
         return view('admin.rooms.index', compact('rooms'));
     }
@@ -74,8 +74,6 @@ class RoomController extends Controller
 
             $images = $room->getMedia('rooms');
 
-            // dd($images);
-
             return view('admin.rooms.show', compact('room', 'images'));
         } catch (\Exception $e) {
             return back()->with('error', 'Something went wrong!');
@@ -87,16 +85,17 @@ class RoomController extends Controller
      */
     public function edit(Room $room)
     {
-        // try {
+        try {
             abort_if(!$room, 404, 'Room not found.');
 
             $facilities = Facility::all();
             $types = Type::all();
+            $images = $room->getMedia('rooms');
 
-            return view('admin.rooms.edit', compact('room', 'facilities', 'types'));
-        // } catch (\Exception $e) {
-        //     return back()->with('error', 'Something went wrong!');
-        // }
+            return view('admin.rooms.edit', compact('room', 'facilities', 'types', 'images'));
+        } catch (\Exception $e) {
+            return back()->with('error', 'Something went wrong!');
+        }
     }
 
     /**
@@ -104,20 +103,27 @@ class RoomController extends Controller
      */
     public function update(UpdateRoomRequest $request, Room $room)
     {
-        try {
-            abort_if(!$room, 404, 'Room not found.');
+        abort_if(!$room, 404, 'Room not found.');
 
-            $room->update($request->validated());
-            $room->facilities()->sync($request->input('facility_id', []));
+        $room->update($request->validated());
 
-            return response()->json([
-                'message' => 'Room updated successfully',
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Something went wrong!',
-            ], 500);
+        if ($request->hasFile('room-images')) {
+            $existingMediaItems = $room->getMedia('rooms');
+
+            foreach ($request->file('room-images') as $key => $image) {
+                // If there is an existing media item at this index, delete it
+                if (isset($existingMediaItems[$key])) {
+                    $existingMediaItems[$key]->delete();
+                }
+
+                // Add the new image
+                $room->addMediaFromRequest('room-images.' . $key)->toMediaCollection('rooms');
+            }
         }
+
+        $room->facilities()->sync($request->input('facility_id', []));
+
+        return redirect()->route('rooms.index')->with('success', 'Room updated successfully');
     }
 
     /**
