@@ -7,6 +7,7 @@ use App\Models\Facility;
 use App\Http\Requests\StoreFacilityRequest;
 use App\Http\Requests\UpdateFacilityRequest;
 use App\Models\Type;
+use Illuminate\Http\Request;
 
 class FacilityController extends Controller
 {
@@ -15,7 +16,7 @@ class FacilityController extends Controller
      */
     public function index()
     {
-        $facilities = Facility::latest()->paginate(5,['*'], 'facilities_page');
+        $facilities = Facility::latest()->paginate(5, ['*'], 'facilities_page');
         $types = Type::latest()->paginate(5, ['*'], 'types_page');
 
         return view('admin.facilities.index', compact(['facilities', 'types']));
@@ -29,14 +30,10 @@ class FacilityController extends Controller
         try {
             Facility::create($request->validated());
 
-            return response()->json([
-                'message' => 'Facility created successfully',
-            ], 200);
+            return redirect()->route('admin.facilities.index')->with('success', 'Facility created successfully');
         } catch (\Exception $e) {
 
-            return response()->json([
-                'message' => 'Something went wrong!',
-            ], 500);
+            return back()->withInput()->withErrors(['unexpected_error' => 'Something went wrong!']);
         }
     }
 
@@ -46,41 +43,31 @@ class FacilityController extends Controller
     public function update(UpdateFacilityRequest $request, Facility $facility)
     {
         try {
-
             abort_if(!$facility, 404, 'Facility not found.');
-
             $facility->update($request->validated());
-
-            return response()->json([
-                'message' => 'Facility Updated successfully',
-            ], 200);
+            return redirect()->back()->with('message', 'Facility updated successfully');
         } catch (\Exception $e) {
-
-            return response()->json([
-                'message' => 'Something went wrong!',
-            ], 500);
+            return redirect()->back()->with('error', 'Something went wrong!');
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Facility $facility)
     {
         try {
-
             abort_if(!$facility, 404, 'Facility not found.');
-
             $facility->delete();
-
-            return response()->json([
-                'message' => 'Facility deleted successfully.',
-            ], 200);
+            return redirect()->back()->with('message', 'Facility deleted successfully');
         } catch (\Exception $e) {
-
-            return response()->json([
-                'message' => 'Something went wrong! Please try again.',
-            ], 500);
+            return redirect()->back()->with('error', 'Something went wrong! Please try again.');
         }
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->get('facilities-search');
+        $facilities = Facility::where('name', 'like', '%' . $search . '%')->paginate(5, ['*'], 'facilities_page');
+        $types = Type::latest()->paginate(5, ['*'], 'types_page');
+
+        return view('admin.facilities.index', compact(['facilities', 'types']));
     }
 }

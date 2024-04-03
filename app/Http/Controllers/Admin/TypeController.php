@@ -7,6 +7,7 @@ use App\Models\Type;
 use App\Http\Requests\StoreTypeRequest;
 use App\Http\Requests\UpdateTypeRequest;
 use App\Models\Facility;
+use Illuminate\Http\Request;
 
 class TypeController extends Controller
 {
@@ -15,7 +16,7 @@ class TypeController extends Controller
      */
     public function index()
     {
-        $facilities = Facility::latest()->paginate(5, ['*'], 'facilities_page');
+        $facilities = Facility::latest()->paginate(10, ['*'], 'facilities_page');
         $types = Type::latest()->paginate(5, ['*'], 'types_page');
 
         return view('admin.facilities.index', compact(['facilities', 'types']));
@@ -26,61 +27,30 @@ class TypeController extends Controller
      */
     public function store(StoreTypeRequest $request)
     {
-        try {
-
-            Type::create($request->validated());
-            return response()->json([
-                'message' => 'Type created successfully',
-            ], 200);
-        } catch (\Exception $e) {
-
-            return response()->json([
-                'message' => 'Something went wrong!',
-            ], 500);
-        }
+        Type::create($request->validated());
+        return redirect()->back()->with('message', 'Type created successfully');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateTypeRequest $request, Type $type)
     {
-        try {
-
-            abort_if(!$type, 404, 'Type not found.');
-
-            $type->update($request->validated());
-
-            return response()->json([
-                'message' => 'Type Updated successfully',
-            ], 200);
-        } catch (\Exception $e) {
-
-            return response()->json([
-                'message' => 'Something went wrong!',
-            ], 500);
-        }
+        abort_if(!$type, 404, 'Type not found.');
+        $type->update($request->validated());
+        return redirect()->back()->with('message', 'Type updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Type $type)
     {
-        try {
+        abort_if(!$type, 404, 'Type not found.');
+        $type->delete();
+        return redirect()->back()->with('message', 'Type deleted successfully');
+    }
 
-            abort_if(!$type, 404, 'Type not found.');
+    public function search(Request $request)
+    {
+        $search = $request->get('types-search');
+        $types = Type::where('type', 'like', '%' . $search . '%')->paginate(5, ['*'], 'types_page');
+        $facilities = Facility::latest()->paginate(5, ['*'], 'facilities_page');
 
-            $type->delete();
-
-            return response()->json([
-                'message' => 'Type deleted successfully.',
-            ], 200);
-        } catch (\Exception $e) {
-
-            return response()->json([
-                'message' => 'Something went wrong! Please try again.',
-            ], 500);
-        }
+        return view('admin.facilities.index', compact(['facilities', 'types']));
     }
 }

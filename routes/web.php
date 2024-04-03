@@ -30,5 +30,8 @@ Route::get('admin', function () {
 
 
 Route::resource('rooms', RoomController::class);
-Route::resource('facilities', FacilityController::class);
-Route::resource('types', TypeController::class);
+Route::resource('facilities', FacilityController::class)->except('show');
+Route::post('facilities', [FacilityController::class, 'search'])->name('facilities.search');
+
+Route::resource('types', TypeController::class)->except('show');
+Route::post('types', [TypeController::class, 'search'])->name('types.search');

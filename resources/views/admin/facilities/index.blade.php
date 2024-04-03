@@ -9,10 +9,10 @@
                     <div class="flex justify-between items-center flex-wrap">
                         <div class="block-head-content mpb">
                             <h3 class="block-title font-bold text-[24px] text-[#364A63]">
-                                Facilities and Room Type List
+                                Facilities and Room Types List
                             </h3>
                             <div class="text-[#8094ae]">
-                                <p class="text-sm pt-1">Here is our verious rooms.</p>
+                                <p class="text-sm pt-1">Here is our verious Facilities & Types.</p>
                             </div>
                         </div>
 
@@ -26,15 +26,165 @@
                                 </button>
                             </div>
 
-                            <div class="absolute z-10 right-0 mt-2 w-[125px] origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                            <div class="absolute z-50  sm:right-0 mt-2 w-[125px] origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                 role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
                                 x-show="open">
                                 <div class="py-1" role="none">
-                                    <a href="{{ route('types.create') }}" class="text-gray-700 block px-4 py-2 text-[13px]"
-                                        role="menuitem" tabindex="-1" id="menu-item-0">Add Type</a>
-                                    <a href="{{ route('facilities.create') }}"
-                                        class="text-gray-700 block px-4 py-2 text-[13px]" role="menuitem" tabindex="-1"
-                                        id="menu-item-1">Add Facilities</a>
+                                    <div x-data="{
+                                        open: false,
+                                        type: '',
+                                        typeError: false,
+                                        submitForm: function() {
+                                            if (this.type) {
+                                                let form = document.querySelector('#type-form');
+                                                form.submit();
+                                            } else { this.typeError = true; }
+                                        }
+                                    }">
+                                        <!-- Button trigger modal -->
+                                        <a href="#" @click="open = true" class="text-gray-700 block px-4 py-2 text-sm"
+                                            role="menuitem" tabindex="-1" id="menu-item-1">Add Type
+                                        </a>
+
+                                        <!-- Modal -->
+                                        <div x-show="open" class="fixed z-30 inset-0 flex items-center justify-center"
+                                            aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                                            <div class="fixed w-full h-full  top-0 left-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                                                aria-hidden="true"></div>
+
+                                            <!-- Modal content -->
+                                            <div
+                                                class="bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:max-w-sm sm:w-full">
+                                                <div class="pt-5 pb-4 sm:py-6 sm:pb-4">
+                                                    <div class="flex items-center justify-between px-6">
+                                                        <h3 class="text-lg leading-6 font-medium text-gray-900"
+                                                            id="modal-title">
+                                                            Add New Type
+                                                        </h3>
+                                                        <button type="button" @click="open = false"
+                                                            class=" text-gray-400 bg-transparent  hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                                                            <svg class="w-3 h-3" aria-hidden="true"
+                                                                xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                viewBox="0 0 14 14">
+                                                                <path stroke="currentColor" stroke-linecap="round"
+                                                                    stroke-linejoin="round" stroke-width="2"
+                                                                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                    <div class="mt-2">
+                                                        <form id="type-form" @submit.prevent="submitForm"
+                                                            action="{{ route('types.store') }}" method="POST">
+                                                            @csrf
+                                                            <div class="border-t px-6 py-4">
+                                                                <div class="">
+                                                                    <label for="type-name"
+                                                                        class="block text-sm font-medium text-gray-700">
+                                                                        Type</label>
+                                                                    <input type="text" id="type-name" name="type"
+                                                                        x-model="type" placeholder="type Name"
+                                                                        class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+                                                                    <p x-show="typeError" class="text-red-500 text-xs mt-1">
+                                                                        Type is required.</p>
+                                                                </div>
+
+                                                                <div class="mt-5  sm:mt-6">
+                                                                    <button type="submit"
+                                                                        class="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
+                                                                        Save
+                                                                    </button>
+                                                                    <button type="button" @click="open = false"
+                                                                        class="mt-3 inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                                                                        Close
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div x-data="{
+                                        open: false,
+                                        name: '',
+                                        nameError: false,
+                                        submitForm: function() {
+                                            if (this.name) {
+                                                let form = document.querySelector('#facility-form');
+                                                form.submit();
+                                            } else { this.nameError = true; }
+                                        }
+                                    }">
+                                        <!-- Button trigger modal -->
+                                        <a href="#" @click="open = true" class="text-gray-700 block px-4 py-2 text-sm"
+                                            role="menuitem" tabindex="-1" id="menu-item-1">Add Facilities
+                                        </a>
+
+                                        <!-- Modal -->
+                                        <div x-show="open" class="fixed z-30 inset-0 flex items-center justify-center"
+                                            aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                                            <div class="fixed w-full h-full  top-0 left-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                                                aria-hidden="true"></div>
+
+                                            <!-- Modal content -->
+                                            <div
+                                                class="bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:max-w-sm sm:w-full">
+                                                <div class="pb-4 sm:py-6 sm:pb-4">
+                                                    <div class="flex items-center justify-between px-6">
+                                                        <h3 class="text-lg leading-6 font-medium text-gray-900"
+                                                            id="modal-title">
+                                                            Add New Facility
+                                                        </h3>
+                                                        <button type="button" @click="open = false"
+                                                            class=" text-gray-400 bg-transparent  hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                                                            <svg class="w-3 h-3" aria-hidden="true"
+                                                                xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                viewBox="0 0 14 14">
+                                                                <path stroke="currentColor" stroke-linecap="round"
+                                                                    stroke-linejoin="round" stroke-width="2"
+                                                                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                    <div class="mt-2">
+                                                        <form id="facility-form" @submit.prevent="submitForm"
+                                                            action="{{ route('facilities.store') }}" method="POST">
+                                                            @csrf
+                                                            <div class="border-t px-6 py-4">
+                                                                <div class="">
+                                                                    <label for="facility-name"
+                                                                        class="block text-sm font-medium text-gray-700">
+                                                                        Name</label>
+                                                                    <input type="text" id="facility-name"
+                                                                        name="name" x-model="name"
+                                                                        placeholder="Facility Name"
+                                                                        class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+                                                                    <p x-show="nameError"
+                                                                        class="text-red-500 text-xs mt-1">
+                                                                        Name is required.</p>
+                                                                </div>
+
+                                                                <div class="mt-5  sm:mt-6">
+                                                                    <button type="submit"
+                                                                        class="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
+                                                                        Save
+                                                                    </button>
+                                                                    <button type="button" @click="open = false"
+                                                                        class="mt-3 inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                                                                        Close
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -47,7 +197,7 @@
     <!-- Booking Section Details -->
     <section class="container mx-auto px-6 section-margin-20">
         <div class="flex gap-8 flex-wrap sm:flex-nowrap">
-            <div class="rounded-t-[4px] w-full sm:w-1/2 border bg-white">
+            <div class="rounded-t-[4px] w-full sm:w-1/2 border bg-white h-fit">
                 <!-- Booking Section Details Top -->
                 <div class="px-5 py-5 flex justify-between border-b-[0.7px]">
                     <div class="flex justify-between hidden-area w-full">
@@ -62,9 +212,15 @@
                                     </svg>
                                 </span>
 
-                                <input
-                                    class="w-[220px] sm:w-[180px] lg:w-[240px] pl-10 pr-4 rounded-lg form-input bg-[#ecf1f9] outline-none text-sm py-2 focus:border-indigo-600"
-                                    type="text" placeholder="Search" />
+                                <form action="{{ route('facilities.search') }}" method="POST" id="searchForm">
+                                    @csrf
+                                    <input
+                                        class="w-[220px] sm:w-[180px] lg:w-[240px] pl-10 pr-4 rounded-lg form-input bg-[#ecf1f9] outline-none text-sm py-2 focus:border-indigo-600"
+                                        type="text" placeholder="Search"
+                                        name="facilities-search"
+                                        onchange="document.getElementById('searchForm').submit();"/>
+
+                                </form>
                             </div>
                         </div>
 
@@ -125,21 +281,108 @@
                                         <td class="whitespace-nowrap px-4 py-3 sm:px-5">
                                             <div class="flex justify-center items-center">
                                                 <!-- Edit Icon -->
-                                                <a href="{{ route('rooms.edit', $facility->id) }}">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
-                                                        width="32" fill="#364A62" height="32">
-                                                        <path
-                                                            d="M19.7 8.3c-.4-.4-1-.4-1.4 0l-10 10c-.2.2-.3.4-.3.7v4c0 .6.4 1 1 1h4c.3 0 .5-.1.7-.3l10-10c.4-.4.4-1 0-1.4l-4-4zM12.6 22H10v-2.6l6-6 2.6 2.6-6 6zm7.4-7.4L17.4 12l1.6-1.6 2.6 2.6-1.6 1.6z">
-                                                        </path>
-                                                    </svg>
-                                                </a>
-                                                <!-- Delete Icon -->
-                                                <form action="{{ route('rooms.destroy', $facility->id) }}" method="POST"
-                                                    onsubmit="return confirm('Are You sure You want To Delete This Room?')">
-                                                    @csrf
-                                                    @method('DELETE')
 
-                                                    <button type="submit">
+                                                <div x-data="{
+                                                    open: false,
+                                                    name: '',
+                                                    nameError: false,
+                                                    submitForm: function() {
+                                                        if (this.name) {
+                                                            let form = document.querySelector('#facility-form-' + {{ $facility->id }});
+                                                            form.submit();
+                                                        } else {
+                                                            this.nameError = true;
+                                                        }
+                                                    }
+                                                }">
+                                                    <!-- Button trigger modal -->
+                                                    <a href="#" @click="open = true, name = '{{ $facility->name }}'"
+                                                        class="text-gray-700 block px-4 py-2 text-sm" role="menuitem"
+                                                        tabindex="-1" id="menu-item-1">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
+                                                            width="32" fill="#364A62" height="32">
+                                                            <path
+                                                                d="M19.7 8.3c-.4-.4-1-.4-1.4 0l-10 10c-.2.2-.3.4-.3.7v4c0 .6.4 1 1 1h4c.3 0 .5-.1.7-.3l10-10c.4-.4.4-1 0-1.4l-4-4zM12.6 22H10v-2.6l6-6 2.6 2.6-6 6zm7.4-7.4L17.4 12l1.6-1.6 2.6 2.6-1.6 1.6z">
+                                                            </path>
+                                                        </svg>
+                                                    </a>
+
+                                                    <!-- Modal -->
+                                                    <div x-show="open"
+                                                        class="fixed z-30 inset-0 flex items-center justify-center"
+                                                        aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                                                        <div class="fixed w-full h-full  top-0 left-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                                                            aria-hidden="true"></div>
+
+                                                        <!-- Modal content -->
+                                                        <div
+                                                            class="bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:max-w-sm sm:w-full">
+                                                            <div class="pb-4 sm:py-6 sm:pb-4">
+                                                                <div class="flex items-center justify-between px-6">
+                                                                    <h3 class="text-lg leading-6 font-medium text-gray-900"
+                                                                        id="modal-title">
+                                                                        Edit Facility
+                                                                    </h3>
+                                                                    <button type="button" @click="open = false"
+                                                                        class=" text-gray-400 bg-transparent  hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                                                                        <svg class="w-3 h-3" aria-hidden="true"
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            fill="none" viewBox="0 0 14 14">
+                                                                            <path stroke="currentColor"
+                                                                                stroke-linecap="round"
+                                                                                stroke-linejoin="round" stroke-width="2"
+                                                                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                                                        </svg>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="mt-2">
+                                                                    <form id="facility-form-{{ $facility->id }}"
+                                                                        @submit.prevent="submitForm"
+                                                                        action="{{ route('facilities.update', $facility->id) }}"
+                                                                        method="POST">
+                                                                        @csrf
+                                                                        @method('PUT')
+                                                                        <div class="border-t px-6 py-4">
+                                                                            <div class="">
+                                                                                <label
+                                                                                    for="facility-name-{{ $facility->id }}"
+                                                                                    class="block text-sm font-medium text-gray-700">
+                                                                                    Name
+                                                                                </label>
+                                                                                <input type="text"
+                                                                                    id="facility-name-{{ $facility->id }}"
+                                                                                    name="name" x-model="name"
+                                                                                    placeholder="Facility Name"
+                                                                                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+                                                                                <p x-show="nameError"
+                                                                                    class="text-red-500 text-xs mt-1">
+                                                                                    Name is required.</p>
+                                                                            </div>
+
+                                                                            <div class="mt-5  sm:mt-6">
+                                                                                <button type="submit"
+                                                                                    class="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
+                                                                                    Save
+                                                                                </button>
+                                                                                <button type="button"
+                                                                                    @click="open = false"
+                                                                                    class="mt-3 inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                                                                                    Close
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Delete Icon -->
+                                                <div x-data="{ open: false }">
+                                                    <!-- Delete Icon -->
+                                                    <button @click="open = true">
                                                         <svg class="mt-1" xmlns="http://www.w3.org/2000/svg"
                                                             fill="#E11D48" viewBox="0 0 32 32" width="32"
                                                             height="32" stroke-width="1">
@@ -149,7 +392,50 @@
                                                             </path>
                                                         </svg>
                                                     </button>
-                                                </form>
+
+                                                    <!-- Modal -->
+                                                    <div x-show="open"
+                                                        class="fixed z-30 inset-0 flex items-center justify-center"
+                                                        aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                                                        <div class="fixed w-full h-full  top-0 left-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                                                            aria-hidden="true"></div>
+
+                                                        <!-- Modal content -->
+                                                        <div
+                                                            class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                                                            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                                                <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+                                                                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                                    fill="none" viewBox="0 0 20 20">
+                                                                    <path stroke="currentColor" stroke-linecap="round"
+                                                                        stroke-linejoin="round" stroke-width="2"
+                                                                        d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                                </svg>
+                                                                <h3
+                                                                    class="mb-3 text-center text-lg font-normal text-gray-500 dark:text-gray-400">
+                                                                    Are you sure you want to delete this Facitlity?</h3>
+                                                            </div>
+                                                            <div
+                                                                class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                                                <form class="flex items-center justify-center w-full pb-3"
+                                                                    action="{{ route('facilities.destroy', $facility->id) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+
+                                                                    <button type="submit" @click="open = false"
+                                                                        class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                                                                        Yes, I'm sure
+                                                                    </button>
+                                                                    <button type="button" @click="open = false"
+                                                                        class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">No,
+                                                                        cancel
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </td>
                                     </tr>
@@ -165,7 +451,7 @@
                 </div>
             </div>
 
-            <div class="rounded-t-[4px] w-full sm:w-1/2 border bg-white">
+            <div class="rounded-t-[4px] w-full sm:w-1/2 border bg-white h-fit">
                 <!-- Booking Section Details Top -->
                 <div class="px-5 py-5 flex justify-between border-b-[0.7px]">
                     <div class="flex justify-between hidden-area w-full">
@@ -180,9 +466,15 @@
                                     </svg>
                                 </span>
 
-                                <input
-                                    class="w-[220px] sm:w-[180px] lg:w-[240px] pl-10 pr-4 rounded-lg form-input bg-[#ecf1f9] outline-none text-sm py-2 focus:border-indigo-600"
-                                    type="text" placeholder="Search" />
+                                <form action="{{ route('types.search') }}" method="POST" id="typesForm">
+                                    @csrf
+                                    <input
+                                        class="w-[220px] sm:w-[180px] lg:w-[240px] pl-10 pr-4 rounded-lg form-input bg-[#ecf1f9] outline-none text-sm py-2 focus:border-indigo-600"
+                                        type="text" placeholder="Search"
+                                        name="types-search"
+                                        onchange="document.getElementById('typesForm').submit();"/>
+
+                                </form>
                             </div>
                         </div>
 
@@ -243,21 +535,102 @@
                                         <td class="whitespace-nowrap px-4 py-3 sm:px-5">
                                             <div class="flex justify-center items-center">
                                                 <!-- Edit Icon -->
-                                                <a href="{{ route('rooms.edit', $type->id) }}">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
-                                                        width="32" fill="#364A62" height="32">
-                                                        <path
-                                                            d="M19.7 8.3c-.4-.4-1-.4-1.4 0l-10 10c-.2.2-.3.4-.3.7v4c0 .6.4 1 1 1h4c.3 0 .5-.1.7-.3l10-10c.4-.4.4-1 0-1.4l-4-4zM12.6 22H10v-2.6l6-6 2.6 2.6-6 6zm7.4-7.4L17.4 12l1.6-1.6 2.6 2.6-1.6 1.6z">
-                                                        </path>
-                                                    </svg>
-                                                </a>
-                                                <!-- Delete Icon -->
-                                                <form action="{{ route('rooms.destroy', $type->id) }}" method="POST"
-                                                    onsubmit="return confirm('Are You sure You want To Delete This Room?')">
-                                                    @csrf
-                                                    @method('DELETE')
+                                                <div x-data="{
+                                                    open: false,
+                                                    type: '',
+                                                    typeError: false,
+                                                    submitForm: function() {
+                                                        if (this.type) {
+                                                            let form = document.querySelector('#type-form-' + {{ $type->id }});
+                                                            form.submit();
+                                                        } else { this.typeError = true; }
+                                                    }
+                                                }">
+                                                    <!-- Button trigger modal -->
+                                                    <a href="#" @click="open = true, type = '{{ $type->type }}'"
+                                                        class="text-gray-700 block px-4 py-2 text-sm" role="menuitem"
+                                                        tabindex="-1" id="menu-item-1">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
+                                                            width="32" fill="#364A62" height="32">
+                                                            <path
+                                                                d="M19.7 8.3c-.4-.4-1-.4-1.4 0l-10 10c-.2.2-.3.4-.3.7v4c0 .6.4 1 1 1h4c.3 0 .5-.1.7-.3l10-10c.4-.4.4-1 0-1.4l-4-4zM12.6 22H10v-2.6l6-6 2.6 2.6-6 6zm7.4-7.4L17.4 12l1.6-1.6 2.6 2.6-1.6 1.6z">
+                                                            </path>
+                                                        </svg>
+                                                    </a>
 
-                                                    <button type="submit">
+                                                    <!-- Modal -->
+                                                    <div x-show="open"
+                                                        class="fixed z-30 inset-0 flex items-center justify-center"
+                                                        aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                                                        <div class="fixed w-full h-full  top-0 left-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                                                            aria-hidden="true"></div>
+
+                                                        <!-- Modal content -->
+                                                        <div
+                                                            class="bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:max-w-sm sm:w-full">
+                                                            <div class="pt-5 pb-4 sm:py-6 sm:pb-4">
+                                                                <div class="flex items-center justify-between px-6">
+                                                                    <h3 class="text-lg leading-6 font-medium text-gray-900"
+                                                                        id="modal-title">
+                                                                        Edit Type
+                                                                    </h3>
+                                                                    <button type="button" @click="open = false"
+                                                                        class=" text-gray-400 bg-transparent  hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                                                                        <svg class="w-3 h-3" aria-hidden="true"
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            fill="none" viewBox="0 0 14 14">
+                                                                            <path stroke="currentColor"
+                                                                                stroke-linecap="round"
+                                                                                stroke-linejoin="round" stroke-width="2"
+                                                                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                                                        </svg>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="mt-2">
+                                                                    <form id="type-form-{{ $type->id }}"
+                                                                        @submit.prevent="submitForm"
+                                                                        action="{{ route('types.update', $type->id) }}"
+                                                                        method="POST">
+                                                                        @csrf
+                                                                        @method('PUT')
+                                                                        <div class="border-t px-6 py-4">
+                                                                            <div class="">
+                                                                                <label for="type-name-{{ $type->id }}"
+                                                                                    class="block text-sm font-medium text-gray-700">
+                                                                                    Type</label>
+                                                                                <input type="text"
+                                                                                    id="type-name-{{ $type->id }}"
+                                                                                    name="type" x-model="type"
+                                                                                    placeholder="type Name"
+                                                                                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+                                                                                <p x-show="typeError"
+                                                                                    class="text-red-500 text-xs mt-1">
+                                                                                    Type is required.</p>
+                                                                            </div>
+
+                                                                            <div class="mt-5  sm:mt-6">
+                                                                                <button type="submit"
+                                                                                    class="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
+                                                                                    Save
+                                                                                </button>
+                                                                                <button type="button"
+                                                                                    @click="open = false"
+                                                                                    class="mt-3 inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                                                                                    Close
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div x-data="{ open: false }">
+                                                    <!-- Delete Icon -->
+                                                    <button @click="open = true">
                                                         <svg class="mt-1" xmlns="http://www.w3.org/2000/svg"
                                                             fill="#E11D48" viewBox="0 0 32 32" width="32"
                                                             height="32" stroke-width="1">
@@ -267,21 +640,66 @@
                                                             </path>
                                                         </svg>
                                                     </button>
-                                                </form>
+
+                                                    <!-- Modal -->
+                                                    <div x-show="open"
+                                                        class="fixed z-30 inset-0 flex items-center justify-center"
+                                                        aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                                                        <div class="fixed w-full h-full  top-0 left-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                                                            aria-hidden="true"></div>
+
+                                                        <!-- Modal content -->
+                                                        <div
+                                                            class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                                                            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                                                <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+                                                                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                                    fill="none" viewBox="0 0 20 20">
+                                                                    <path stroke="currentColor" stroke-linecap="round"
+                                                                        stroke-linejoin="round" stroke-width="2"
+                                                                        d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                                </svg>
+                                                                <h3
+                                                                    class="mb-3 text-center text-lg font-normal text-gray-500 dark:text-gray-400">
+                                                                    Are you sure you want to delete this product?</h3>
+                                                            </div>
+                                                            <div
+                                                                class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                                                <form class="flex items-center justify-center w-full pb-3"
+                                                                    action="{{ route('types.destroy', $type->id) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+
+                                                                    <button type="submit" @click="open = false"
+                                                                        class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                                                                        Yes, I'm sure
+                                                                    </button>
+                                                                    <button type="button" @click="open = false"
+                                                                        class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">No,
+                                                                        cancel
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+
                     </div>
-                    @if ($types->hasPages())
-                        <div class="py-4 px-4 flex items-center gap-x-1">
-                            {{ $types->appends(['facilities_page' => request('facilities_page')])->links('vendor.pagination.custom') }}
-                        </div>
-                    @endif
+                    </td>
+                    </tr>
+                    @endforeach
+                    </tbody>
+                    </table>
                 </div>
+                @if ($types->hasPages())
+                    <div class="py-4 px-4 flex items-center gap-x-1">
+                        {{ $types->appends(['facilities_page' => request('facilities_page')])->links('vendor.pagination.custom') }}
+                    </div>
+                @endif
             </div>
+        </div>
         </div>
     </section>
 @endsection
