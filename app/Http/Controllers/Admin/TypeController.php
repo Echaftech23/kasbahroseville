@@ -16,7 +16,7 @@ class TypeController extends Controller
      */
     public function index()
     {
-        $facilities = Facility::latest()->paginate(10, ['*'], 'facilities_page');
+        $facilities = Facility::latest()->paginate(5, ['*'], 'facilities_page');
         $types = Type::latest()->paginate(5, ['*'], 'types_page');
 
         return view('admin.facilities.index', compact(['facilities', 'types']));

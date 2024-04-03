@@ -30,6 +30,9 @@ Route::get('admin', function () {
 
 
 Route::resource('rooms', RoomController::class);
+Route::post('rooms', [RoomController::class, 'search'])->name('rooms.search');
+Route::post('rooms/filter', [RoomController::class, 'filter'])->name('rooms.filter');
+
 Route::resource('facilities', FacilityController::class)->except('show');
 Route::post('facilities', [FacilityController::class, 'search'])->name('facilities.search');
 

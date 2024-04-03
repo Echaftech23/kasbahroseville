@@ -8,6 +8,7 @@ use App\Http\Requests\StoreRoomRequest;
 use App\Http\Requests\UpdateRoomRequest;
 use App\Models\Facility;
 use App\Models\Type;
+use Illuminate\Http\Request;
 
 class RoomController extends Controller
 {
@@ -140,5 +141,38 @@ class RoomController extends Controller
         } catch (\Exception $e) {
             return back()->with('error', 'Something went wrong! Please try again.');
         }
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->get('room-search');
+        $rooms = Room::where('name', 'like', '%' . $search . '%')
+            ->orWhere('price', 'like', '%' . $search . '%')
+            ->orWhere('priority', 'like', '%' . $search . '%')
+            ->latest()->paginate(10);
+
+        return view('admin.rooms.index', ['rooms' => $rooms]);
+    }
+
+    public function filter(Request $request)
+    {
+        $roomType = $request->get('room-type');
+        $roomStatus = $request->get('room-status');
+
+        $rooms = Room::with('type', 'facilities');
+
+        if ($roomStatus != 'any Status' && !empty($roomStatus)) {
+            $rooms = $rooms->where('statut', '=', $roomStatus);
+        }
+
+        if (!empty($roomType)) {
+            $rooms = $rooms->whereHas('type', function ($query) use ($roomType) {
+                $query->where('type', '=', $roomType);
+            });
+        }
+
+        $rooms = $rooms->latest()->paginate(10);
+
+        return view('admin.rooms.index', compact('rooms'));
     }
 }

@@ -47,8 +47,6 @@
             <span class="mx-3">Bookings</span>
         </a>
 
-
-
         <div x-data="{ open: false }"
             class="px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100">
             <h2 id="accordion-color-heading-1">
@@ -69,7 +67,7 @@
                     </svg>
 
                     <button @click="open = !open"
-                        class="flex items-center justify-between w-full px-3  text-gray-500 hover:text-gray-100"
+                        class="flex outline-none items-center justify-between w-full px-3  text-gray-500 hover:text-gray-100"
                         :aria-expanded="open.toString()">
                         <span>Room</span>
                         <svg :class="{ 'rotate-180': open }" class="-mr-1 h-5 w-5 font-bold text-gray-400"
@@ -81,7 +79,11 @@
                     </button>
                 </div>
             </h2>
-            <div x-show="open" class="dark:border-gray-700 dark:bg-gray-900">
+            <div x-show="open" class="dark:border-gray-700 dark:bg-gray-900"
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="transform -translate-y-2" x-transition:enter-end="transform translate-y-0"
+                x-transition:leave="transition ease-in-out duration-300"
+                x-transition:leave-start="transform translate-y-0" x-transition:leave-end="transform -translate-y-2">
                 <a class="flex items-center px-6 py-1 text-[15px] text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
                     href="{{ route('rooms.index') }}">
                     <span class="mx-3">Room List</span>
@@ -98,7 +100,6 @@
                 </a>
             </div>
         </div>
-
 
         <a class="flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
             href="{{ route('dashboard') }}">

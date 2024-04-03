@@ -216,9 +216,8 @@
                                     @csrf
                                     <input
                                         class="w-[220px] sm:w-[180px] lg:w-[240px] pl-10 pr-4 rounded-lg form-input bg-[#ecf1f9] outline-none text-sm py-2 focus:border-indigo-600"
-                                        type="text" placeholder="Search"
-                                        name="facilities-search"
-                                        onchange="document.getElementById('searchForm').submit();"/>
+                                        type="text" placeholder="Search" name="facilities-search"
+                                        onchange="document.getElementById('searchForm').submit();" />
 
                                 </form>
                             </div>
@@ -265,7 +264,7 @@
                                     </th>
 
                                     <th class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5">
-                                        name
+                                        Room facility
                                     </th>
 
                                     <th class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5">
@@ -470,9 +469,8 @@
                                     @csrf
                                     <input
                                         class="w-[220px] sm:w-[180px] lg:w-[240px] pl-10 pr-4 rounded-lg form-input bg-[#ecf1f9] outline-none text-sm py-2 focus:border-indigo-600"
-                                        type="text" placeholder="Search"
-                                        name="types-search"
-                                        onchange="document.getElementById('typesForm').submit();"/>
+                                        type="text" placeholder="Search" name="types-search"
+                                        onchange="document.getElementById('typesForm').submit();" />
 
                                 </form>
                             </div>
@@ -519,7 +517,7 @@
                                     </th>
 
                                     <th class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5">
-                                        Type
+                                        Room Type
                                     </th>
 
                                     <th class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5">
