@@ -154,24 +154,32 @@ class RoomController extends Controller
         return view('admin.rooms.index', ['rooms' => $rooms]);
     }
 
+
     public function filter(Request $request)
     {
-        $roomType = $request->get('room-type');
-        $roomStatus = $request->get('room-status');
+        $query = Room::query();
 
         $rooms = Room::with('type', 'facilities');
 
-        if ($roomStatus != 'any Status' && !empty($roomStatus)) {
-            $rooms = $rooms->where('statut', '=', $roomStatus);
-        }
-
-        if (!empty($roomType)) {
-            $rooms = $rooms->whereHas('type', function ($query) use ($roomType) {
-                $query->where('type', '=', $roomType);
+        if ($request->has('room-type')) {
+            $query->whereHas('type', function ($query) use ($request) {
+                $query->where('type', $request->get('room-type'));
             });
         }
 
-        $rooms = $rooms->latest()->paginate(10);
+        if ($request->has('capacity')) {
+            $query->where('capacity', $request->get('capacity'));
+        }
+
+        if ($request->has('room-status') && $request->get('room-status') != 'any Status'){
+            $query->where('statut', $request->get('room-status'));
+        }
+
+        if ($request->has('room-priority')) {
+            $query->where('priority', $request->get('room-priority'));
+        }
+
+        $rooms = $query->latest()->paginate(10);
 
         return view('admin.rooms.index', compact('rooms'));
     }

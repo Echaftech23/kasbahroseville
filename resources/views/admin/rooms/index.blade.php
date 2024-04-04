@@ -60,7 +60,7 @@
                             <div class="py-1" role="none">
                                 <form action="{{ route('rooms.filter') }}" method="POST">
                                     @csrf
-                                    <input type="hidden" name="room-status" id="queryInput" />
+                                    <input type="hidden" name="room-status" value="Room Status" id="queryInput" />
 
                                     <button type="submit" class="text-gray-700 block px-4 py-2 text-[13px]" role="menuitem"
                                         tabindex="-1" id="menu-item-1"
@@ -82,9 +82,11 @@
                     <div class="relative inline-block text-left mr-1" x-data="{ open: false }" @click.away="open = false">
                         <div>
                             <button type="button"
-                                class="inline-flex w-full justify-center items-center gap-x-1.5 rounded-[25px] text-[#526484] px-3 py-2 font-medium text-[13px] shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                                class="inline-flex w-full justify-center items-center gap-x-1.5 rounded-[25px] text-[#526484] px-3 py-2 font-medium text-[13px] shadow-sm ring-1 ring-inset ring-gray-300"
                                 id="menu-button" aria-expanded="true" aria-haspopup="true" @click="open = !open">
-                                Room Type
+                                <input type="text"
+                                    class="outline-none text-[12px] pointer-events-none cursor-pointer border-0 overflow-hidden w-[68px]"
+                                    name="room-type" disabled value="Room Type" id="room-types" />
                                 <svg :class="{ 'rotate-180': open }" class="-mr-1 h-4 w-4 text-gray-400" viewBox="0 0 20 20"
                                     fill="currentColor" aria-hidden="true">
                                     <path fill-rule="evenodd"
@@ -100,10 +102,10 @@
                             <div class="py-1" role="none">
                                 <form action="{{ route('rooms.filter') }}" method="POST">
                                     @csrf
-                                    <input type="hidden" name="room-type" id="room-type" />
+                                    <input type="hidden" name="room-type" value="Room Type" id="room-type" />
 
-                                    <button type="submit" class="text-gray-700 block px-4 py-2 text-[13px]" role="menuitem"
-                                        tabindex="-1" id="menu-item-0"
+                                    <button type="submit" class="text-gray-700 block px-4 py-2 text-[13px]"
+                                        role="menuitem" tabindex="-1" id="menu-item-0"
                                         onclick="document.getElementById('room-type').value = 'Single'">Single</button>
 
                                     <button type="submit" class="text-gray-700 block px-4 py-2 text-[13px]"
@@ -151,21 +153,202 @@
                                 </button>
                             </div>
 
-                            <div class="absolute right-0 z-10 mt-2 w-[130px] origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                            <div class="absolute right-0 z-10 mt-2 w-[320px] origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                 role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
                                 x-show="open">
                                 <div class="py-1" role="none">
-                                    <a href="#" class="text-gray-700 block px-4 py-2 text-[13px]" role="menuitem"
-                                        tabindex="-1" id="menu-item-0">confirmed</a>
-                                    <a href="#" class="text-gray-700 block px-4 py-2 text-[13px]" role="menuitem"
-                                        tabindex="-1" id="menu-item-1">Checked In
-                                    </a>
-                                    <a href="#" class="text-gray-700 block px-4 py-2 text-[13px]" role="menuitem"
-                                        tabindex="-1" id="menu-item-2">Checked Out
-                                    </a>
-                                    <a href="#" class="text-gray-700 block px-4 py-2 text-[13px]" role="menuitem"
-                                        tabindex="-1" id="menu-item-3">Due In
-                                    </a>
+                                    <div class="filter-header p-3 px-4 bcg-red-500 flex items-center justify-between">
+                                        <h3 class="text-[13px] font-semibold text-[#364a63]">Filter Rooms</h3>
+                                        <span class="font-bold text-[24] -mt-3" @click="open = !open">...</span>
+                                    </div>
+                                    <form action="{{ route('rooms.filter') }}" method="POST">
+                                        @csrf
+                                        <div class="py-4  px-4 border-y">
+                                            <div class="flex flex-wrap">
+                                                <div class="w-1/2 pr-4 mb-3">
+                                                    <label for="room-type"
+                                                        class="text-[12px] font-semibold text-[#364a63]">
+                                                        Room Type
+                                                    </label>
+                                                    <div class="relative w-full inline-block text-left mr-1"
+                                                        x-data="{ open: false }" @click.away="open = false">
+                                                        <div>
+                                                            <button type="button"
+                                                                class="inline-flex w-full justify-between items-center gap-x-1.5 rounded-[5px] text-[#526484] px-3 py-2 font-medium text-[13px] shadow-sm ring-1 ring-inset ring-gray-300"
+                                                                id="menu-button" aria-expanded="true"
+                                                                aria-haspopup="true" @click="open = !open">
+                                                                <input type="text"
+                                                                    class="outline-none text-[12px] pointer-events-none cursor-pointer border-0 overflow-hidden w-11/12"
+                                                                    name="room-type" disabled value="Room Type"
+                                                                    id="filter-type" />
+                                                                <svg :class="{ 'rotate-180': open }"
+                                                                    class="-mr-1 h-4 w-4 text-gray-400"
+                                                                    viewBox="0 0 20 20" fill="currentColor"
+                                                                    aria-hidden="true">
+                                                                    <path fill-rule="evenodd"
+                                                                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                                                                        clip-rule="evenodd" />
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+
+                                                        <div class="absolute right-0 z-10 mt-2 w-24 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                                            role="menu" aria-orientation="vertical"
+                                                            aria-labelledby="menu-button" tabindex="-1" x-show="open">
+                                                            <div class="py-1" role="none">
+                                                                <button type="button"
+                                                                    class="text-gray-700 block px-4 py-2 text-[13px]"
+                                                                    role="menuitem" tabindex="-1" id="menu-item-0"
+                                                                    onclick="document.getElementById('filter-type').value = 'Single'"
+                                                                    @click="open = !open">Single</button>
+
+                                                                <button type="button"
+                                                                    class="text-gray-700 block px-4 py-2 text-[13px]"
+                                                                    role="menuitem" tabindex="-1" id="menu-item-1"
+                                                                    onclick="document.getElementById('filter-type').value = 'Double'"
+                                                                    @click="open = !open">Double</button>
+
+                                                                <button type="button"
+                                                                    class="text-gray-700 block px-4 py-2 text-[13px]"
+                                                                    role="menuitem" tabindex="-1" id="menu-item-1"
+                                                                    onclick="document.getElementById('filter-type').value = 'Suite'"
+                                                                    @click="open = !open">Suite</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="w-1/2  mb-3">
+                                                    <label for="room-type"
+                                                        class="text-[12px] font-semibold text-[#364a63]">
+                                                        Capacity
+                                                    </label>
+                                                    <div class="relative w-full inline-block text-left mr-1">
+                                                        <input type="number" name="capacity" placeholder="2 Persons"
+                                                            class="inline-flex w-full justify-between items-center gap-x-1.5 rounded-[5px] text-[#526484] px-3 py-2 font-medium text-[12px] shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 outline-none">
+                                                    </div>
+                                                </div>
+
+                                                <div class="w-1/2 pr-4  mb-3">
+                                                    <label for="room-type"
+                                                        class="text-[12px] font-semibold text-[#364a63]">
+                                                        Room Status
+                                                    </label>
+                                                    <div class="relative w-full inline-block text-left mr-1"
+                                                        x-data="{ open: false }" @click.away="open = false">
+                                                        <div>
+                                                            <button type="button"
+                                                                class="inline-flex w-full justify-between items-center gap-x-1.5 rounded-[5px] text-[#526484] px-3 py-2 font-medium text-[13px] shadow-sm ring-1 ring-inset ring-gray-300"
+                                                                id="menu-button" aria-expanded="true"
+                                                                aria-haspopup="true" @click="open = !open">
+                                                                <input type="text"
+                                                                    class="outline-none text-[12px] pointer-events-none cursor-pointer border-0 overflow-hidden w-11/12"
+                                                                    name="room-status" disabled value="Room Status"
+                                                                    id="filter-status" />
+                                                                <svg :class="{ 'rotate-180': open }"
+                                                                    class="-mr-1 h-4 w-4 text-gray-400"
+                                                                    viewBox="0 0 20 20" fill="currentColor"
+                                                                    aria-hidden="true">
+                                                                    <path fill-rule="evenodd"
+                                                                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                                                                        clip-rule="evenodd" />
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+
+                                                        <div class="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                                            role="menu" aria-orientation="vertical"
+                                                            aria-labelledby="menu-button" tabindex="-1" x-show="open">
+                                                            <div class="py-1" role="none">
+                                                                <button type="button"
+                                                                    class="text-gray-700 block px-4 py-2 text-[13px]"
+                                                                    role="menuitem" tabindex="-1" id="menu-item-0"
+                                                                    onclick="document.getElementById('filter-status').value = 'any Status'"
+                                                                    @click="open = !open">any Status</button>
+
+                                                                <button type="button"
+                                                                    class="text-gray-700 block px-4 py-2 text-[13px]"
+                                                                    role="menuitem" tabindex="-1" id="menu-item-1"
+                                                                    onclick="document.getElementById('filter-status').value = 'clean'"
+                                                                    @click="open = !open">clean</button>
+
+                                                                <button type="button"
+                                                                    class="text-gray-700 block px-4 py-2 text-[13px]"
+                                                                    role="menuitem" tabindex="-1" id="menu-item-1"
+                                                                    onclick="document.getElementById('filter-status').value = 'cleaning'"
+                                                                    @click="open = !open">cleaning</button>
+
+                                                                <button type="button"
+                                                                    class="text-gray-700 block px-4 py-2 text-[13px]"
+                                                                    role="menuitem" tabindex="-1" id="menu-item-1"
+                                                                    onclick="document.getElementById('filter-status').value = 'dirty'"
+                                                                    @click="open = !open">dirty</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="w-1/2 mb-3">
+                                                    <label for="room-type"
+                                                        class="text-[12px] font-semibold text-[#364a63]">
+                                                        Priority
+                                                    </label>
+                                                    <div class="relative w-full inline-block text-left mr-1"
+                                                        x-data="{ open: false }" @click.away="open = false">
+                                                        <div>
+                                                            <button type="button"
+                                                                class="inline-flex w-full justify-between items-center gap-x-1.5 rounded-[5px] text-[#526484] px-3 py-2 font-medium text-[13px] shadow-sm ring-1 ring-inset ring-gray-300"
+                                                                id="menu-button" aria-expanded="true"
+                                                                aria-haspopup="true" @click="open = !open">
+                                                                <input type="text"
+                                                                    class="outline-none text-[12px] pointer-events-none cursor-pointer border-0 overflow-hidden w-11/12"
+                                                                    name="room-priority" disabled value="Room Priority"
+                                                                    id="filter-priority" />
+                                                                <svg :class="{ 'rotate-180': open }"
+                                                                    class="-mr-1 h-4 w-4 text-gray-400"
+                                                                    viewBox="0 0 20 20" fill="currentColor"
+                                                                    aria-hidden="true">
+                                                                    <path fill-rule="evenodd"
+                                                                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                                                                        clip-rule="evenodd" />
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+
+                                                        <div class="absolute right-0 z-10 mt-2 w-24 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                                            role="menu" aria-orientation="vertical"
+                                                            aria-labelledby="menu-button" tabindex="-1" x-show="open">
+                                                            <div class="py-1" role="none">
+                                                                <button type="button"
+                                                                    class="text-gray-700 block px-4 py-2 text-[13px]"
+                                                                    role="menuitem" tabindex="-1" id="menu-item-0"
+                                                                    onclick="document.getElementById('filter-priority').value = 'low'"
+                                                                    @click="open = !open">low</button>
+
+                                                                <button type="button"
+                                                                    class="text-gray-700 block px-4 py-2 text-[13px]"
+                                                                    role="menuitem" tabindex="-1" id="menu-item-1"
+                                                                    onclick="document.getElementById('filter-priority').value = 'high'"
+                                                                    @click="open = !open">high</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <button type="submit"
+                                                    class="bg-[#2d3a50] text-white px-5 py-2 rounded-[5px] text-[13px] font-semibold">
+                                                    Filter
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between px-4 py-3">
+                                            <button type="reset" class="text-[13px] text-blue-500">Reset Filter</button>
+                                            <button type="submit" class="text-[13px] text-blue-500">Save Filter</button>
+                                        </div>
+                                    </form>
+
                                 </div>
                             </div>
                         </div>

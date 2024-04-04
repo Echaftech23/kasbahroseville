@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Guest;
 
 use App\Models\Room;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRoomRequest;
 use App\Http\Requests\UpdateRoomRequest;
 
@@ -13,7 +14,9 @@ class RoomController extends Controller
      */
     public function index()
     {
-        //
+        $rooms = Room::with('type', 'facilities')->latest()->paginate(10);
+
+        return view('guest.index', compact('rooms'));
     }
 
     /**
@@ -35,10 +38,23 @@ class RoomController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Room $room)
-    {
-        //
-    }
+    // public function show(Room $room)
+    // {
+
+    //     if (!$room) {
+    //         return abort(404, 'Room not found.');
+    //     }
+
+    //     try {
+    //         $room->load('facilities', 'type');
+
+    //         $images = $room->getMedia('rooms');
+
+    //         return view('guest.show', compact('room', 'images'));
+    //     } catch (\Exception $e) {
+    //         return back()->with('error', 'Something went wrong!');
+    //     }
+    // }
 
     /**
      * Show the form for editing the specified resource.
