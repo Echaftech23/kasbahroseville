@@ -138,7 +138,7 @@
                                                             id="modal-title">
                                                             Add New Facility
                                                         </h3>
-                                                        <button type="button" @click="open = false"
+                                                        <button type="reset" @click="open = false"
                                                             class=" text-gray-400 bg-transparent  hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
                                                             <svg class="w-3 h-3" aria-hidden="true"
                                                                 xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -151,18 +151,25 @@
                                                     </div>
                                                     <div class="mt-2">
                                                         <form id="facility-form" @submit.prevent="submitForm"
-                                                            action="{{ route('facilities.store') }}" method="POST">
+                                                            action="{{ route('facilities.store') }}"
+                                                            enctype="multipart/form-data" method="POST">
                                                             @csrf
                                                             <div class="border-t px-6 py-4">
                                                                 <div class="">
                                                                     <label for="facility-name"
                                                                         class="block text-sm font-medium text-gray-700">
+                                                                        Image</label>
+                                                                    <input type="file" id="facility-image"
+                                                                        name="facility-image"
+                                                                        class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+                                                                    <label for="facility-name"
+                                                                        class="block text-sm font-medium  mt-2 text-gray-700">
                                                                         Name</label>
                                                                     <input type="text" id="facility-name"
                                                                         name="name" x-model="name"
                                                                         placeholder="Facility Name"
                                                                         class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-
                                                                     <p x-show="nameError"
                                                                         class="text-red-500 text-xs mt-1">
                                                                         Name is required.</p>
@@ -173,9 +180,9 @@
                                                                         class="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
                                                                         Save
                                                                     </button>
-                                                                    <button type="button" @click="open = false"
+                                                                    <button type="reset" @click="open = false"
                                                                         class="mt-3 inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                                                                        Close
+                                                                        Reset
                                                                     </button>
                                                                 </div>
                                                             </div>
@@ -335,7 +342,8 @@
                                                                     </button>
                                                                 </div>
                                                                 <div class="mt-2">
-                                                                    <form id="facility-form-{{ $facility->id }}"
+                                                                    <form enctype="multipart/form-data"
+                                                                        id="facility-form-{{ $facility->id }}"
                                                                         @submit.prevent="submitForm"
                                                                         action="{{ route('facilities.update', $facility->id) }}"
                                                                         method="POST">
@@ -357,6 +365,16 @@
                                                                                 <p x-show="nameError"
                                                                                     class="text-red-500 text-xs mt-1">
                                                                                     Name is required.</p>
+                                                                                <label
+                                                                                    for="facility-name-{{ $facility->id }}"
+                                                                                    class="block text-sm mt-2 font-medium text-gray-700">
+                                                                                    Name
+                                                                                </label>
+
+                                                                                <input type="file"
+                                                                                    id="facility-name-{{ $facility->id }}"
+                                                                                    name="facility-image"
+                                                                                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                                                             </div>
 
                                                                             <div class="mt-5  sm:mt-6">

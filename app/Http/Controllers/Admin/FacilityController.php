@@ -28,7 +28,15 @@ class FacilityController extends Controller
     public function store(StoreFacilityRequest $request)
     {
         try {
-            Facility::create($request->validated());
+            $facility = Facility::create($request->validated());
+
+            // if (!$request->hasFile('facility-image')) {
+            //     return back()->withErrors(['facility-images' => 'Image is required.']);
+            // }
+
+            if ($request->hasFile('facility-image')) {
+                $facility->addMediaFromRequest('facility-image')->toMediaCollection('facilities');
+            }
 
             return redirect()->route('admin.facilities.index')->with('success', 'Facility created successfully');
         } catch (\Exception $e) {
@@ -36,6 +44,8 @@ class FacilityController extends Controller
             return back()->withInput()->withErrors(['unexpected_error' => 'Something went wrong!']);
         }
     }
+
+
 
     /**
      * Update the specified resource in storage.
@@ -45,6 +55,11 @@ class FacilityController extends Controller
         try {
             abort_if(!$facility, 404, 'Facility not found.');
             $facility->update($request->validated());
+
+            if ($request->hasFile('facility-image')) {
+                $facility->clearMediaCollection('facilities');
+                $facility->addMedia($request->file('facility-image'))->toMediaCollection('facilities');
+            }
             return redirect()->back()->with('message', 'Facility updated successfully');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong!');

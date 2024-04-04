@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\Admin\FacilityController;
 use App\Http\Controllers\Admin\RoomController;
-use App\Http\Controllers\Guest\RoomController as GuestRoomController;
 use App\Http\Controllers\Admin\TypeController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,7 +21,8 @@ Route::get('dashboard', function () {
     return view('admin.rooms.create');
 })->name('dashboard');
 
-Route::resource('home', GuestRoomController::class);
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/roomDetails/{room}',  [HomeController::class, 'show'])->name('roomDetails');
 
 Route::get('admin', function () {
     return view('admin.index');
@@ -29,6 +30,9 @@ Route::get('admin', function () {
 
 
 Route::resource('rooms', RoomController::class);
+
+
+
 Route::post('rooms', [RoomController::class, 'search'])->name('rooms.search');
 Route::post('rooms/filter', [RoomController::class, 'filter'])->name('rooms.filter');
 

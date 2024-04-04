@@ -1,6 +1,6 @@
 <section class="kasbah-cta-area">
     <div class="container mx-auto">
-        <div class="cta-content bg-img bg-overlay jarallax" style="background-image: url(img/bg-img/1.jpg)">
+        <div class="cta-content bg-img bg-overlay jarallax" style="background-image: url('{{ asset('img/bg-img/1.jpg') }}')">
             <div class="flex flex-wrap items-center">
                 <div class="w-full md:w-7/12">
                     <div class="cta-text mb-50">

@@ -107,7 +107,8 @@
                         <p class="wow fadeInUp" data-wow-delay="400ms">
                             Manager: <span>Michen Taylor</span>
                         </p>
-                        <img src="img/core-img/signature.png" alt="" class="wow fadeInUp" data-wow-delay="500ms" />
+                        <img src="{{ asset('img/core-img/signature.png') }}" alt="" class="wow fadeInUp"
+                            data-wow-delay="500ms" />
                     </div>
                 </div>
 
@@ -116,18 +117,18 @@
                         <div class="grid grid-cols-2 no-gutters">
                             <div class="col-span-1">
                                 <div class="single-thumb">
-                                    <img src="img/cover/1686016799_DSC_6696vv1.jpg" alt="" />
+                                    <img src="{{ asset('img/cover/1686016799_DSC_6696vv1.jpg') }}" alt="" />
                                 </div>
                                 <div class="single-thumb">
-                                    <img src="img/thumbnail/1686946853_DSC_6809.jpg" alt="" />
+                                    <img src="{{ asset('img/thumbnail/1686946853_DSC_6809.jpg') }}" alt="" />
                                 </div>
                             </div>
                             <div class="col-span-1">
                                 <div class="single-thumb">
-                                    <img src="img/thumbnail/jewish_history_morocco.jpg" alt="" />
+                                    <img src="{{ asset('img/thumbnail/jewish_history_morocco.jpg') }}" alt="" />
                                 </div>
                                 <div class="single-thumb">
-                                    <img src="img/core-img/1686053792_DSC_6717v1.jpg" alt="" />
+                                    <img src="{{ asset('img/core-img/1686053792_DSC_6717v1.jpg') }}" alt="" />
                                 </div>
                             </div>
                         </div>
@@ -146,31 +147,31 @@
                     <div class="service-content flex items-center justify-between">
                         <!-- Single Service Area -->
                         <div class="single-service--area text-center mb-100 wow fadeInUp" data-wow-delay="100ms">
-                            <img src="img/core-img/icon-1.png" alt="" />
+                            <img src="{{ asset('img/core-img/icon-1.png') }}" alt="" />
                             <h5>Transportion</h5>
                         </div>
 
                         <!-- Single Service Area -->
                         <div class="single-service--area text-center mb-100 wow fadeInUp" data-wow-delay="300ms">
-                            <img src="img/core-img/icon-2.png" alt="" />
+                            <img src="{{ asset('img/core-img/icon-2.png') }}" alt="" />
                             <h5>Reiseservice</h5>
                         </div>
 
                         <!-- Single Service Area -->
                         <div class="single-service--area text-center mb-100 wow fadeInUp" data-wow-delay="900ms">
-                            <img src="img/core-img/icon-1.png" alt="" />
+                            <img src="{{ asset('img/core-img/icon-1.png') }}" alt="" />
                             <h5>Traditional Hammam</h5>
                         </div>
 
                         <!-- Single Service Area -->
                         <div class="single-service--area text-center mb-100 wow fadeInUp" data-wow-delay="500ms">
-                            <img src="img/core-img/icon-3.png" alt="" />
+                            <img src="{{ asset('img/core-img/icon-3.png') }}" alt="" />
                             <h5>Spa Relaxtion</h5>
                         </div>
 
                         <!-- Single Service Area -->
                         <div class="single-service--area text-center mb-100 wow fadeInUp" data-wow-delay="700ms">
-                            <img src="img/core-img/icon-4.png" alt="" />
+                            <img src="{{ asset('img/core-img/icon-4.png') }}" alt="" />
                             <h5>Restaurant</h5>
                         </div>
                     </div>
@@ -219,24 +220,25 @@
                                         $facilities = $room->facilities->slice(0, 3);
                                     @endphp
 
-                                    @foreach($facilities as $facility)
+                                    @foreach ($facilities as $facility)
                                         {{ $loop->first ? '' : ',  ' }}
                                         {{ $facility->name }}
                                     @endforeach
 
-                                    @if($room->facilities->count() > 3)
+                                    @if ($room->facilities->count() > 3)
                                         ...
                                     @endif
                                 </span>
                             </li>
                         </ul>
-                        <a href="{{route('home.show', $room->id)}}" class="btn hero-btn mt-30" data-animation="fadeInUp" data-delay="700ms">View
-                            Details</a>
+
+                        <a href="{{ route('roomDetails', $room->id) }}" class="btn hero-btn mt-30">View Details</a>
+
                     </div>
                 </div>
             @endforeach
 
-            {{-- <!-- Single Room Slide -->
+            <!-- Single Room Slide -->
             <div class="single-room-slide flex items-center">
                 <!-- Thumbnail -->
                 <div class="room-thumbnail h-full bg-img"
@@ -269,7 +271,7 @@
                     <a href="#" class="btn hero-btn mt-30" data-animation="fadeInUp" data-delay="700ms">View
                         Details</a>
                 </div>
-            </div> --}}
+            </div>
         </div>
     </section>
     <!-- Our Room Area End -->
@@ -280,8 +282,8 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 items-center">
                 <div class="col-span-1 md:col-span-6 lg:grid-cols-6 mx-3">
                     <div class="testimonial-thumbnail owl-carousel mb-100">
-                        <img src="img/bg-img/10.jpg" alt="" />
-                        <img src="img/bg-img/11.jpg" alt="" />
+                        <img src="{{asset('img/bg-img/10.jpg')}}" alt="" />
+                        <img src="{{asset('img/bg-img/11.jpg')}}" alt="" />
                     </div>
                 </div>
 
@@ -383,7 +385,8 @@
         <!-- Projects Slide -->
         <div class="projects-slides owl-carousel">
             <!-- Single Project Slide -->
-            <div class="single-project-slide active bg-img" style="background-image: url(img/cover/IMG_5827.jpg)">
+            <div class="single-project-slide active bg-img"
+                style="background-image: url({{ asset('img/cover/IMG_5827.jpg') }})">
                 <!-- Project Text -->
                 <div class="project-content">
                     <div class="text">
@@ -407,7 +410,8 @@
             </div>
 
             <!-- Single Project Slide -->
-            <div class="single-project-slide bg-img" style="background-image: url(img/cover/IMG_0557.jpg)">
+            <div class="single-project-slide bg-img"
+                style="background-image: url({{ asset('img/cover/IMG_0557.jpg') }})">
                 <!-- Project Text -->
                 <div class="project-content">
                     <div class="text">
@@ -431,7 +435,7 @@
             </div>
 
             <!-- Single Project Slide -->
-            <div class="single-project-slide bg-img" style="background-image: url(img/cover/12.jpg)">
+            <div class="single-project-slide bg-img" style="background-image: url({{ asset('img/cover/12.jpg') }})">
                 <!-- Project Text -->
                 <div class="project-content">
                     <div class="text">
@@ -455,7 +459,8 @@
             </div>
 
             <!-- Single Project Slide -->
-            <div class="single-project-slide bg-img" style="background-image: url(img/cover/IMG_9916.jpg)">
+            <div class="single-project-slide bg-img"
+                style="background-image: url({{ asset('img/cover/IMG_9916.jpg') }})">
                 <!-- Project Text -->
                 <div class="project-content">
                     <div class="text">
@@ -479,7 +484,7 @@
             </div>
 
             <!-- Single Project Slide -->
-            <div class="single-project-slide bg-img" style="background-image: url(img/cover/11.png)">
+            <div class="single-project-slide bg-img" style="background-image: url({{ asset('img/cover/11.png') }})">
                 <!-- Project Text -->
                 <div class="project-content">
                     <div class="text">
@@ -525,7 +530,7 @@
                 <div class="w-full md:w-1/2 lg:w-1/3 px-4">
                     <div class="single-post-area mb-100 wow fadeInUp" data-wow-delay="300ms">
                         <a href="#" class="post-thumbnail">
-                            <img src="img/bg-img/2.jpg" alt="" />
+                            <img src="{{ asset('img/bg-img/2.jpg') }}" alt="" />
                         </a>
                         <!-- Post Meta -->
                         <div class="post-meta">
@@ -548,7 +553,7 @@
                 <div class="w-full md:w-1/2 lg:w-1/3 px-4">
                     <div class="single-post-area mb-100 wow fadeInUp" data-wow-delay="500ms">
                         <a href="#" class="post-thumbnail">
-                            <img src="img/bg-img/3.jpg" alt="" />
+                            <img src="{{ asset('img/bg-img/3.jpg') }}" alt="" />
                         </a>
                         <!-- Post Meta -->
                         <div class="post-meta">
@@ -571,7 +576,7 @@
                 <div class="w-full md:w-1/2 lg:w-1/3 px-4">
                     <div class="single-post-area mb-100 wow fadeInUp" data-wow-delay="700ms">
                         <a href="#" class="post-thumbnail">
-                            <img src="img/bg-img/4.jpg" alt="" />
+                            <img src="{{ asset('img/bg-img/4.jpg') }}" alt="" />
                         </a>
                         <!-- Post Meta -->
                         <div class="post-meta">

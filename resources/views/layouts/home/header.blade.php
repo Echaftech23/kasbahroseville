@@ -74,7 +74,6 @@
                             <ul id="nav">
                                 <li class="active"><a href="index.html">Home</a></li>
                                 <li><a href="rooms.html">Rooms</a></li>
-                                <li><a href="blog.html">Facilities</a></li>
                                 <li><a href="about.html">About Us</a></li>
                                 <li><a href="blog.html">Blogs</a></li>
                                 <li><a href="contact.html">Contact</a></li>

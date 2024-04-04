@@ -8,7 +8,7 @@
                     <div class="single-footer-widget mb-80">
                         <!-- Footer Logo -->
                         <a href="#" class="footer-logo">
-                            <img src="img/core-img/logo.png" width="120px" alt="logo" />
+                            <img src="{{ asset('img/core-img/logo.png') }}" width="120px" alt="logo" />
                         </a>
 
                         <h4>+212 069-890-9638</h4>

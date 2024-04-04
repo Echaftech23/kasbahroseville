@@ -38,23 +38,17 @@ class RoomController extends Controller
     /**
      * Display the specified resource.
      */
-    // public function show(Room $room)
-    // {
+    public function show(Room $room)
+    {
+        if (!$room) {
+            abort(404, 'Room not found.');
+        }
 
-    //     if (!$room) {
-    //         return abort(404, 'Room not found.');
-    //     }
+        $room->load('facilities', 'type');
+        $images = $room->getMedia('rooms');
 
-    //     try {
-    //         $room->load('facilities', 'type');
-
-    //         $images = $room->getMedia('rooms');
-
-    //         return view('guest.show', compact('room', 'images'));
-    //     } catch (\Exception $e) {
-    //         return back()->with('error', 'Something went wrong!');
-    //     }
-    // }
+        return view('guest.show', compact('room', 'images'));
+    }
 
     /**
      * Show the form for editing the specified resource.

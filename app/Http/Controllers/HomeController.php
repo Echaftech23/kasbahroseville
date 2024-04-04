@@ -5,15 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
+use App\Models\Room;
 
-class RoleController extends Controller
+class HomeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $rooms = Room::with('type', 'facilities')->latest()->paginate(10);
+
+        return view('home.index', compact('rooms'));
     }
 
     /**
@@ -35,9 +38,16 @@ class RoleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Role $role)
+    public function show(Room $room)
     {
-        //
+        if (!$room) {
+            abort(404, 'Room not found.');
+        }
+
+        $room->load('facilities', 'type');
+        $images = $room->getMedia('rooms');
+
+        return view('home.show', compact('room', 'images'));
     }
 
     /**
