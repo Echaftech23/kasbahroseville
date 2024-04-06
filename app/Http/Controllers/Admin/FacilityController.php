@@ -30,10 +30,6 @@ class FacilityController extends Controller
         try {
             $facility = Facility::create($request->validated());
 
-            // if (!$request->hasFile('facility-image')) {
-            //     return back()->withErrors(['facility-images' => 'Image is required.']);
-            // }
-
             if ($request->hasFile('facility-image')) {
                 $facility->addMediaFromRequest('facility-image')->toMediaCollection('facilities');
             }
@@ -41,7 +37,7 @@ class FacilityController extends Controller
             return redirect()->route('admin.facilities.index')->with('success', 'Facility created successfully');
         } catch (\Exception $e) {
 
-            return back()->withInput()->withErrors(['unexpected_error' => 'Something went wrong!']);
+            return back()->withInput()->withErrors(['warning' => 'Something went wrong!']);
         }
     }
 
@@ -60,9 +56,9 @@ class FacilityController extends Controller
                 $facility->clearMediaCollection('facilities');
                 $facility->addMedia($request->file('facility-image'))->toMediaCollection('facilities');
             }
-            return redirect()->back()->with('message', 'Facility updated successfully');
+            return redirect()->back()->with('success', 'Facility updated successfully');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Something went wrong!');
+            return redirect()->back()->with('warning', 'Something went wrong!');
         }
     }
 
@@ -71,9 +67,9 @@ class FacilityController extends Controller
         try {
             abort_if(!$facility, 404, 'Facility not found.');
             $facility->delete();
-            return redirect()->back()->with('message', 'Facility deleted successfully');
+            return redirect()->back()->with('success', 'Facility deleted successfully');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Something went wrong! Please try again.');
+            return redirect()->back()->with('warning', 'Something went wrong! Please try again.');
         }
     }
 

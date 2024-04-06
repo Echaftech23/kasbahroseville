@@ -2,75 +2,82 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
-use App\Http\Requests\StoreRoleRequest;
-use App\Http\Requests\UpdateRoleRequest;
 use App\Models\Room;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+
+    private function getRooms($perPage = 6, $pageName = null)
     {
-        $rooms = Room::with('type', 'facilities')->latest()->paginate(10);
+        return Room::with('type', 'facilities')->latest()->paginate($perPage, ['*'], $pageName);
+    }
+    
+    public function index(Request $request)
+    {
+        $rooms = $this->getRooms();
+
+        if ($request->ajax()) {
+            return view('data', compact('rooms'));
+        }
 
         return view('home.index', compact('rooms'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function rooms(Request $request)
     {
-        //
-    }
+        $rooms = $this->getRooms(3, 'rooms_page');
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreRoleRequest $request)
-    {
-        //
+        if ($request->ajax()) {
+            return view('data', compact('rooms'));
+        }
+
+        return view('home.rooms', compact('rooms'));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Room $room)
+    public function show(Request $request, Room $room)
     {
         if (!$room) {
             abort(404, 'Room not found.');
         }
 
+        $rooms = $this->getRooms();
+
         $room->load('facilities', 'type');
         $images = $room->getMedia('rooms');
 
-        return view('home.show', compact('room', 'images'));
+        if ($request->ajax()) {
+            return view('data', compact('rooms'));
+        }
+
+        return view('home.single-room', compact('rooms', 'room', 'images'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Role $role)
+    public function search(Request $request)
     {
-        //
-    }
+        $search = $request->get('room-search');
+        $rooms = Room::where('name', 'like', '%' . $search . '%')
+            ->orWhere('price', 'like', '%' . $search . '%')
+            ->orWhereHas('type', function ($query) use ($search) {
+                $query->where('type', 'like', '%' . $search . '%');
+            })
+            ->latest()->paginate(6, ['*'], 'rooms_page');
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateRoleRequest $request, Role $role)
-    {
-        //
-    }
+        $roomData = $rooms->map(function ($room) {
+            return [
+                'detailsUrl' => route('roomDetails', $room->id),
+                'imageUrl' => $room->getFirstMediaUrl('rooms'),
+                'name' => $room->name,
+                'description' => $room->description,
+            ];
+        });
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Role $role)
-    {
-        //
+        return response()->json(['rooms' => $roomData]);
     }
 }

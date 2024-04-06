@@ -1,6 +1,6 @@
 <!-- Pagination -->
 @if ($paginator->hasPages())
-    <nav class="flex items-center -space-x-px">
+    <nav class="pagination-container flex items-center -space-x-px">
         {{-- Previous Page Link --}}
         @if ($paginator->onFirstPage())
             <button type="button" class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm first:rounded-s-lg last:rounded-e-lg border border-gray-200 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:border-gray-700 dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10" disabled>

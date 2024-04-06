@@ -1,14 +1,28 @@
 <header class="header-area relative w-full bg-preload">
     <!-- Search Form -->
-    <div class="search-form flex relative items-center w-full h-0 bg-preload">
-        <div class="container mx-auto">
-            <form action="" method="get">
-                <input type="search" class="w-full bg-transparent text-white" name="search-form-input" id="searchFormInput"
-                    placeholder="Type your keyword ..." />
-                <button type="submit">
-                    <i class="icon_search bg-transparent cursor-pointer text-white text-right"></i>
+    <div class="search-form kasbah-search-form relative w-full overflow-hidden h-0 bg-white" x-data="{ isActive: false }"
+        :class="{ 'search-form-active': isActive }" @click.self="isActive = !isActive">
+        <div class="container mx-auto my-10">
+            <form action="{{route('search')}}" method="POST" id="searchForm">
+                @csrf
+                <input type="search" class="w-10/12 h-[50px] sm:w-11/12 px-4 bg-[#E2E8F0] rounded-l-lg" name="room-search"
+                    id="searchFormInput" placeholder="Type your keyword..." @click.stop />
+                <button type="submit" class="w-2/12 sm:w-1/12 h-[50px] rounded-r-lg bg-preload" @click.stop>
+                    <i class="icon_search cursor-pointer text-white w-full text-right"></i>
                 </button>
             </form>
+        </div>
+
+        <div class="container result-container mx-auto my-10">
+            <div class="container mx-auto rounded-lg p-4 border shadow-lg" @click.stop>
+                <h3 class="text-sm font-bold pb-0">Our Recent Rooms</h3>
+                <div class="flex items-center flex-wrap justify-between p-4 pb-0" id="rooms-list">
+                    @include('data')
+                </div>
+                @if ($rooms->hasPages())
+                    {{ $rooms->links('vendor.pagination.header') }}
+                @endif
+            </div>
         </div>
     </div>
 
@@ -72,11 +86,11 @@
                         <!-- Nav Start -->
                         <div class="classynav">
                             <ul id="nav">
-                                <li class="active"><a href="index.html">Home</a></li>
-                                <li><a href="rooms.html">Rooms</a></li>
-                                <li><a href="about.html">About Us</a></li>
-                                <li><a href="blog.html">Blogs</a></li>
-                                <li><a href="contact.html">Contact</a></li>
+                                <li class="active"><a href="{{route('home')}}">Home</a></li>
+                                <li><a href="{{route('home.rooms')}}">Rooms</a></li>
+                                <li><a href="{{route('home')}}">About Us</a></li>
+                                <li><a href="{{route('home')}}">Blogs</a></li>
+                                <li><a href="{{route('home')}}">Contact</a></li>
                             </ul>
 
                             <!-- Search -->

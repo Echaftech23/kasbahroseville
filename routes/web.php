@@ -22,7 +22,9 @@ Route::get('dashboard', function () {
 })->name('dashboard');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/home/rooms', [HomeController::class, 'rooms'])->name('home.rooms');
 Route::get('/roomDetails/{room}',  [HomeController::class, 'show'])->name('roomDetails');
+Route::post('/', [HomeController::class, 'search'])->name('search');
 
 Route::get('admin', function () {
     return view('admin.index');
