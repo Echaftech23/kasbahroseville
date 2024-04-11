@@ -1,5 +1,5 @@
 @foreach ($rooms as $room)
-    <a href="{{ route('roomDetails', $room->id) }}" class="w-full  sm:w-1/2 flex h-24">
+    <a href="{{ route('home.rooms.show', $room->id) }}" class="w-full  sm:w-1/2 flex h-24">
         <div class="w-4/12 h-full">
             <img src="{{ $room->getFirstMediaUrl('rooms') }}" class="object-cover" alt="" />
         </div>

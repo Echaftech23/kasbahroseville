@@ -310,29 +310,24 @@ document
                 // Add the new rooms
                 data.rooms.forEach((room) => {
                     let roomElement = `
-                <a href="${room.detailsUrl}" class="w-full  sm:w-1/2 flex h-24">
-                    <div class="w-4/12 h-full">
-                        <img src="${room.imageUrl}" class="object-cover" alt="" />
-                    </div>
-                    <div class="px-4">
-                        <h4 class="text-sm font-bold">${room.name}</h4>
-                        <p class="text-xs">Tala, a radiant star guiding with inner strength, illuminating your
-                            path towards vast horizons, limitless possibilities and eternal love.</p>
-                    </div>
-                </a>
-            `;
+                    <a href="${room.detailsUrl}" class="w-full  sm:w-1/2 flex h-24">
+                            <div class="w-4/12 h-full">
+                                <img src="${room.imageUrl}" class="object-cover" alt="" />
+                            </div>
+                            <div class="px-4">
+                                <h4 class="text-sm font-bold">${room.name}</h4>
+                                <p class="text-xs">Tala, a radiant star guiding with inner strength, illuminating your
+                                    path towards vast horizons, limitless possibilities and eternal love.</p>
+                            </div>
+                        </a>
+                    `;
                     roomContainer.innerHTML += roomElement;
-
-                    console.log(roomElement);
                 });
             })
             .catch((error) => {
                 console.error("Error:", error);
             });
     });
-
-
-
 
 window.addEventListener("hashchange", function () {
     if (window.location.hash) {
@@ -346,8 +341,7 @@ window.addEventListener("hashchange", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-    var paginationLinks = document.querySelectorAll(".pagination-container a");
-    // console.log(paginationLinks);
+    var paginationLinks = document.querySelectorAll(".header-pagination a");
     paginationLinks.forEach(function (link) {
         link.addEventListener("click", function (event) {
             event.preventDefault();
@@ -375,7 +369,6 @@ function getData(page) {
             return response.text();
         })
         .then(function (data) {
-
             var roomsList = document.querySelector("#rooms-list");
             roomsList.innerHTML = data;
             window.location.hash = page;
@@ -384,3 +377,98 @@ function getData(page) {
             alert(error.message);
         });
 }
+
+
+// Room Check Availiblity
+document
+    .getElementById("checkForm")
+    .addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        let url = event.target.action;
+        let formData = new FormData(event.target);
+
+        fetch(url, {
+            method: "POST",
+            body: formData,
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+                "X-CSRF-TOKEN": document
+                    .querySelector('meta[name="csrf-token"]')
+                    .getAttribute("content"),
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+
+                let roomContainer = document.getElementById("availibleRoomsContainer");
+                let notFoundContainer = document.getElementById("notFound");
+                let paginationContainer = document.getElementById("pagination-container");
+
+                // Clear the existing rooms
+                roomContainer.innerHTML = "";
+                notFoundContainer.classList.add("hidden");
+                paginationContainer.innerHTML = "";
+
+                if (!data.rooms.length) {
+                    notFoundContainer.classList.remove("hidden");
+                    notFoundContainer.classList.add("flex");
+                } else {
+                    // Add the new rooms
+                    data.rooms.forEach((room) => {
+                        let roomElement = `<div class="single-room-area flex items-center mb-50 wow fadeInUp" data-wow-delay="100ms">
+                            <!-- Room Thumbnail -->
+                            <div class="room-thumbnail">
+                                <img src="${
+                                    room.imageUrl
+                                }" alt="room thumbnail" />
+                            </div>
+                            <!-- Room Content -->
+                            <div class="room-content">
+                                <h2>${room.name}</h2>
+                                <h4>${room.price}$ <span>/ Day</span></h4>
+                                <div class="room-feature">
+                                    <h6>Size: <span>${room.size} ft</span></h6>
+                                    <h6>Capacity: <span>Max persion ${
+                                        room.capacity
+                                    }</span></h6>
+                                    <h6>Type: <span>${
+                                        room.type.type
+                                    }</span></h6>
+                                    <h6>Services: <span>
+                                        ${room.facilities
+                                            .slice(0, 2)
+                                            .map(
+                                                (facility, index) =>
+                                                    `${index > 0 ? ", " : ""}${
+                                                        facility.name
+                                                    }`
+                                            )
+                                            .join("")}
+                                        ${
+                                            room.facilities.length > 2
+                                                ? "..."
+                                                : ""
+                                        }
+                                    </span></h6>
+                                </div>
+                                <a href="${
+                                    room.detailsUrl
+                                }" class="btn view-detail-btn">View Details
+                                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                            </div>
+                        </div>`;
+                        roomContainer.innerHTML += roomElement;
+                    });
+
+                    document.getElementById("pagination-container").innerHTML =
+                        data.links;
+                }
+            })
+            .catch((error) => {
+                let notFoundContainer = document.getElementById("notFound");
+                notFoundContainer.classList.remove("hidden");
+                notFoundContainer.classList.add("flex");
+            });
+    });

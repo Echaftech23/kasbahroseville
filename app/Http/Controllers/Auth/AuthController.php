@@ -9,27 +9,27 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+// use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
     public function register()
     {
-        return view('auth/register');
+        return view('auth.register');
     }
 
     public function registerSave(StoreRegisterRequest $request)
     {
         $user = User::create([
-            'username' => $request->username,
+            'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'level' => 'Admin'
         ]);
 
-        $user->roles()->attach([1]);
-        return redirect()->route('login');
+        $user->roles()->attach([2]);
+        return redirect()->route('login')->with('success', 'Registered successfully');
     }
 
     public function login()
@@ -50,13 +50,16 @@ class AuthController extends Controller
 
         $user = Auth::user();
 
-        $userId = Auth::user()->id;
+        // $userId = Auth::user()->id;
 
         // Check the user's role and redirect based on the role
-        if ($user && $user->roles->first()->name === 'admin') {
+        if ($user && $user->hasRole('Admin')) {
             return redirect()->route('dashboard');
-        } elseif ($user && $user->roles->first()->name === 'artist') {
-            return redirect('artists');
+        } elseif ($user && $user->hasRole('Front-desk')) {
+            return redirect('reservations');
+        }
+        else {
+            return redirect('/home')->with('success', "logged In Successfully");
         }
 
         return redirect('/login');

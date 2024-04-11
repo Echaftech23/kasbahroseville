@@ -8,9 +8,9 @@
         style="z-index: 9999; background-color: #E42C76; color: #fff; border-color: #E42C76;" role="alert">
         <div class="flex">
             <div class="flex-shrink-0">
-                <svg class="flex-shrink-0 size-4 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round">
+                <svg class="flex-shrink-0 size-4 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="24"
+                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
                     <path d="m9 12 2 2 4-4"></path>
                 </svg>
@@ -26,9 +26,9 @@
                         class="inline-flex rounded-lg p-1.5 hover:bg-[#E42C76] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#E42C76] focus:ring-[#E42C76]"
                         style="background-color: #E42C76; color: #fff;" @click="show = !open">
                         <span class="sr-only">Dismiss</span>
-                        <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round">
+                        <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <path d="M18 6 6 18"></path>
                             <path d="m6 6 12 12"></path>
                         </svg>
@@ -110,7 +110,8 @@
 
 @section('contents')
     <!-- Breadcrumb Area Start -->
-    <div class="breadcrumb-area bg-img bg-overlay jarallax" style="background-image: url({{ asset('img/bg-img/16.jpg') }})">
+    <div class="breadcrumb-area bg-img bg-overlay jarallax"
+        style="background-image: url({{ asset('img/bg-img/16.jpg') }})">
         <div class="container mx-auto h-full">
             <div class="flex flex-wrap h-full items-end">
                 <div class="w-full">
@@ -287,7 +288,7 @@
                 <div class="w-full lg:w-4/12 lg:pl-8">
                     <!-- kasbah Reservation Area -->
                     <div class="kasbah-reservation--area mb-100">
-                        <form action="{{route('reservations.store')}}" method="POST">
+                        <form action="{{ route('reservations.update') }}" method="POST">
                             @csrf
                             <div class="form-group mb-30">
                                 <input type="hidden" name="ref" value="guest">
@@ -300,14 +301,16 @@
                                 <div class="input-daterange">
                                     <div class="flex no-gutters">
                                         <div class="w-6/12">
-                                            <input type="date" value="{{old('checkIn')}}" class="input-smalld form-control" name="checkIn" />
+                                            <input type="date" value="{{ $reservation->checkIn }}"
+                                                class="input-smalld form-control" name="checkIn" />
                                             @error('checkIn')
                                                 <span class="text-[12px] mt-1 text-red-500">{{ $message }}</span>
                                             @enderror
                                         </div>
 
                                         <div class="w-6/12">
-                                            <input type="date" value="{{old('checkOut')}}" class="input-small form-control" name="checkOut" />
+                                            <input type="date" value="{{ $reservation->checkOut }}"
+                                                class="input-small form-control" name="checkOut" />
                                             @error('checkOut')
                                                 <span class="text-[12px] mt-1 text-red-500">{{ $message }}</span>
                                             @enderror
@@ -316,28 +319,34 @@
                                 </div>
                             </div>
                             <div class="form-group mb-30">
-                                <label for="guests">Guests</label>
                                 <div class="flex">
                                     <div class="w-6/12 md:pr-4">
+                                        <label for="guests">Adults</label>
                                         <select name="total_adults" id="guests" class="form-control">
-                                            <option value="adults">Adults</option>
-                                            <option value="1">01</option>
-                                            <option value="2">02</option>
-                                            <option value="3">03</option>
-                                            <option value="4">04</option>
+                                            <option value="{{ $reservation->id }}">0{{ $reservation->total_adults }}</option>
+                                            @foreach (range(0, 4) as $value)
+                                                @if ($value != $reservation->total_children)
+                                                    <option value="{{ $value }}">
+                                                        0{{ $value }}
+                                                    </option>
+                                                @endif
+                                            @endforeach
                                         </select>
                                         @error('adults')
                                             <span class="text-[12px] mt-1 text-red-500">{{ $message }}</span>
                                         @enderror
                                     </div>
                                     <div class="w-6/12 md:pl-4">
+                                        <label for="guests">Children</label>
                                         <select name="total_children" id="children" class="form-control">
-                                            <option value="children">Children</option>
-                                            <option value="0">00</option>
-                                            <option value="1">01</option>
-                                            <option value="2">02</option>
-                                            <option value="3">03</option>
-                                            <option value="4">04</option>
+                                            <option value="{{ $reservation->id }}">0{{ $reservation->total_children }}</option>
+                                            @foreach (range(0, 4) as $value)
+                                                @if ($value != $reservation->total_children)
+                                                    <option value="{{ $value }}">
+                                                        0{{ $value }}
+                                                    </option>
+                                                @endif
+                                            @endforeach
                                         </select>
                                         @error('children')
                                             <span class="text-[12px] mt-1 text-red-500">{{ $message }}</span>
@@ -348,15 +357,17 @@
                             <div class="form-group mb-50 relative">
                                 <div class="slider-range">
                                     <div class="range-price">
-                                        Price: <span class="font-bold text-[18px] text-pink-700">${{$room->price}}</span> / Per Night
+                                        Price: <span
+                                            class="font-bold text-[18px] text-pink-700">${{ $room->price }}</span> / Per
+                                        Night
                                     </div>
                                 </div>
                             </div>
 
                             <div class="form-group">
 
-                                <button class="w-full {{ $room->room_statut == 'Booked' ? 'booked-btn' : 'hero-btn' }}" {{ $room->room_statut == 'Booked' ? 'disabled' : '' }}>
-                                    {{ $room->room_statut == 'Booked' ? 'Booked' : 'Reserve' }}
+                                <button class="w-full hero-btn">
+                                    Check Available
                                 </button>
                             </div>
                         </form>

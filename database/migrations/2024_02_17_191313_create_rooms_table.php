@@ -18,6 +18,7 @@ return new class extends Migration
             $table->enum('statut', ['dirty', 'cleaning', 'clean'])->default('clean');
             $table->enum('priority', ['low', 'high'])->default('low');
             $table->integer('capacity');
+            $table->text('description')->nullable();
             $table->foreignId('type_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

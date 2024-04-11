@@ -8,9 +8,9 @@
         style="z-index: 9999; background-color: #E42C76; color: #fff; border-color: #E42C76;" role="alert">
         <div class="flex">
             <div class="flex-shrink-0">
-                <svg class="flex-shrink-0 size-4 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round">
+                <svg class="flex-shrink-0 size-4 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="24"
+                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
                     <path d="m9 12 2 2 4-4"></path>
                 </svg>
@@ -26,9 +26,9 @@
                         class="inline-flex rounded-lg p-1.5 hover:bg-[#E42C76] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#E42C76] focus:ring-[#E42C76]"
                         style="background-color: #E42C76; color: #fff;" @click="show = !open">
                         <span class="sr-only">Dismiss</span>
-                        <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round">
+                        <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <path d="M18 6 6 18"></path>
                             <path d="m6 6 12 12"></path>
                         </svg>
@@ -110,7 +110,8 @@
 
 @section('contents')
     <!-- Breadcrumb Area Start -->
-    <div class="breadcrumb-area bg-img bg-overlay jarallax" style="background-image: url({{ asset('img/bg-img/16.jpg') }})">
+    <div class="breadcrumb-area bg-img bg-overlay jarallax"
+        style="background-image: url({{ asset('img/bg-img/16.jpg') }})">
         <div class="container mx-auto h-full">
             <div class="flex h-full items-center">
                 <div class="w-full">
@@ -138,66 +139,81 @@
         <div class="container mx-auto">
             <div class="flex flex-wrap">
                 <div class="w-full lg:w-8/12">
-                    @foreach ($rooms as $room)
-                        <!-- Single Room Area -->
-                        <div class="single-room-area flex items-center mb-50 wow fadeInUp" data-wow-delay="100ms">
-                            <!-- Room Thumbnail -->
-                            <div class="room-thumbnail">
-                                <img src="{{ $room->getFirstMediaUrl('rooms') }}" alt="room thumbnail" />
-                            </div>
-                            <!-- Room Content -->
-                            <div class="room-content">
-                                <h2>{{ $room->name }}</h2>
-                                <h4>{{ $room->price }}$ <span>/ Day</span></h4>
-                                <div class="room-feature">
-                                    <h6>Size: <span>{{ $room->size }} ft</span></h6>
-                                    <h6>Capacity: <span>Max persion {{ $room->capacity }}</span></h6>
-                                    <h6>Type: <span>{{ $room->type->type }}</span></h6>
-                                    <h6>Services: <span>
-                                            @php
-                                                $facilities = $room->facilities->slice(0, 2);
-                                            @endphp
-
-                                            @foreach ($facilities as $facility)
-                                                {{ $loop->first ? '' : ',  ' }}
-                                                {{ $facility->name }}
-                                            @endforeach
-
-                                            @if ($room->facilities->count() > 2)
-                                                ...
-                                            @endif
-                                        </span>
-                                    </h6>
+                    <div id="availibleRoomsContainer">
+                        @foreach ($rooms as $room)
+                            <!-- Single Room Area -->
+                            <div class="single-room-area flex items-center mb-50 wow fadeInUp" data-wow-delay="100ms">
+                                <!-- Room Thumbnail -->
+                                <div class="room-thumbnail">
+                                    <img src="{{ $room->getFirstMediaUrl('rooms') }}" alt="room thumbnail" />
                                 </div>
-                                <a href="{{ route('roomDetails', $room->id) }}" class="btn view-detail-btn">View Details
-                                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                                <!-- Room Content -->
+                                <div class="room-content">
+                                    <h2>{{ $room->name }}</h2>
+                                    <h4>{{ $room->price }}$ <span>/ Day</span></h4>
+                                    <div class="room-feature">
+                                        <h6>Size: <span>{{ $room->size }} ft</span></h6>
+                                        <h6>Capacity: <span>Max persion {{ $room->capacity }}</span></h6>
+                                        <h6>Type: <span>{{ $room->type->type }}</span></h6>
+                                        <h6>Services: <span>
+                                                @php
+                                                    $facilities = $room->facilities->slice(0, 2);
+                                                @endphp
+
+                                                @foreach ($facilities as $facility)
+                                                    {{ $loop->first ? '' : ',  ' }}
+                                                    {{ $facility->name }}
+                                                @endforeach
+
+                                                @if ($room->facilities->count() > 2)
+                                                    ...
+                                                @endif
+                                            </span>
+                                        </h6>
+                                    </div>
+                                    <a href="{{ route('home.rooms.show', $room->id) }}" class="btn view-detail-btn">View
+                                        Details
+                                        <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                                </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    </div>
 
                     <!-- Pagination -->
-                    <nav class="kasbah-pagination wow fadeInUp mb-100" data-wow-delay="1000ms">
+                    <nav class="kasbah-pagination wow fadeInUp mb-100" data-wow-delay="1000ms" id="pagination-container">
                         @if ($rooms->hasPages())
-                            {{ $rooms->appends(['rooms_page' => request('rooms_page')])->links('vendor.pagination.custom') }}
+                            {{ $rooms->links('vendor.pagination.custom') }}
                         @endif
                     </nav>
+                    <div class="hidden justify-center mb-[150px]  sm:h-[30%] items-center" id="notFound">
+                        <div>
+                            <img src="{{ asset('img/dashborad/not-found.svg') }}" class="mx-auto" alt="not-found">
+                            <p class="mt-3">No rooms available.</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="w-full lg:w-4/12 lg:pl-8">
                     <!-- kasbah Reservation Area -->
                     <div class="kasbah-reservation--area mb-100">
-                        <form action="#" method="post">
+                        <form action="{{ route('rooms.availability') }}" id="checkForm" method="post">
                             <div class="form-group mb-30">
                                 <div class="flex">
-                                    <label for="checkInDate" class="w-6/12">Check In</label>
-                                    <label for="checkOutDate" class="w-6/12">Check Out</label>
+                                    <label for="checkIn" class="w-6/12">Check In</label>
+                                    <label for="checkIn" class="w-6/12">Check Out</label>
                                 </div>
                                 <div class="input-daterange">
                                     <div class="flex no-gutters">
                                         <div class="w-6/12">
-                                            <input type="date" class="input-smalld form-control" name="checkInDate" />
+                                            <input type="date" class="input-smalld form-control" name="checkIn" />
+                                            @error('checkIn')
+                                                <span class="text-[12px] mt-1 text-red-500">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                         <div class="w-6/12">
-                                            <input type="date" class="input-small form-control" name="checkOutDate" />
+                                            <input type="date" class="input-small form-control" name="checkOut" />
+                                            @error('checkOut')
+                                                <span class="text-[12px] mt-1 text-red-500">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -208,23 +224,20 @@
                                     <div class="w-6/12 md:pr-4">
                                         <select name="adults" id="guests" class="form-control">
                                             <option value="adults">Adults</option>
-                                            <option value="01">01</option>
-                                            <option value="02">02</option>
-                                            <option value="03">03</option>
-                                            <option value="04">04</option>
-                                            <option value="05">05</option>
-                                            <option value="06">06</option>
+                                            <option value="1">01</option>
+                                            <option value="2">02</option>
+                                            <option value="3">03</option>
+                                            <option value="4">04</option>
                                         </select>
                                     </div>
                                     <div class="w-6/12 md:pl-4">
                                         <select name="children" id="children" class="form-control">
                                             <option value="children">Children</option>
-                                            <option value="01">01</option>
-                                            <option value="02">02</option>
-                                            <option value="03">03</option>
-                                            <option value="04">04</option>
-                                            <option value="05">05</option>
-                                            <option value="06">06</option>
+                                            <option value="0">00</option>
+                                            <option value="1">01</option>
+                                            <option value="2">02</option>
+                                            <option value="3">03</option>
+                                            <option value="4">04</option>
                                         </select>
                                     </div>
                                 </div>
@@ -234,11 +247,13 @@
                                     <div class="range-price">
                                         Max Price: $<span id="sliderValue">100</span> - $300
                                     </div>
-                                    <input type="range" min="0" max="300" value="100" step="1"
-                                        class="slider-range-price w-full h-2 appearance-none outline-none"
+                                    <input type="range" name="price" min="0" max="300" value="100"
+                                        step="1" class="slider-range-price w-full h-2 appearance-none outline-none"
                                         id="sliderRangePrice" />
                                 </div>
                             </div>
+
+                            {{-- <input type="hidden" name="_token" value="{{csrf_token()}}"> --}}
 
                             <div class="form-group">
                                 <button type="submit" class="btn hero-btn w-full">

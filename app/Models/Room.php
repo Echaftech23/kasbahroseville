@@ -19,7 +19,9 @@ class Room extends Model implements HasMedia
         'capacity',
         'image',
         'type_id',
-        'size'
+        'size',
+        'room_statut',
+        'description'
     ];
 
     public const STATUT_RADIO = [
@@ -32,10 +34,14 @@ class Room extends Model implements HasMedia
         'low' => 'Low',
         'high' => 'High',
     ];
-    
+
     public function getStatut()
     {
         return self::STATUT_RADIO[$this->statut];
+    }
+    public function isAvailable($children, $adults)
+    {
+        return $this->room_statut === 'Available' && $this->capacity >= ($children + $adults);
     }
 
     public function getPriority()
@@ -50,7 +56,7 @@ class Room extends Model implements HasMedia
 
     public function reservations()
     {
-        return $this->belongsToMany(Reservation::class);
+        return $this->hasMany(Reservation::class);
     }
 
     public function facilities()

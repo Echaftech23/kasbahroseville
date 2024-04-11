@@ -30,6 +30,7 @@ class StoreRoomRequest extends FormRequest
             'capacity' => 'required|integer',
             'type_id' => 'required|exists:types,id',
             'facility_id' => 'required|exists:facilities,id',
+            'description' => 'nullable|text',
         ];
     }
 }

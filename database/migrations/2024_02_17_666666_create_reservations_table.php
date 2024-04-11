@@ -15,8 +15,12 @@ return new class extends Migration
             $table->id();
             $table->date('checkIn');
             $table->date('checkOut');
-            $table->integer('guests')->unsigned();
-            $table->enum('statut', ['Confirmed', 'Due In', 'Checked In', 'Due Out', 'checked Out'])->default('Confirmed');
+            $table->enum('statut', ['Confirmed', 'Due In', 'Checked In', 'Due Out', 'checked Out', 'Pending', 'Rejected'])->default('Pending');
+            $table->integer('total_adults');
+            $table->integer('total_children');
+            $table->string('ref');
+            
+            $table->foreignId('room_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

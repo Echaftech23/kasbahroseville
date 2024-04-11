@@ -20,8 +20,8 @@ class RoomSeeder extends Seeder
                 'statut' => 'clean',
                 'priority' => 'low',
                 'capacity' => 2,
-                'image' => 'standard-room.jpg',
                 'type_id' => 1,
+                'size' => 30
             ],
             [
                 'name' => 'Nelya',
@@ -29,8 +29,8 @@ class RoomSeeder extends Seeder
                 'statut' => 'cleaning',
                 'priority' => 'high',
                 'capacity' => 3,
-                'image' => 'deluxe-room.jpg',
                 'type_id' => 2,
+                'size' => 30
             ],
             [
                 'name' => 'Arinas',
@@ -38,8 +38,8 @@ class RoomSeeder extends Seeder
                 'statut' => 'dirty',
                 'priority' => 'high',
                 'capacity' => 4,
-                'image' => 'suite-room.jpg',
                 'type_id' => 3,
+                'size' => 30
             ],
             [
                 'name' => 'Kahina',
@@ -47,8 +47,8 @@ class RoomSeeder extends Seeder
                 'statut' => 'dirty',
                 'priority' => 'high',
                 'capacity' => 4,
-                'image' => 'suite-room.jpg',
                 'type_id' => 3,
+                'size' => 30
             ],
             [
                 'name' => 'Celia',
@@ -56,8 +56,8 @@ class RoomSeeder extends Seeder
                 'statut' => 'dirty',
                 'priority' => 'high',
                 'capacity' => 4,
-                'image' => 'suite-room.jpg',
                 'type_id' => 3,
+                'size' => 30
             ],
         ];
         foreach ($rooms as $room) {

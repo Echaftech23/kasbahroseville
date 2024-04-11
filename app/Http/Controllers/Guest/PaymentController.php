@@ -1,10 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Guest;
 
 use App\Models\Payment;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
+use App\Models\PaymentMethode;
+use App\Models\Reservation;
+use App\Models\Room;
+use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
@@ -13,7 +18,73 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        //
+        $rooms = Payment::latest()->paginate(10);
+
+        return view('admin.rooms.index', compact('rooms'));
+    }
+
+
+    public function checkout($sessionData)
+    {
+        session($sessionData);
+        \Stripe\Stripe::setApiKey(config('stripe.sk'));
+        $session = \Stripe\Checkout\Session::create([
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'mad',
+                    'product_data' => [
+                        'name' => 'Room Reservation',
+                    ],
+                    'unit_amount' => $sessionData['price'] * 1000,
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'success_url' => route('success') . '?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => route('home'),
+        ]);
+        return redirect()->away($session->url);
+    }
+
+    function success(Request $request)
+    {
+        \Stripe\Stripe::setApiKey(config('stripe.sk'));
+        $session = \Stripe\Checkout\Session::retrieve($request->get('session_id'));
+        if ($session->payment_status == 'paid') {
+
+            $reservation = new Reservation;
+            $reservation->user_id = session('user_id');
+            $reservation->room_id = session('room_id');
+            $reservation->checkIn = session('checkIn');
+            $reservation->checkOut = session('checkOut');
+            $reservation->total_adults = session('adults');
+            $reservation->total_children = session('children');
+            $reservation->ref = session('ref');
+            $reservation->save();
+
+            $payment = new Payment;
+            $payment->totalAmount = $session->amount_total / 10;
+            $payment->amountPaid = $payment->totalAmount;
+            $payment->reservation_id = $reservation->id;
+            $payment->statut = $session->payment_status == 'paid' ? 'Complete' : $session->payment_status;
+            $payment->save();
+
+            $paymentMethode = new PaymentMethode;
+            $paymentMethode->type = 'credit card';
+            $paymentMethode->payment_id = $payment->id;
+            $paymentMethode->save();           
+
+            // Retrieve the room and update its status
+            $room = Room::find(session('room_id'));
+            $room->update(['room_statut' => 'Booked']);
+
+            return redirect()->route('reservations.index')->with('success', 'Congratulaion, Reservation created successfully');
+        }
+    }
+
+    function booking_payment_fail(Request $request)
+    {
+        return view('booking.failure');
     }
 
     /**
@@ -25,19 +96,12 @@ class PaymentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StorePaymentRequest $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      */
     public function show(Payment $payment)
     {
-        //
+        $rooms = Room::with('type', 'facilities')->latest()->paginate(6);
+        return view('guest.invoice', compact('rooms', 'payment'));
     }
 
     /**

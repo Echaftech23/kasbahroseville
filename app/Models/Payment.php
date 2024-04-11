@@ -13,6 +13,7 @@ class Payment extends Model
         'amountPaid',
         'totalAmount',
         'reservation_id',
+        'statut'
     ];
 
     public function reservation()

@@ -13,9 +13,12 @@ class Reservation extends Model
     protected $fillable = [
         'checkIn',
         'checkOut',
-        'guests',
+        'total_adults',
+        'total_children',
         'statut',
         'user_id',
+        'room_id',
+        'ref'
     ];
 
     public function user(): BelongsTo
@@ -23,9 +26,9 @@ class Reservation extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function rooms()
+    public function room()
     {
-        return $this->belongsToMany(Room::class);
+        return $this->belongsTo(Room::class);
     }
 
     public function payment()

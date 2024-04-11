@@ -472,7 +472,7 @@ input:focus {
     box-shadow: none;
 }
 
-.hero-btn {
+.hero-btn, .booked-btn {
     position: relative;
     z-index: 1;
     min-width: 150px;
@@ -492,6 +492,11 @@ input:focus {
     -o-transition-duration: 500ms;
     transition-duration: 500ms;
 }
+
+.booked-btn {
+    background-color: #FF9E0E;
+}
+
 .hero-btn:focus,
 .hero-btn:hover {
     font-weight: 500;

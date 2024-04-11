@@ -18,7 +18,7 @@
         </div>
         <div class="ms-2">
             <div class="text-sm font-medium">
-                {{ session('success') }} added successfully. nice job!
+                {{ session('success') }}
             </div>
         </div>
         <div class="ps-3 ms-auto">
