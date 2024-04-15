@@ -17,8 +17,9 @@ class ReservationController extends Controller
      */
     public function index()
     {
+
         $rooms = Room::with('type', 'facilities')->latest()->paginate(6);
-        $reservations = Reservation::with('payment', 'user')->latest()->paginate(6);
+        $reservations = Reservation::with('payment', 'user')->where('user_id', Auth::id())->latest()->paginate(6);
 
         return view('guest.reservations.index', compact('reservations', 'rooms'));
     }
@@ -30,6 +31,8 @@ class ReservationController extends Controller
 
     public function store(StoreReservationRequest $request)
     {
+        $this->authorize('create', Reservation::class);
+
         $room = Room::find($request->room_id);
 
         if ($room && $room->isAvailable($request->total_children, $request->total_adults, $request->checkIn, $request->checkOut)) {
@@ -92,6 +95,8 @@ class ReservationController extends Controller
      */
     public function show(Request $request, Reservation $reservation)
     {
+        $this->authorize('view', $reservation);
+
         $room = $reservation->room ?? abort(404, 'Reservation not found.');
 
         $rooms = Room::with('type', 'facilities')->latest()->paginate(6);
@@ -109,6 +114,9 @@ class ReservationController extends Controller
     public function edit(Request $request, Reservation $reservation)
     {
         try {
+
+            $this->authorize('update', $reservation);
+
             $room = $reservation->room ?? abort(404, 'Reservation not found.');
 
             $rooms = Room::with('type', 'facilities')->latest()->paginate(6);

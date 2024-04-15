@@ -281,7 +281,7 @@
 
                     <div>
                         <label class="block text-sm font-semibold text-[#344357]">Amount Paid</label>
-                        <input type="number" name="amountPaid" value="{{ old('amountPaid') }}"
+                        <input type="number" name="amountPaid" value="{{ $room->first()->price }}"
                             placeholder="Enter Amount Paid"
                             class="w-full mt-1.5 text-[13px] outline-none rounded-[6px] border border-slate-300 bg-white px-3 py-2 hover:border-slate-400 @error('amountPaid') border-red-500 @enderror" />
                         @error('amountPaid')
