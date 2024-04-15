@@ -193,8 +193,10 @@ class ReservationController extends Controller
             });
         }
 
-        if ($request->has('capacity')) {
-            $query->where('capacity', $request->get('capacity'));
+        if ($request->has('name')) {
+            $query->whereHas('user', function ($query) use ($request) {
+                $query->where('name', $request->get('name'));
+            });
         }
 
         if ($request->has('period')) {

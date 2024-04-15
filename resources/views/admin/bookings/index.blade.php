@@ -311,14 +311,15 @@
                                         <h3 class="text-[13px] font-semibold text-[#364a63]">Filter Rooms</h3>
                                         <span class="font-bold text-[24] -mt-3" @click="open = !open">...</span>
                                     </div>
-                                    <form action="{{ route('rooms.filter') }}" method="POST">
+                                    <form action="{{ route('reservations.filter') }}" method="POST">
                                         @csrf
                                         <div class="py-4  px-4 border-y">
                                             <div class="flex flex-wrap">
+
                                                 <div class="w-1/2 pr-4 mb-3">
                                                     <label for="room-type"
                                                         class="text-[12px] font-semibold text-[#364a63]">
-                                                        Room Type
+                                                        Period
                                                     </label>
                                                     <div class="relative w-full inline-block text-left mr-1"
                                                         x-data="{ open: false }" @click.away="open = false">
@@ -329,8 +330,8 @@
                                                                 aria-haspopup="true" @click="open = !open">
                                                                 <input type="text"
                                                                     class="outline-none text-[12px] pointer-events-none cursor-pointer border-0 overflow-hidden w-11/12"
-                                                                    name="room-type" disabled value="Room Type"
-                                                                    id="filter-type" />
+                                                                    name="period" disabled value="Select Period"
+                                                                    id="period" />
                                                                 <svg :class="{ 'rotate-180': open }"
                                                                     class="-mr-1 h-4 w-4 text-gray-400"
                                                                     viewBox="0 0 20 20" fill="currentColor"
@@ -342,27 +343,27 @@
                                                             </button>
                                                         </div>
 
-                                                        <div class="absolute right-0 z-10 mt-2 w-24 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                                        <div class="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                                             role="menu" aria-orientation="vertical"
                                                             aria-labelledby="menu-button" tabindex="-1" x-show="open">
                                                             <div class="py-1" role="none">
                                                                 <button type="button"
                                                                     class="text-gray-700 block px-4 py-2 text-[13px]"
                                                                     role="menuitem" tabindex="-1" id="menu-item-0"
-                                                                    onclick="document.getElementById('filter-type').value = 'Single'"
-                                                                    @click="open = !open">Single</button>
+                                                                    onclick="document.getElementById('period').value = '24_hours'"
+                                                                    @click="open = !open">Last 24 Hours</button>
 
                                                                 <button type="button"
                                                                     class="text-gray-700 block px-4 py-2 text-[13px]"
                                                                     role="menuitem" tabindex="-1" id="menu-item-1"
-                                                                    onclick="document.getElementById('filter-type').value = 'Double'"
-                                                                    @click="open = !open">Double</button>
+                                                                    onclick="document.getElementById('period').value = '7_days'"
+                                                                    @click="open = !open">Last 7 Days</button>
 
                                                                 <button type="button"
                                                                     class="text-gray-700 block px-4 py-2 text-[13px]"
                                                                     role="menuitem" tabindex="-1" id="menu-item-1"
-                                                                    onclick="document.getElementById('filter-type').value = 'Suite'"
-                                                                    @click="open = !open">Suite</button>
+                                                                    onclick="document.getElementById('period').value = '30_days'"
+                                                                    @click="open = !open">Last 30 Days</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -371,18 +372,7 @@
                                                 <div class="w-1/2  mb-3">
                                                     <label for="room-type"
                                                         class="text-[12px] font-semibold text-[#364a63]">
-                                                        Capacity
-                                                    </label>
-                                                    <div class="relative w-full inline-block text-left mr-1">
-                                                        <input type="number" name="capacity" placeholder="2 Persons"
-                                                            class="inline-flex w-full justify-between items-center gap-x-1.5 rounded-[5px] text-[#526484] px-3 py-2 font-medium text-[12px] shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 outline-none">
-                                                    </div>
-                                                </div>
-
-                                                <div class="w-1/2 pr-4  mb-3">
-                                                    <label for="room-type"
-                                                        class="text-[12px] font-semibold text-[#364a63]">
-                                                        Room Status
+                                                        Reservation Statut
                                                     </label>
                                                     <div class="relative w-full inline-block text-left mr-1"
                                                         x-data="{ open: false }" @click.away="open = false">
@@ -393,8 +383,8 @@
                                                                 aria-haspopup="true" @click="open = !open">
                                                                 <input type="text"
                                                                     class="outline-none text-[12px] pointer-events-none cursor-pointer border-0 overflow-hidden w-11/12"
-                                                                    name="room-status" disabled value="Room Status"
-                                                                    id="filter-status" />
+                                                                    name="statut" disabled value="Select Statut"
+                                                                    id="reservationStatut" />
                                                                 <svg :class="{ 'rotate-180': open }"
                                                                     class="-mr-1 h-4 w-4 text-gray-400"
                                                                     viewBox="0 0 20 20" fill="currentColor"
@@ -413,35 +403,64 @@
                                                                 <button type="button"
                                                                     class="text-gray-700 block px-4 py-2 text-[13px]"
                                                                     role="menuitem" tabindex="-1" id="menu-item-0"
-                                                                    onclick="document.getElementById('filter-status').value = 'any Status'"
-                                                                    @click="open = !open">any Status</button>
+                                                                    onclick="document.getElementById('reservationStatut').value = 'Pending'"
+                                                                    @click="open = !open">Pending</button>
 
                                                                 <button type="button"
                                                                     class="text-gray-700 block px-4 py-2 text-[13px]"
                                                                     role="menuitem" tabindex="-1" id="menu-item-1"
-                                                                    onclick="document.getElementById('filter-status').value = 'clean'"
-                                                                    @click="open = !open">clean</button>
+                                                                    onclick="document.getElementById('reservationStatut').value = 'Confirmed'"
+                                                                    @click="open = !open">Confirmed</button>
 
                                                                 <button type="button"
                                                                     class="text-gray-700 block px-4 py-2 text-[13px]"
                                                                     role="menuitem" tabindex="-1" id="menu-item-1"
-                                                                    onclick="document.getElementById('filter-status').value = 'cleaning'"
-                                                                    @click="open = !open">cleaning</button>
+                                                                    onclick="document.getElementById('reservationStatut').value = 'Rejected'"
+                                                                    @click="open = !open">Rejected</button>
 
                                                                 <button type="button"
                                                                     class="text-gray-700 block px-4 py-2 text-[13px]"
                                                                     role="menuitem" tabindex="-1" id="menu-item-1"
-                                                                    onclick="document.getElementById('filter-status').value = 'dirty'"
-                                                                    @click="open = !open">dirty</button>
+                                                                    onclick="document.getElementById('reservationStatut').value = 'Checked In'"
+                                                                    @click="open = !open">Checked In</button>
+
+                                                                <button type="button"
+                                                                    class="text-gray-700 block px-4 py-2 text-[13px]"
+                                                                    role="menuitem" tabindex="-1" id="menu-item-1"
+                                                                    onclick="document.getElementById('reservationStatut').value = 'Checked Out'"
+                                                                    @click="open = !open">Checked Out</button>
+
+                                                                <button type="button"
+                                                                    class="text-gray-700 block px-4 py-2 text-[13px]"
+                                                                    role="menuitem" tabindex="-1" id="menu-item-1"
+                                                                    onclick="document.getElementById('reservationStatut').value = 'Due In'"
+                                                                    @click="open = !open">Due In</button>
+
+                                                                <button type="button"
+                                                                    class="text-gray-700 block px-4 py-2 text-[13px]"
+                                                                    role="menuitem" tabindex="-1" id="menu-item-1"
+                                                                    onclick="document.getElementById('reservationStatut').value = 'Due Out'"
+                                                                    @click="open = !open">Due Out</button>
                                                             </div>
                                                         </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="w-1/2 pr-4 mb-3">
+                                                    <label for="room-type"
+                                                        class="text-[12px] font-semibold text-[#364a63]">
+                                                        Name
+                                                    </label>
+                                                    <div class="relative w-full inline-block text-left mr-1">
+                                                        <input type="text" name="name" placeholder="Costumer Name"
+                                                            class="inline-flex w-full justify-between items-center gap-x-1.5 rounded-[5px] text-[#526484] px-3 py-2 font-medium text-[12px] shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 outline-none">
                                                     </div>
                                                 </div>
 
                                                 <div class="w-1/2 mb-3">
                                                     <label for="room-type"
                                                         class="text-[12px] font-semibold text-[#364a63]">
-                                                        Priority
+                                                        Payment Statut
                                                     </label>
                                                     <div class="relative w-full inline-block text-left mr-1"
                                                         x-data="{ open: false }" @click.away="open = false">
@@ -452,7 +471,7 @@
                                                                 aria-haspopup="true" @click="open = !open">
                                                                 <input type="text"
                                                                     class="outline-none text-[12px] pointer-events-none cursor-pointer border-0 overflow-hidden w-11/12"
-                                                                    name="room-priority" disabled value="Room Priority"
+                                                                    name="payment_statut" disabled value="Payment Statut"
                                                                     id="paymentStatut" />
                                                                 <svg :class="{ 'rotate-180': open }"
                                                                     class="-mr-1 h-4 w-4 text-gray-400"
