@@ -40,6 +40,8 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::resource('rooms', RoomController::class);
     Route::post('rooms/search', [RoomController::class, 'search'])->name('rooms.search');
     Route::post('rooms/filter', [RoomController::class, 'filter'])->name('rooms.filter');
+    Route::post('reservations/search', [AdminReservationController::class, 'search'])->name('reservations.search');
+    Route::post('reservations/filter', [AdminReservationController::class, 'filter'])->name('reservations.filter');
 
     Route::resource('types', TypeController::class)->except('show');
     Route::post('types/search', [TypeController::class, 'search'])->name('types.search');
@@ -50,8 +52,6 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('reservations', AdminReservationController::class);
     });
-
-    Route::post('/admin/reservations/search', [AdminReservationController::class, 'search'])->name('reservations.search');
 
 });
 

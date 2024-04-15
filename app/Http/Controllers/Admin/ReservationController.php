@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Payment;
 use App\Models\Room;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -180,6 +181,53 @@ class ReservationController extends Controller
         return response()->json(['reservations' => $reservationData,'links' => $links,]);
     }
 
+    public function filter(Request $request)
+    {
+        $query = Reservation::query();
+
+        $reservations = Reservation::with('room', 'user', 'payment');
+
+        if ($request->has('payment_statut')) {
+            $query->whereHas('payment', function ($query) use ($request) {
+                $query->where('statut', $request->get('payment_statut'));
+            });
+        }
+
+        if ($request->has('capacity')) {
+            $query->where('capacity', $request->get('capacity'));
+        }
+
+        if ($request->has('period')) {
+
+            $period = $request->period;
+            $date = Carbon::now();
+
+            switch ($period) {
+                case '24_hours':
+                    $date = $date->subDay();
+                    break;
+                case '7_days':
+                    $date = $date->subWeek();
+                    break;
+                case '30_days':
+                    $date = $date->subMonth();
+                    break;
+            }
+            $query->where('created_at','>=', $date)->get();
+        }
+
+        if ($request->has('statut')) {
+            $query->where('statut', $request->get('statut'));
+        }
+
+        $reservations = $query->latest()->paginate(10);
+
+        if ($reservations->isEmpty()) {
+            return view('admin.bookings.index')->with('error', 'No reservations found.');
+        }
+
+        return view('admin.bookings.index', compact('reservations'));
+    }
 
 
     /**
@@ -192,7 +240,7 @@ class ReservationController extends Controller
 
             $reservation->delete();
 
-            return redirect()->route('admin.reservations.index')->with('success', 'Reservation deleted successfully.');
+            return redirect()->route('admin.bookings.index')->with('success', 'Reservation deleted successfully.');
         } catch (\Exception $e) {
             return back()->with('error', 'Something went wrong! Please try again.');
         }
