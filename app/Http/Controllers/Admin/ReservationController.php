@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Payment;
 use App\Models\Room;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class ReservationController extends Controller
@@ -121,7 +122,7 @@ class ReservationController extends Controller
                 $reservation->user_id = $user->id;
 
                 $reservation->update(array_merge($request->validated(), ['user_id' => $user->id]));
-                
+
                 Payment::where('reservation_id', $reservation->id)
                     ->update([
                         'totalAmount' => $request->totalAmount,
@@ -137,6 +138,46 @@ class ReservationController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong Please try again!');
         }
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->get('reservation-search');
+
+        $reservations = Reservation::where('ref', 'like', '%' . $search . '%')
+            ->orWhere( 'statut', 'like', '%' . $search . '%')
+            ->orWhere('checkIn', 'like', '%' . $search . '%')
+            ->orWhere('checkOut', 'like', '%' . $search . '%')
+            ->orWhereHas('user', function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%');
+            })->latest()->paginate(3);
+
+        $links = $reservations->links('vendor.pagination.custom')->toHtml();
+
+        $reservationData = $reservations->map(function ($reservation) {
+            return [
+                'detailsUrl' => route('admin.reservations.edit', $reservation->id),
+                'updateUrl' => route('admin.reservations.update', $reservation->id),
+                'deleteUrl' => route('admin.reservations.destroy', $reservation->id),
+                'id' => $reservation->id,
+                'image' => $reservation->user->getFirstMediaUrl('profile'),
+                'name' => $reservation->user->name,
+                'email' => $reservation->user->email,
+                'phone' => $reservation->user->phone,
+                'checkIn' => $reservation->checkIn,
+                'checkOut' => $reservation->checkOut,
+                'totalAmount' => $reservation->payment->totalAmount,
+                'amountPaid' => $reservation->payment->amountPaid,
+                'statut' => $reservation->statut,
+                'ref' => $reservation->ref,
+                'room' => $reservation->room->name,
+                'room_type' => $reservation->room->type->type,
+                'room_price' => $reservation->room->price,
+                'created_at' => $reservation->created_at,
+            ];
+        });
+
+        return response()->json(['reservations' => $reservationData,'links' => $links,]);
     }
 
     /**

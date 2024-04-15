@@ -46,10 +46,12 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
 
     Route::resource('facilities', FacilityController::class)->except('show');
     Route::post('facilities/search', [FacilityController::class, 'search'])->name('facilities.search');
-    
+
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('reservations', AdminReservationController::class);
     });
+
+    Route::post('/admin/reservations/search', [AdminReservationController::class, 'search'])->name('reservations.search');
 
 });
 
