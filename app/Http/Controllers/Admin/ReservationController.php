@@ -1,10 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Reservation;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
+use App\Models\Payment;
+use App\Models\Room;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class ReservationController extends Controller
 {
@@ -13,7 +18,9 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        //
+        $reservations = Reservation::with('payment', 'user', 'room')->latest()->paginate(10);
+
+        return view('admin.bookings.index', compact('reservations'));
     }
 
     /**
@@ -21,7 +28,9 @@ class ReservationController extends Controller
      */
     public function create()
     {
-        //
+        $rooms = Room::all();
+
+        return view('admin.bookings.create', compact('rooms'));
     }
 
     /**
@@ -29,15 +38,43 @@ class ReservationController extends Controller
      */
     public function store(StoreReservationRequest $request)
     {
-        //
-    }
+        try{
+            $room = Room::find($request->room_id);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Reservation $reservation)
-    {
-        //
+            if ($room && $room->isAvailable($request->total_children, $request->total_adults, $request->checkIn, $request->checkOut)) {
+                $user = User::firstOrCreate(
+                    ['email' => $request->email],
+                    ['name' => $request->name, 'password' => Hash::make($request->email)]
+                );
+
+                $user->phone = $request->phone;
+                $user->save();
+                $user->roles()->attach([2]);
+
+                if ($request->hasFile('user-image')) {
+                    $user->addMediaFromRequest('user-image')->toMediaCollection('profile');
+                }
+
+                $reservation = Reservation::create(array_merge($request->validated(), ['user_id' => $user->id, 'ref' => 'admin']));
+
+                $payment = Payment::create([
+                    'totalAmount' => $request->totalAmount,
+                    'amountPaid' => $request->amountPaid,
+                    'reservation_id' => $reservation->id,
+                ]);
+
+
+                $room->update(['room_statut' => 'Booked']);
+
+                return redirect()->route('admin.reservations.index')->with('success', 'Reservation created successfully!');
+            }
+            else{
+                return redirect()->back()->with('error', 'Room is not available');
+            }
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Something went wrong Please try again!');
+        }
     }
 
     /**
@@ -45,7 +82,9 @@ class ReservationController extends Controller
      */
     public function edit(Reservation $reservation)
     {
-        //
+        $rooms = Room::all();
+
+        return view('admin.bookings.edit', compact( 'rooms', 'reservation'));
     }
 
     /**
@@ -53,7 +92,43 @@ class ReservationController extends Controller
      */
     public function update(UpdateReservationRequest $request, Reservation $reservation)
     {
-        //
+        try {
+            if ($reservation->ref === 'guest') {
+
+                $reservation->statut = $request->statut;
+                $reservation->save();
+
+                return redirect()->back()->with('success', 'Statut updated successfully!');
+            } else {
+
+                $room = Room::find($request->room_id);
+                $reservation->fill($request->all());
+
+                if ($reservation->isDirty(['room_id', 'checkIn', 'checkOut', 'total_children', 'total_adults'])) {
+                    if (!$room->isAvailable($request->total_children, $request->total_adults, $request->checkIn, $request->checkOut)) {
+                        return redirect()->back()->with('error', 'Room is not available');
+                    }
+                }
+
+                $user = User::where('email', $request->email)->first();
+                $user->update(['name' => $request->name, 'phone' => $request->phone]);
+
+                if ($request->hasFile('user-image')) {
+                    $user->clearMediaCollection('profile');
+                    $user->addMediaFromRequest('user-image')->toMediaCollection('profile');
+                }
+
+                $reservation->user_id = $user->id;
+
+                $reservation->update(array_merge($request->validated(), ['user_id' => $user->id]));
+                $room->update(['room_statut' => $request->room_statut]);
+
+                return redirect()->route('admin.reservations.index')->with('success', 'Reservation updated successfully!');
+
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Something went wrong Please try again!');
+        }
     }
 
     /**

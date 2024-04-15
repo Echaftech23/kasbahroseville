@@ -105,7 +105,7 @@
                                         @endif
                                     @endif
                                     @if (Auth::user()->hasRole('Admin'))
-                                        <a href="{{ route('admin.dashboard') }}"
+                                        <a href="{{ route('dashboard') }}"
                                             class="flex w-full items-center px-2 py-2 text-s">
                                             <img src="{{ asset('img/dashborad/dashboard.svg') }}"
                                                 class="w-5 mr-1 inline-flex" alt="">
@@ -185,7 +185,7 @@
                                                 @endif
                                             @endif
                                             @if (Auth::user()->hasRole('Admin'))
-                                                <a href="{{ route('admin.dashboard') }}"
+                                                <a href="{{ route('dashboard') }}"
                                                     class="flex w-full items-center px-2 py-2 text-s">
                                                     <img src="{{ asset('img/dashborad/dashboard.svg') }}"
                                                         class="w-5 mr-1 inline-flex" alt="">

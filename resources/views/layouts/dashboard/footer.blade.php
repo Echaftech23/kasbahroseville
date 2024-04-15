@@ -16,7 +16,7 @@
                 class="flex flex-col items-start justify-start"
                 >
                 <a
-                    class="relative leading-[22px] text-[inherit] inline-block text-[13px] text-[#7D8AFB]"
+                    class="relative leading-[22px] text-[inherit] inline-block text-[13px]" style="color: #7D8AFB;"
                     href="#"
                     >English</a
                 >
@@ -30,7 +30,7 @@
                     <img
                     class="w-3.5 h-3.5 relative overflow-hidden shrink-0"
                     alt=""
-                    src="../img/dashborad/icon-39.svg"
+                    src="{{asset('img/dashborad/icon-39.svg')}}"
                     />
                 </div>
                 </div>
@@ -47,7 +47,7 @@
                         <img
                         class="h-[17.3px] w-[16.9px] relative overflow-hidden shrink-0"
                         alt=""
-                        src="../img/dashborad/icon-40.svg"
+                        src="{{asset('img/dashborad/icon-40.svg')}}"
                         />
                     </div>
                     </div>

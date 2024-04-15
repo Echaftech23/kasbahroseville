@@ -639,3 +639,18 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 });
+
+// Select Room Price for Booking dynamically
+document.addEventListener("DOMContentLoaded", function () {
+    var select = document.querySelector('select[name="room_id"]');
+    select.addEventListener("change", function () {
+        var selectedOption = this.options[this.selectedIndex];
+        var price = selectedOption.getAttribute("data-price");
+        var totalAmountInputs = document.querySelectorAll(
+            'input[name="totalAmount"]'
+        );
+        totalAmountInputs.forEach(function (input) {
+            input.value = price;
+        });
+    });
+});

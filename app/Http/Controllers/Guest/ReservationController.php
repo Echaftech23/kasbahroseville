@@ -30,19 +30,9 @@ class ReservationController extends Controller
 
     public function store(StoreReservationRequest $request)
     {
-        // dd('dd');
         $room = Room::find($request->room_id);
 
-        // if ($room && $room->isAvailable($request->children, $request->adults)) {
-        //     $room->update(['room_statut' => 'Booked']);
-
-        //     Reservation::create(array_merge($request->validated(), ['user_id' => 1]));
-        // }
-
-
-        // dd($room->isAvailable($request->total_children, $request->total_adults));
-
-        if ($room && $room->isAvailable($request->total_children, $request->total_adults)) {
+        if ($room && $room->isAvailable($request->total_children, $request->total_adults, $request->checkIn, $request->checkOut)) {
 
             $sessionData = [
                 'user_id' => Auth::id(),
@@ -52,6 +42,7 @@ class ReservationController extends Controller
                 'adults' => $request->total_adults,
                 'children' => $request->total_children,
                 'price' => $request->price,
+                'total_amount' => $request->price,
                 'ref' => $request->ref
             ];
 

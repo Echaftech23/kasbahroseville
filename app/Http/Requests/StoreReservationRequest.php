@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreReservationRequest extends FormRequest
 {
@@ -21,14 +22,30 @@ class StoreReservationRequest extends FormRequest
      */
     public function rules(): array
     {
+        if (Auth::user()->hasRole('Guest')) {
+            return [
+                'room_id' => 'required|exists:rooms,id',
+                'checkIn' => 'required|date|after:today',
+                'checkOut' => 'required|date|after:checkIn',
+                'total_adults' => 'required|integer|min:1',
+                'total_children' => 'required|integer|min:0',
+                'price' => 'required|numeric',
+                'ref' => 'required|string'
+            ];
+        }
+
         return [
+            'name' => 'required|max:255',
+            'email' =>
+            'required|email',
             'room_id' => 'required|exists:rooms,id',
             'checkIn' => 'required|date|after:today',
             'checkOut' => 'required|date|after:checkIn',
             'total_adults' => 'required|integer|min:1',
             'total_children' => 'required|integer|min:0',
-            'price' => 'required|numeric|min:0',
-            'ref' => 'required|string',
+            'totalAmount' => 'required|numeric',
+            'amountPaid' => 'required|numeric',
+            'statut' => 'required|string',
         ];
     }
 }

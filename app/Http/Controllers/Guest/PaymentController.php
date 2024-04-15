@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Guest;
 
 use App\Models\Payment;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StorePaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
 use App\Models\PaymentMethode;
 use App\Models\Reservation;
@@ -31,11 +30,11 @@ class PaymentController extends Controller
         $session = \Stripe\Checkout\Session::create([
             'line_items' => [[
                 'price_data' => [
-                    'currency' => 'mad',
+                    'currency' => 'usd',
                     'product_data' => [
                         'name' => 'Room Reservation',
                     ],
-                    'unit_amount' => $sessionData['price'] * 1000,
+                    'unit_amount' => $sessionData['price'] * 100,
                 ],
                 'quantity' => 1,
             ]],
@@ -63,7 +62,7 @@ class PaymentController extends Controller
             $reservation->save();
 
             $payment = new Payment;
-            $payment->totalAmount = $session->amount_total / 10;
+            $payment->totalAmount = $session->amount_total / 100;
             $payment->amountPaid = $payment->totalAmount;
             $payment->reservation_id = $reservation->id;
             $payment->statut = $session->payment_status == 'paid' ? 'Complete' : $session->payment_status;
@@ -72,7 +71,7 @@ class PaymentController extends Controller
             $paymentMethode = new PaymentMethode;
             $paymentMethode->type = 'credit card';
             $paymentMethode->payment_id = $payment->id;
-            $paymentMethode->save();           
+            $paymentMethode->save();
 
             // Retrieve the room and update its status
             $room = Room::find(session('room_id'));
@@ -85,14 +84,6 @@ class PaymentController extends Controller
     function booking_payment_fail(Request $request)
     {
         return view('booking.failure');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**

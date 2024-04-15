@@ -30,6 +30,12 @@ class Room extends Model implements HasMedia
         'cleaning' => 'cleaning',
     ];
 
+    public const ROOM_STATUT_RADIO = [
+        'Booked' => 'Booked',
+        'Available' => 'Available',
+        'Out of service' => 'Out of service',
+    ];
+
     public const PRIORITY_RADIO = [
         'low' => 'Low',
         'high' => 'High',
@@ -39,9 +45,19 @@ class Room extends Model implements HasMedia
     {
         return self::STATUT_RADIO[$this->statut];
     }
-    public function isAvailable($children, $adults)
+
+    public function getRoomStatut()
     {
-        return $this->room_statut === 'Available' && $this->capacity >= ($children + $adults);
+        return self::ROOM_STATUT_RADIO[$this->statut];
+    }
+
+    public function isAvailable($totalChildren, $totalAdults, $checkIn, $checkOut)
+    {
+        return $this->capacity >= $totalChildren + $totalAdults &&
+            !$this->reservations()->where(function ($query) use ($checkIn, $checkOut) {
+                $query->whereDate('checkIn', '<', $checkOut)
+                    ->whereDate('checkOut', '>', $checkIn);
+            })->exists();
     }
 
     public function getPriority()

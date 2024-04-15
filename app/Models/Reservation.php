@@ -21,6 +21,21 @@ class Reservation extends Model
         'ref'
     ];
 
+    public const STATUT_RADIO = [
+        'Pending' => 'Pending',
+        'Confirmed' => 'Confirmed',
+        'Rejected' => 'Rejected',
+        'Checked In' => 'Checked In',
+        'Due Out' => 'Due Out',
+        'Due In' => 'Due In',
+        'Checked Out' => 'Checked Out',
+    ];
+
+    public function getStatut()
+    {
+        return self::STATUT_RADIO[$this->statut];
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

@@ -39,7 +39,6 @@ class AuthController extends Controller
 
     public function loginAction(StoreLoginRequest $request)
     {
-
         if (!Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed')
@@ -49,8 +48,6 @@ class AuthController extends Controller
         $request->session()->regenerate();
 
         $user = Auth::user();
-
-        // $userId = Auth::user()->id;
 
         // Check the user's role and redirect based on the role
         if ($user && $user->hasRole('Admin')) {

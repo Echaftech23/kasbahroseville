@@ -355,8 +355,9 @@
 
                             <div class="form-group">
 
-                                <button class="w-full {{ $room->room_statut == 'Booked' ? 'booked-btn' : 'hero-btn' }}" {{ $room->room_statut == 'Booked' ? 'disabled' : '' }}>
-                                    {{ $room->room_statut == 'Booked' ? 'Booked' : 'Reserve' }}
+                                <button class="w-full {{ $room->room_statut == 'Out of service' ? 'booked-btn' : 'hero-btn' }}" {{ $room->room_statut == 'Out of service' ? 'disabled' : '' }}>
+                                    {{ $room->room_statut == 'Out of service' ? 'Out of service' : 'Reserve' }}
+
                                 </button>
                             </div>
                         </form>

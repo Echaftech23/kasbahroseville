@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\TypeController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Guest\PaymentController;
 use App\Http\Controllers\Guest\ReservationController;
+use App\Http\Controllers\Admin\ReservationController as AdminReservationController ;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,20 +22,38 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Authentication Routes :
-Route::controller(AuthController::class)->group(function () {
-    Route::get('register', 'register')->name('register');
-    Route::post('register', 'registerSave')->name('register.save');
+Route::middleware(['guest'])->group(function () {
+    Route::get('login', [AuthController::class, 'login'])->name('login');
+    Route::post('login', [AuthController::class, 'loginAction'])->name('login.action');
 
-    Route::get('login', 'login')->name('login');
-    Route::post('guest/login', 'loginAction')->name('login.action');
-
-    Route::get('logout', 'logout')->middleware('auth')->name('logout');
+    Route::get('register', [AuthController::class, 'register'])->name('register');
+    Route::post('register', [AuthController::class, 'registerSave'])->name('register.save');
 });
 
-Route::get('dashboard', function () {
-    return view('admin.index');
-})->name('dashboard');
+
+// Admin Routes :
+Route::middleware(['auth', 'isAdmin'])->group(function () {
+    Route::get('dashboard', function () {
+        return view('admin.index');
+    })->name('dashboard');
+
+    Route::resource('rooms', RoomController::class);
+    Route::post('rooms/search', [RoomController::class, 'search'])->name('rooms.search');
+    Route::post('rooms/filter', [RoomController::class, 'filter'])->name('rooms.filter');
+
+    Route::resource('types', TypeController::class)->except('show');
+    Route::post('types/search', [TypeController::class, 'search'])->name('types.search');
+
+    Route::resource('facilities', FacilityController::class)->except('show');
+    Route::post('facilities/search', [FacilityController::class, 'search'])->name('facilities.search');
+    
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::resource('reservations', AdminReservationController::class);
+    });
+
+});
+
+
 
 //Home routes
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -44,33 +63,19 @@ Route::resource('home/rooms', GuestRoomController::class)->only('index', 'show')
 ]);
 
 Route::post('/home/search', [HomeController::class, 'search'])->name('search');
-// Payment :
-Route::get('/home/payments/invoices/{payment}', [PaymentController::class, 'show'])->name('invoiceDetails');
-
-Route::get('admin', function () {
-    return view('admin.index');
-});
-
-
-Route::resource('rooms', RoomController::class);
-
-
-
-Route::post('rooms/search', [RoomController::class, 'search'])->name('rooms.search');
-Route::post('rooms/filter', [RoomController::class, 'filter'])->name('rooms.filter');
-
-Route::resource('facilities', FacilityController::class)->except('show');
-Route::post('facilities', [FacilityController::class, 'search'])->name('facilities.search');
-
-Route::resource('types', TypeController::class)->except('show');
-Route::post('types', [TypeController::class, 'search'])->name('types.search');
-
 
 // Stripe : Payment Gateway
-Route::post('/checkout', [PaymentController::class, 'checkout'])->name('checkout');
-Route::get('/success', [PaymentController::class, 'success'])->name('success');
-Route::get('/home/reservations', [ReservationController::class, 'index'])->name('user.reservations');
+Route::middleware('auth')->group(function () {
+    Route::post('/checkout', [PaymentController::class, 'checkout'])->name('checkout');
+    Route::get('/success', [PaymentController::class, 'success'])->name('success');
+    Route::get('/home/reservations', [ReservationController::class, 'index'])->name('user.reservations');
 
-// Reservation :
-Route::post('rooms', [ReservationController::class, 'available_rooms'])->name('rooms.availability');
-Route::resource('reservations', ReservationController::class);
+    // Reservation :
+    Route::post('rooms', [ReservationController::class, 'available_rooms'])->name('rooms.availability');
+    Route::resource('reservations', ReservationController::class);
+
+    // Payment :
+    Route::get('/home/payments/invoices/{payment}', [PaymentController::class, 'show'])->name('invoiceDetails');
+
+    Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
+});

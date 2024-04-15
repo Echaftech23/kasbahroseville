@@ -28,21 +28,21 @@ class TypeController extends Controller
     public function store(StoreTypeRequest $request)
     {
         Type::create($request->validated());
-        return redirect()->back()->with('message', 'Type created successfully');
+        return redirect()->back()->with('success', 'Type created successfully');
     }
 
     public function update(UpdateTypeRequest $request, Type $type)
     {
         abort_if(!$type, 404, 'Type not found.');
         $type->update($request->validated());
-        return redirect()->back()->with('message', 'Type updated successfully');
+        return redirect()->back()->with('success', 'Type updated successfully');
     }
 
     public function destroy(Type $type)
     {
         abort_if(!$type, 404, 'Type not found.');
         $type->delete();
-        return redirect()->back()->with('message', 'Type deleted successfully');
+        return redirect()->back()->with('success', 'Type deleted successfully');
     }
 
     public function search(Request $request)

@@ -11,7 +11,7 @@ class UpdateReservationRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,23 @@ class UpdateReservationRequest extends FormRequest
      */
     public function rules(): array
     {
+        $reservation = $this->route('reservation');
+        if ($reservation->ref === 'guest') {
+            return[
+                'statut' => ['required', 'in:Pending,Confirmed,Rejected, "Checked In", "Checked Out", "Due In", "Due Out"'],
+            ];
+        }
         return [
-            //
+
+            'name' => 'required|max:255',
+            'email' => 'required|email',
+            'room_id' => 'required|exists:rooms,id',
+            'checkIn' => 'required|date',
+            'checkOut' => 'required|date|after:checkIn',
+            'total_adults' => 'required|integer|min:1',
+            'total_children' => 'required|integer|min:0',
+            'statut' => ['required', 'in:Pending,Confirmed,Rejected, "Checked In", "Checked Out", "Due In", "Due Out"'],
+            'room_statut' => ['required', 'in:"Available", "Booked"']
         ];
     }
 }
