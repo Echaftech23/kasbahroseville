@@ -729,7 +729,7 @@
                                                                                         class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                                                                                         <form
                                                                                             class="flex items-center justify-center w-full pb-3"
-                                                                                            action="{{ route('admin.reservations.destroy', $reservations) }}"
+                                                                                            action="{{ route('admin.reservations.destroy', $reservation) }}"
                                                                                             method="POST">
                                                                                             @csrf
                                                                                             @method('DELETE')

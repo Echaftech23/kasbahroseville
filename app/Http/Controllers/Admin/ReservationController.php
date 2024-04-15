@@ -180,11 +180,21 @@ class ReservationController extends Controller
         return response()->json(['reservations' => $reservationData,'links' => $links,]);
     }
 
+
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Reservation $reservation)
     {
-        //
+        try {
+            abort_if(!$reservation, 404, 'Room not found.');
+
+            $reservation->delete();
+
+            return redirect()->route('admin.reservations.index')->with('success', 'Reservation deleted successfully.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Something went wrong! Please try again.');
+        }
     }
 }
