@@ -121,6 +121,14 @@ class ReservationController extends Controller
                 $reservation->user_id = $user->id;
 
                 $reservation->update(array_merge($request->validated(), ['user_id' => $user->id]));
+                
+                Payment::where('reservation_id', $reservation->id)
+                    ->update([
+                        'totalAmount' => $request->totalAmount,
+                        'amountPaid' => $request->amountPaid,
+                        'reservation_id' => $reservation->id,
+                    ]);
+
                 $room->update(['room_statut' => $request->room_statut]);
 
                 return redirect()->route('admin.reservations.index')->with('success', 'Reservation updated successfully!');

@@ -124,10 +124,11 @@
                     <div>
                         <label class="block text-sm font-semibold text-[#344357]">Room Name</label>
                         <div class="relative mt-1.5">
-                            <select name="room_id"
+                            <select name="room_id" onchange="updateTotalAmount(this.value)"
                                 class="outline-none text-[13px] appearance-none w-full rounded-[6px] rounded-t-0 border border-slate-300 bg-white px-3 py-2 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:bg-navy-700 dark:hover:border-navy-400 dark:focus:border-accent">
                                 @foreach ($rooms as $room)
-                                    <option value="{{ $room->id }}" {{ $reservation->room->id == $room->id ? 'selected' : '' }}>
+                                    <option value="{{ $room->id }}" data-price="{{ $room->price }}"
+                                        {{ old('room_id') == $room->id ? 'selected' : '' }}>
                                         {{ $room->name }}</option>
                                 @endforeach
                             </select>
@@ -265,6 +266,27 @@
                         <label class="block text-sm font-semibold text-[#344357]">Refference</label>
                         <input type="text" name="ref" value="{{ $reservation->ref }}" disabled
                             class="w-full mt-1.5 text-[13px] outline-none rounded-[6px] border border-slate-300  bg-gray-100 px-3 py-2 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:bg-navy-700 dark:hover:border-navy-400 dark:focus:border-accent" />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-[#344357]">Total Amount</label>
+                        <input type="number" class="hidden" name="totalAmount" id="totalAmount" value="{{ $room->first()->price }}"/>
+                        <input type="number" name="totalAmount" disabled value="{{ $room->first()->price }}"
+                            placeholder="Enter Name"
+                            class="w-full mt-1.5 text-[13px] outline-none rounded-[6px] border border-slate-300 bg-white px-3 py-2 hover:border-slate-400 @error('name') border-red-500 @enderror" />
+                        @error('totalAmount')
+                            <span class="text-xs mt-1 text-red-500">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-[#344357]">Amount Paid</label>
+                        <input type="number" name="amountPaid" value="{{ old('amountPaid') }}"
+                            placeholder="Enter Amount Paid"
+                            class="w-full mt-1.5 text-[13px] outline-none rounded-[6px] border border-slate-300 bg-white px-3 py-2 hover:border-slate-400 @error('amountPaid') border-red-500 @enderror" />
+                        @error('amountPaid')
+                            <span class="text-xs mt-1 text-red-500">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="w-260 w-320 sm:col-span-2 lg:col-span-3">
