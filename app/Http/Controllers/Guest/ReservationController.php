@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class ReservationController extends Controller
 {
@@ -31,28 +32,32 @@ class ReservationController extends Controller
 
     public function store(StoreReservationRequest $request)
     {
-        $this->authorize('create', Reservation::class);
+        try {
+            $this->authorize('create', Reservation::class);
 
-        $room = Room::find($request->room_id);
+            $room = Room::find($request->room_id);
 
-        if ($room && $room->isAvailable($request->total_children, $request->total_adults, $request->checkIn, $request->checkOut)) {
+            if ($room && $room->isAvailable($request->total_children, $request->total_adults, $request->checkIn, $request->checkOut)) {
 
-            $sessionData = [
-                'user_id' => Auth::id(),
-                'room_id' => $request->room_id,
-                'checkIn' => $request->checkIn,
-                'checkOut' => $request->checkOut,
-                'adults' => $request->total_adults,
-                'children' => $request->total_children,
-                'price' => $request->price,
-                'total_amount' => $request->price,
-                'ref' => $request->ref
-            ];
+                $sessionData = [
+                    'user_id' => Auth::id(),
+                    'room_id' => $request->room_id,
+                    'checkIn' => $request->checkIn,
+                    'checkOut' => $request->checkOut,
+                    'adults' => $request->total_adults,
+                    'children' => $request->total_children,
+                    'price' => $request->price,
+                    'total_amount' => $request->price,
+                    'ref' => $request->ref
+                ];
 
-            return app(PaymentController::class)->checkout($sessionData);
-        }
-        else{
-            return back()->with('error', 'Room is not available');
+                return app(PaymentController::class)->checkout($sessionData);
+            }
+            else{
+                return back()->with('error', 'Room is not available');
+            }
+        } catch (AuthorizationException $e) {
+            return redirect()->back()->with('error', 'You have already created 2 reservations. Please wait for admin acceptance.');
         }
     }
 

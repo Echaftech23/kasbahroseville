@@ -121,7 +121,7 @@
                             </h3>
                             <div class="text-[#8094ae]">
                                 <p class="text-sm pt-1">
-                                    Welcome to DashLite Dashboard Template.
+                                    Welcome to Roseville Dashboard Template.
                                 </p>
                             </div>
                         </div>

@@ -140,8 +140,8 @@
             <span class="mx-3">Guests</span>
         </a>
 
-        <a class="{{ Request::routeIs('admin.payment.index') || Request::routeIs('admin.payment.create') || Request::routeIs('admin.reservations.edit') ? 'text-white bg-gray-700 bg-opacity-25' : 'text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100' }} flex items-center px-6 py-2 mt-4"
-            href="{{ route('dashboard') }}">
+        <a class="{{ Request::routeIs('payments.index') || Request::routeIs('payments.create') || Request::routeIs('payments.edit') ? 'text-white bg-gray-700 bg-opacity-25' : 'text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100' }} flex items-center px-6 py-2 mt-4"
+            href="{{ route('payments.index') }}">
             <svg width="25" height="25" viewBox="0 0 25 25" fill="none" class="{{ Request::routeIs('reports.index') || Request::routeIs('reports.create') || Request::routeIs('reports.edit') ? 'fill-pink-600' : 'fill-gray-500'}}" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_15_1362)">
                     <path

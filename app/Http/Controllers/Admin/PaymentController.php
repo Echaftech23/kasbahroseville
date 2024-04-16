@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Payment;
 use App\Http\Requests\StorePaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
@@ -13,7 +14,9 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        //
+        $payments = Payment::latest()->paginate(10);
+
+        return view('admin.payments.index', compact('payments'));
     }
 
     /**

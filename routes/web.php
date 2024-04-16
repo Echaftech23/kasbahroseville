@@ -6,6 +6,7 @@ use App\Http\Controllers\Guest\RoomController as GuestRoomController;
 use App\Http\Controllers\Admin\TypeController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Guest\PaymentController;
+use App\Http\Controllers\Admin\PaymentController as AdminPaymentController;
 use App\Http\Controllers\Guest\ReservationController;
 use App\Http\Controllers\Admin\ReservationController as AdminReservationController ;
 use App\Http\Controllers\HomeController;
@@ -42,6 +43,11 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::post('rooms/filter', [RoomController::class, 'filter'])->name('rooms.filter');
     Route::post('reservations/search', [AdminReservationController::class, 'search'])->name('reservations.search');
     Route::post('reservations/filter', [AdminReservationController::class, 'filter'])->name('reservations.filter');
+
+    
+    Route::resource('payments', AdminPaymentController::class);
+
+    Route::resource('users', GuestRoomController::class);
 
     Route::resource('types', TypeController::class)->except('show');
     Route::post('types/search', [TypeController::class, 'search'])->name('types.search');
