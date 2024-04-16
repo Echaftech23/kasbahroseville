@@ -120,7 +120,7 @@
                                 Invoices List
                             </h3>
                             <div class="text-[#8094ae]">
-                                <p class="text-sm pt-1">You have total 937 invoices.</p>
+                                <p class="text-sm pt-1">You have total {{ $totalInvoices }} invoices.</p>
                             </div>
                         </div>
 
@@ -305,8 +305,9 @@
                                         <div class="flex items-center">
                                             <button data-url="{{ route('invoice.download', $payment) }}"
                                                 class="print-button btn size-6 rounded-full flex justify-center outline-none mr-2 items-center hover:bg-[#6576FF]  dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25 sm:h-9 sm:w-9">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="hover:fill-white size-5" fill="none"
-                                                    viewBox="0 0 24 24" stroke="#6576FF" stroke-width="1.5">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="hover:fill-white size-5"
+                                                    fill="none" viewBox="0 0 24 24" stroke="#6576FF"
+                                                    stroke-width="1.5">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                                                 </svg>
@@ -318,10 +319,107 @@
                                                 <span>View</span>
                                             </a>
 
-                                            <a href="{{ route('payments.edit', $payment->id) }}"
-                                                class="badge mr-2 text-white space-x-2 p-2 px-3 text-[13px] rounded-sm font-semibold flex items-center focus:bg-[#6576FF] hover:bg-[#6576FF] hover:text-white focus:text-white bg-blue-600 dark:bg-navy-500 dark:text-navy-100">
-                                                <span>Edit</span>
-                                            </a>
+
+                                            <div x-data="{
+                                                open: false,
+                                                name: '',
+                                                nameError: false,
+                                                submitForm: function() {
+                                                    if (this.name) {
+                                                        let form = document.querySelector('#payment-form-' + {{ $payment->id }});
+                                                        form.submit();
+                                                    }
+                                                }
+                                            }">
+                                                <!-- Button trigger modal -->
+                                                <a @click="open = true, name = '{{ $payment->amountPaid }}'"
+                                                    class="badge mr-2 text-white space-x-2 p-2 px-3 text-[13px] rounded-sm font-semibold flex items-center focus:bg-[#6576FF] hover:bg-[#6576FF] hover:text-white focus:text-white bg-blue-600 dark:bg-navy-500 dark:text-navy-100">
+                                                    <span>Edit</span>
+                                                </a>
+
+                                                <!-- Modal -->
+                                                <div x-show="open"
+                                                    class="fixed z-50 inset-0 flex items-center justify-center"
+                                                    aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                                                    <div class="fixed w-full h-full  top-0 left-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                                                        aria-hidden="true"></div>
+
+                                                    <!-- Modal content -->
+                                                    <div
+                                                        class="bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:max-w-sm sm:w-full">
+                                                        <div class="pb-4 sm:py-6 sm:pb-4">
+                                                            <div class="flex items-center justify-between px-6">
+                                                                <h3 class="text-lg leading-6 font-medium text-gray-900"
+                                                                    id="modal-title">
+                                                                    Edit Payment
+                                                                </h3>
+                                                                <button type="button" @click="open = false"
+                                                                    class=" text-gray-400 bg-transparent  hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                                                                    <svg class="w-3 h-3" aria-hidden="true"
+                                                                        xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                        viewBox="0 0 14 14">
+                                                                        <path stroke="currentColor" stroke-linecap="round"
+                                                                            stroke-linejoin="round" stroke-width="2"
+                                                                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                                                    </svg>
+                                                                </button>
+                                                            </div>
+                                                            <div class="mt-2">
+                                                                <form enctype="multipart/form-data"
+                                                                    id="payment-form-{{ $payment->id }}"
+                                                                    @submit.prevent="submitForm"
+                                                                    action="{{ route('payments.update', $payment) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('PUT')
+                                                                    <div class="border-t px-6 py-4">
+                                                                        <div class="">
+
+                                                                            <input type="hidden" name="reservation_id" value="{{$payment->reservation_id}}">
+                                                                            <label for="amountPaid-{{ $payment->id }}"
+                                                                                class="block text-sm font-medium text-gray-700">
+                                                                                Name
+                                                                            </label>
+                                                                            <input type="text"
+                                                                                id="amountPaid-{{ $payment->id }}"
+                                                                                name="amountPaid" x-model="name"
+                                                                                placeholder="payment Name"
+                                                                                class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+                                                                            <label for="amountPaid-{{ $payment->id }}"
+                                                                                class="block text-sm mt-3 font-medium text-gray-700">
+                                                                                Statut
+                                                                            </label>
+
+                                                                            <select name="statut"
+                                                                                class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                                                @foreach (App\Models\Payment::STATUT_RADIO as $status)
+                                                                                    <option value="{{ $status }}"
+                                                                                        {{ $payment->statut == $status ? 'selected' : '' }}>
+                                                                                        {{ $status }}
+                                                                                    </option>
+                                                                                @endforeach
+                                                                            </select>
+
+                                                                        </div>
+
+                                                                        <div class="mt-5  sm:mt-6">
+                                                                            <button type="submit"
+                                                                                class="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
+                                                                                Save
+                                                                            </button>
+                                                                            <button type="button" @click="open = false"
+                                                                                class="mt-3 inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                                                                                Close
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>

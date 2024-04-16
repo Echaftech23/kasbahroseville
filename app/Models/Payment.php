@@ -16,6 +16,16 @@ class Payment extends Model
         'statut'
     ];
 
+    public const STATUT_RADIO = [
+        'Pending' => 'Pending',
+        'Complete' => 'Complete',
+    ];
+
+    public function getStatut()
+    {
+        return self::STATUT_RADIO[$this->statut];
+    }
+
     public function reservation()
     {
         return $this->belongsTo(Reservation::class);

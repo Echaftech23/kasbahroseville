@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
-use App\Http\Requests\StorePaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
 use App\Models\Room;
 
@@ -15,25 +14,11 @@ class PaymentController extends Controller
      */
     public function index()
     {
+
         $payments = Payment::latest()->paginate(10);
+        $totalInvoices = Payment::count();
 
-        return view('admin.payments.index', compact('payments'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StorePaymentRequest $request)
-    {
-        //
+        return view('admin.payments.index', compact('payments', 'totalInvoices'));
     }
 
     /**
@@ -41,22 +26,17 @@ class PaymentController extends Controller
      */
     public function show(Payment $payment)
     {
-        // $rooms = Payment::with('type', 'facilities')->latest()->paginate(6);
         return view('admin.payments.show', compact( 'payment'));
     }
 
     public function download(Payment $payment)
     {
-        $rooms = Room::with('type', 'facilities')->latest()->paginate(6);
-        return view('guest.invoice-data', compact('rooms', 'payment'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Payment $payment)
-    {
-        //
+        try {
+            $rooms = Room::with('type', 'facilities')->latest()->paginate(6);
+            return view('guest.invoice-data', compact('rooms', 'payment'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('warning', 'Something went wrong!');
+        }
     }
 
     /**
@@ -64,14 +44,11 @@ class PaymentController extends Controller
      */
     public function update(UpdatePaymentRequest $request, Payment $payment)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Payment $payment)
-    {
-        //
+        try {
+            $payment->update($request->validated());
+            return redirect()->back()->with('success', 'Payment updated successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('warning', 'Something went wrong!');
+        }
     }
 }
