@@ -44,8 +44,8 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::post('reservations/search', [AdminReservationController::class, 'search'])->name('reservations.search');
     Route::post('reservations/filter', [AdminReservationController::class, 'filter'])->name('reservations.filter');
 
-    
     Route::resource('payments', AdminPaymentController::class);
+    Route::get('/admin/payments/invoices/{payment}', [AdminPaymentController::class, 'download'])->name('invoice.download');
 
     Route::resource('users', GuestRoomController::class);
 

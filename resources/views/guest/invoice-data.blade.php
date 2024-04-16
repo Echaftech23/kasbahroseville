@@ -111,7 +111,7 @@
         <div class="flex flex-col justify-end sm:flex-row">
             <div class="mt-4 text-center sm:m-0 sm:text-right">
                 <p class="text-lg font-semibold text-pink-600">
-                    Total: <span class="font-medium">${{ $payment->totalAmount / 100 }}</span>
+                    Grand Total: <span class="font-medium">${{ $payment->totalAmount }}</span>
                 </p>
             </div>
         </div>

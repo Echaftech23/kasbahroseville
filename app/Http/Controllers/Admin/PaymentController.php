@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Payment;
 use App\Http\Requests\StorePaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
+use App\Models\Room;
 
 class PaymentController extends Controller
 {
@@ -40,7 +41,14 @@ class PaymentController extends Controller
      */
     public function show(Payment $payment)
     {
-        //
+        // $rooms = Payment::with('type', 'facilities')->latest()->paginate(6);
+        return view('admin.payments.show', compact( 'payment'));
+    }
+
+    public function download(Payment $payment)
+    {
+        $rooms = Room::with('type', 'facilities')->latest()->paginate(6);
+        return view('guest.invoice-data', compact('rooms', 'payment'));
     }
 
     /**
