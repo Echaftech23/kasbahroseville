@@ -379,39 +379,22 @@
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody x-data="{ expanded: false }">
-                                                                            @foreach ($rooms as $room)
+                                                                            @foreach ($room->reservations as $reservation)
                                                                                 <tr class="border-y">
                                                                                     <td
                                                                                         class="whitespace-nowrap px-4 py-3 sm:px-5">
-                                                                                        {{ $room->id }}</td>
+                                                                                        {{ $reservation->id }}</td>
                                                                                     <td
                                                                                         class="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5">
-                                                                                        {{ $room->name }}
+                                                                                        {{ $reservation->payment->created_at->format('d M Y') }}
                                                                                     </td>
                                                                                     <td
                                                                                         class="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5">
-                                                                                        {{ $room->type->type }}
+                                                                                        {{ $reservation->payment->statut }}
                                                                                     </td>
                                                                                     <td
                                                                                         class="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5">
-                                                                                        {{ $from->format('d M Y') }}
-                                                                                    </td>
-                                                                                </tr>
-                                                                                 <tr class="border-y">
-                                                                                    <td
-                                                                                        class="whitespace-nowrap px-4 py-3 sm:px-5">
-                                                                                        {{ $room->id }}</td>
-                                                                                    <td
-                                                                                        class="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5">
-                                                                                        {{ $room->name }}
-                                                                                    </td>
-                                                                                    <td
-                                                                                        class="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5">
-                                                                                        {{ $room->type->type }}
-                                                                                    </td>
-                                                                                    <td
-                                                                                        class="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5">
-                                                                                        {{ $from->format('d M Y') }}
+                                                                                        {{ $reservation->payment->amountPaid }}
                                                                                     </td>
                                                                                 </tr>
                                                                             @endforeach
