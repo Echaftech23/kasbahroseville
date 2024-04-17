@@ -60,6 +60,11 @@ class Room extends Model implements HasMedia
             })->exists();
     }
 
+    public function getTotalAmountAttribute()
+    {
+        return $this->reservations->sum('payment.amountPaid');
+    }
+
     public function getPriority()
     {
         return self::PRIORITY_RADIO[$this->priority];

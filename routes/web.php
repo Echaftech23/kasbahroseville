@@ -11,6 +11,7 @@ use App\Http\Controllers\Guest\ReservationController;
 use App\Http\Controllers\Admin\ReservationController as AdminReservationController ;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +48,12 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::resource('payments', AdminPaymentController::class);
     Route::get('/admin/payments/invoices/{payment}', [AdminPaymentController::class, 'download'])->name('invoice.download');
 
+
+    Route::get('/booking/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::post('reports/search', [ReportController::class, 'search'])->name('reports.search');
+    Route::post('reports/filter', [ReportController::class, 'filter'])->name('reports.filter');
+    
+
     Route::resource('users', GuestRoomController::class);
 
     Route::resource('types', TypeController::class)->except('show');
@@ -79,7 +86,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/home/reservations', [ReservationController::class, 'index'])->name('user.reservations');
 
     // Reservation :
-    Route::post('rooms', [ReservationController::class, 'available_rooms'])->name('rooms.availability');
+    Route::post('/home/rooms', [ReservationController::class, 'available_rooms'])->name('rooms.availability');
     Route::resource('reservations', ReservationController::class);
 
     // Payment :
