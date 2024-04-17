@@ -156,17 +156,16 @@
                                     </button>
                                 </div>
 
-                                <div class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                <div @click.away="open = false" class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                     role="menu" aria-orientation="vertical" aria-labelledby="menu-button"
                                     tabindex="-1" x-show="open">
-                                    <div class="py-1" role="none">
-                                        <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem"
-                                            tabindex="-1" id="menu-item-0">Last 30 Days</a>
-                                        <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem"
-                                            tabindex="-1" id="menu-item-1">Last 6 Months</a>
-                                        <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem"
-                                            tabindex="-1" id="menu-item-2">Last Year</a>
-                                    </div>
+                                    <form action="{{ route('reports.filter') }}" method="POST">
+                                        @csrf
+                                        <button type="submit" name="from" value="7" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">Last 7 Days</button>
+                                        <button type="submit" name="from" value="30" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">Last 30 Days</button>
+                                        <button type="submit" name="from" value="180" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">Last 6 Months</button>
+                                        <button type="submit" name="from" value="365" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">Last Year</button>
+                                    </form>
                                 </div>
                             </div>
 
@@ -379,7 +378,7 @@
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody x-data="{ expanded: false }">
-                                                                            @foreach ($room->reservations as $reservation)
+                                                                            @forelse ($room->reservations as $reservation)
                                                                                 <tr class="border-y">
                                                                                     <td
                                                                                         class="whitespace-nowrap px-4 py-3 sm:px-5">
@@ -397,7 +396,13 @@
                                                                                         {{ $reservation->payment->amountPaid }}
                                                                                     </td>
                                                                                 </tr>
-                                                                            @endforeach
+                                                                            @empty
+                                                                                <tr>
+                                                                                    <td colspan="4"
+                                                                                        class="text-center text-gray-400 py-4">No
+                                                                                        Payment found</td>
+                                                                                </tr>
+                                                                            @endforelse
                                                                         </tbody>
                                                                     </table>
                                                                 </div>

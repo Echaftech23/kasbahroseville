@@ -51,8 +51,8 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
 
     Route::get('/booking/reports', [ReportController::class, 'index'])->name('reports.index');
     Route::post('reports/search', [ReportController::class, 'search'])->name('reports.search');
-    Route::post('reports/filter', [ReportController::class, 'filter'])->name('reports.filter');
-    
+    Route::post('/reports/filter', [ReportController::class, 'filter'])->name('reports.filter');
+
 
     Route::resource('users', GuestRoomController::class);
 
