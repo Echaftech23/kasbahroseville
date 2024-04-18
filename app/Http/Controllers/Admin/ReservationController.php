@@ -30,6 +30,7 @@ class ReservationController extends Controller
         $events = [];
 
         $reservations = Reservation::with(['user', 'room'])->get();
+        $reservationsCount = Reservation::count();
 
         foreach ($reservations as $reservation) {
             $events[] = [
@@ -39,7 +40,7 @@ class ReservationController extends Controller
             ];
         }
 
-        return view('admin.events', compact('events'));        
+        return view('admin.events', compact('events', 'reservationsCount'));        
     }
 
     /**
