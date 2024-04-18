@@ -114,14 +114,28 @@
         <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid/main.css" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid/main.css" rel="stylesheet" />
         <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
-        <script> 
+        <script>
             document.addEventListener('DOMContentLoaded', function () {
                 var calendarEl = document.getElementById('calendar');
+        
+                var events = @json($events).map(function(event) {
+                    var checkoutDate = new Date(event.end);
+                    var now = new Date();
+        
+                    event.backgroundColor = checkoutDate < now ? 'orange' : '';
+                    event.borderColor = checkoutDate < now ? 'orange' : '';
+                    return event;
+                });
+
+                calendarEl.style.width = '100%';
+                calendarEl.style.height = '100px';
+        
                 var calendar = new FullCalendar.Calendar(calendarEl, {
                     initialView: 'dayGridMonth',
                     themeSystem: 'tailwind',
-                    events: @json($events),
+                    events: events,
                 });
+        
                 calendar.render();
             });
         </script>
@@ -193,7 +207,7 @@
 
                         <div class="absolute right-0 z-10 mt-2 w-[135px] origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
-                            x-show="open">
+                            x-show="open" x-cloak style="display: none;">
                             <form action="{{ route('reservations.filter') }}" method="POST">
                                 @csrf
                                 <button type="submit" name="period" value="24_hours"
@@ -226,7 +240,7 @@
 
                         <div class="absolute right-0 z-10 mt-2 w-[130px] origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
-                            x-show="open">
+                            x-show="open" x-cloak style="display: none;">
                             <div class="py-1" role="none">
                                 <form action="{{ route('reservations.filter') }}" method="POST">
                                     @csrf
@@ -273,7 +287,7 @@
 
                         <div class="absolute right-0 z-10 mt-2 w-24 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
-                            x-show="open">
+                            x-show="open" x-cloak style="display: none;">
                             <div class="py-1" role="none">
                                 <form action="{{ route('reservations.filter') }}" method="POST">
                                     @csrf
@@ -322,7 +336,7 @@
 
                             <div class="absolute right-0 z-10 mt-2 w-[320px] origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                 role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
-                                x-show="open">
+                                x-show="open" x-cloak style="display: none;">
                                 <div class="py-1" role="none">
                                     <div class="filter-header p-3 px-4 bcg-red-500 flex items-center justify-between">
                                         <h3 class="text-[13px] font-semibold text-[#364a63]">Filter Rooms</h3>
@@ -538,7 +552,7 @@
 
                             <div class="absolute right-0 z-10 mt-2 w-24 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                 role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
-                                x-show="open">
+                                x-show="open" x-cloak style="display: none;">
                                 <div class="py-1" role="none">
                                     <a href="#" class="text-gray-700 block px-4 py-2 text-[13px]" role="menuitem"
                                         tabindex="-1" id="menu-item-0">Due</a>

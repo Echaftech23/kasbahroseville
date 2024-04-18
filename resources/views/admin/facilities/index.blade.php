@@ -3,41 +3,41 @@
 
 {{-- Success Alert --}}
 @if (Session::has('success'))
-<div id="dismiss-alert" x-data="{ show: true }" x-show="show" x-transition:leave="transition ease-in duration-2000"
-    x-transition:leave-start="opacity-100 translate-x-0" x-transition:leave-end="opacity-0 -translate-x-full"
-    x-init="setTimeout(() => show = false, 4000)" class="fixed left-0 top-[24%] m-6 max-w-md rounded-lg p-4"
-    style="z-index: 9999; background-color: #E42C76; color: #fff; border-color: #E42C76;" role="alert">
-    <div class="flex">
-        <div class="flex-shrink-0">
-            <svg class="flex-shrink-0 size-4 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round">
-                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-                <path d="m9 12 2 2 4-4"></path>
-            </svg>
-        </div>
-        <div class="ms-2">
-            <div class="text-sm font-medium">
-                {{ session('success') }}
+    <div id="dismiss-alert" x-data="{ show: true }" x-show="show" x-transition:leave="transition ease-in duration-2000"
+        x-transition:leave-start="opacity-100 translate-x-0" x-transition:leave-end="opacity-0 -translate-x-full"
+        x-init="setTimeout(() => show = false, 4000)" class="fixed left-0 top-[24%] m-6 max-w-md rounded-lg p-4"
+        style="z-index: 9999; background-color: #E42C76; color: #fff; border-color: #E42C76;" role="alert">
+        <div class="flex">
+            <div class="flex-shrink-0">
+                <svg class="flex-shrink-0 size-4 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="24"
+                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+                    <path d="m9 12 2 2 4-4"></path>
+                </svg>
             </div>
-        </div>
-        <div class="ps-3 ms-auto">
-            <div class="-mx-1.5 -my-1.5">
-                <button type="button"
-                    class="inline-flex rounded-lg p-1.5 hover:bg-[#E42C76] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#E42C76] focus:ring-[#E42C76]"
-                    style="background-color: #E42C76; color: #fff;" @click="show = !open">
-                    <span class="sr-only">Dismiss</span>
-                    <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M18 6 6 18"></path>
-                        <path d="m6 6 12 12"></path>
-                    </svg>
-                </button>
+            <div class="ms-2">
+                <div class="text-sm font-medium">
+                    {{ session('success') }}
+                </div>
+            </div>
+            <div class="ps-3 ms-auto">
+                <div class="-mx-1.5 -my-1.5">
+                    <button type="button"
+                        class="inline-flex rounded-lg p-1.5 hover:bg-[#E42C76] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#E42C76] focus:ring-[#E42C76]"
+                        style="background-color: #E42C76; color: #fff;" @click="show = !open">
+                        <span class="sr-only">Dismiss</span>
+                        <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 @endif
 
 {{-- Warning Alert --}}
@@ -354,7 +354,7 @@
 
                             <div class="absolute right-0 z-10 mt-2 w-[130px] origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                 role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
-                                x-show="open">
+                                x-show="open" x-cloak style="display: none;">
                                 <div class="py-1" role="none">
                                     <a href="#" class="text-gray-700 block px-4 py-2 text-[13px]" role="menuitem"
                                         tabindex="-1" id="menu-item-0">confirmed</a>
@@ -429,8 +429,8 @@
 
                                                     <!-- Modal -->
                                                     <div x-show="open"
-                                                        class="fixed z-30 inset-0 flex items-center justify-center"
-                                                        aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                                                        class="fixed z-50 inset-0 flex items-center justify-center"
+                                                        aria-labelledby="modal-title" role="dialog" aria-modal="true" x-cloak style="display: none;">
                                                         <div class="fixed w-full h-full  top-0 left-0 bg-gray-500 bg-opacity-75 transition-opacity"
                                                             aria-hidden="true"></div>
 
@@ -526,8 +526,9 @@
 
                                                     <!-- Modal -->
                                                     <div x-show="open"
-                                                        class="fixed z-30 inset-0 flex items-center justify-center"
-                                                        aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                                                        class="fixed z-50 inset-0 flex items-center justify-center"
+                                                        aria-labelledby="modal-title" role="dialog" aria-modal="true"
+                                                        x-cloak style="display: none;">
                                                         <div class="fixed w-full h-full  top-0 left-0 bg-gray-500 bg-opacity-75 transition-opacity"
                                                             aria-hidden="true"></div>
 
@@ -619,7 +620,7 @@
 
                             <div class="absolute right-0 z-10 mt-2 w-[130px] origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                 role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
-                                x-show="open">
+                                x-show="open" x-cloak style="display: none;">
                                 <div class="py-1" role="none">
                                     <a href="#" class="text-gray-700 block px-4 py-2 text-[13px]" role="menuitem"
                                         tabindex="-1" id="menu-item-0">confirmed</a>
@@ -690,8 +691,9 @@
 
                                                     <!-- Modal -->
                                                     <div x-show="open"
-                                                        class="fixed z-30 inset-0 flex items-center justify-center"
-                                                        aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                                                        class="fixed z-50 inset-0 flex items-center justify-center"
+                                                        aria-labelledby="modal-title" role="dialog" aria-modal="true"
+                                                        x-cloak style="display: none;">
                                                         <div class="fixed w-full h-full  top-0 left-0 bg-gray-500 bg-opacity-75 transition-opacity"
                                                             aria-hidden="true"></div>
 
@@ -772,8 +774,8 @@
                                                     </button>
 
                                                     <!-- Modal -->
-                                                    <div x-show="open"
-                                                        class="fixed z-30 inset-0 flex items-center justify-center"
+                                                    <div x-show="open" x-cloak style="display: none;"
+                                                        class="fixed z-50 inset-0 flex items-center justify-center"
                                                         aria-labelledby="modal-title" role="dialog" aria-modal="true">
                                                         <div class="fixed w-full h-full  top-0 left-0 bg-gray-500 bg-opacity-75 transition-opacity"
                                                             aria-hidden="true"></div>
@@ -815,13 +817,12 @@
                                                     </div>
                                                 </div>
                                             </div>
-
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
-                    </td>
-                    </tr>
-                    @endforeach
-                    </tbody>
-                    </table>
                 </div>
                 @if ($types->hasPages())
                     <div class="py-4 px-4 flex items-center gap-x-1">
@@ -829,7 +830,6 @@
                     </div>
                 @endif
             </div>
-        </div>
         </div>
     </section>
 @endsection

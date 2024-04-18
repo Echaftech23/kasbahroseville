@@ -159,7 +159,7 @@
 
                                 <div class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                     role="menu" aria-orientation="vertical" aria-labelledby="menu-button"
-                                    tabindex="-1" x-show="open">
+                                    tabindex="-1" x-show="open" x-cloak style="display: none;">
                                     <div class="py-1" role="none">
                                         <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem"
                                             tabindex="-1" id="menu-item-0">Last 30 Days</a>
@@ -318,7 +318,7 @@
 
                                     <div class="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                         role="menu" aria-orientation="vertical" aria-labelledby="menu-button"
-                                        tabindex="-1" x-show="open">
+                                        tabindex="-1" x-show="open" x-cloak style="display: none;">
                                         <div class="py-1" role="none">
                                             <a href="#" class="text-gray-700 block px-4 py-2 text-sm"
                                                 role="menuitem" tabindex="-1" id="menu-item-1">

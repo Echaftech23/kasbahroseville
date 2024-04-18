@@ -164,7 +164,7 @@
 
                         <div class="absolute left-0 mt-2 w-[125px] origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
-                            x-show="open">
+                            x-show="open" x-cloak style="display: none;">
                             <div class="py-1" role="none">
                                 <form action="{{ route('rooms.filter') }}" method="POST">
                                     @csrf
@@ -206,7 +206,7 @@
 
                         <div class="absolute right-0 z-10 mt-2 w-24 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
-                            x-show="open">
+                            x-show="open" x-cloak style="display: none;">
                             <div class="py-1" role="none">
                                 <form action="{{ route('rooms.filter') }}" method="POST">
                                     @csrf
@@ -263,7 +263,7 @@
 
                             <div class="absolute right-0 z-10 mt-2 w-[320px] origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                 role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
-                                x-show="open">
+                                x-show="open" x-cloak style="display: none;">
                                 <div class="py-1" role="none">
                                     <div class="filter-header p-3 px-4 bcg-red-500 flex items-center justify-between">
                                         <h3 class="text-[13px] font-semibold text-[#364a63]">Filter Rooms</h3>
@@ -472,7 +472,7 @@
 
                             <div class="absolute right-0 z-10 mt-2 w-24 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                 role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
-                                x-show="open">
+                                x-show="open" x-cloak style="display: none;">
                                 <div class="py-1" role="none">
                                     <a href="#" class="text-gray-700 block px-4 py-2 text-[13px]" role="menuitem"
                                         tabindex="-1" id="menu-item-0">Due</a>
