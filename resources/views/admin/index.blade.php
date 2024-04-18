@@ -213,7 +213,7 @@
                             class="relative flex flex-col overflow-hidden rounded-lg bg-gradient-to-br from-blue-400 to-blue-600 p-3.5">
                             <p class="text-xs uppercase text-blue-100">Total Booking</p>
                             <div class="flex items-end justify-between space-x-2">
-                                <p class="mt-4 text-2xl font-medium text-white">31,556</p>
+                                <p class="mt-4 text-2xl font-medium text-white">{{ $totalBooking }}</p>
                                 <a href="#"
                                     class="border-b border-dotted border-current pb-0.5 text-xs font-medium text-sky-100 outline-none transition-colors duration-300 line-clamp-1 hover:text-white focus:text-white">Get
                                     Report
@@ -226,7 +226,7 @@
                             <p class="text-xs uppercase text-amber-50">Total Revenue</p>
                             <div class="flex items-end justify-between space-x-2">
                                 <p class="mt-4 text-2xl font-medium text-white">
-                                    $61,556
+                                    ${{$totalRevenueLast30Days}}
                                 </p>
                                 <a href="#"
                                     class="border-b border-dotted border-current pb-0.5 text-xs font-medium text-amber-50 outline-none transition-colors duration-300 line-clamp-1 hover:text-white focus:text-white">Get
@@ -237,10 +237,10 @@
                         </div>
                         <div
                             class="relative flex flex-col overflow-hidden rounded-lg bg-gradient-to-br from-pink-500 to-rose-500 p-3.5">
-                            <p class="text-xs uppercase text-pink-100">Total Debt</p>
+                            <p class="text-xs uppercase text-pink-100">Total Costumers</p>
                             <div class="flex items-end justify-between space-x-2">
                                 <p class="mt-4 text-2xl font-medium text-white">
-                                    $12,556
+                                    {{$totalCustomer}}
                                 </p>
                                 <a href="#"
                                     class="border-b border-dotted border-current pb-0.5 text-xs font-medium text-pink-100 outline-none transition-colors duration-300 line-clamp-1 hover:text-white focus:text-white">Get
@@ -299,7 +299,7 @@
                                 <h2 class="text-sm+ font-medium tracking-wide text-slate-700 dark:text-navy-100">
                                     Room Booking Chart
                                 </h2>
-
+                                <input type="hidden" id="roomBookings" value="{{ isset($roomBookings['Double']) ? $roomBookings['Double'] : 0 }},{{ isset($roomBookings['Single']) ? $roomBookings['Single'] : 0 }},{{ isset($roomBookings['Suite']) ? $roomBookings['Suite'] : 0 }}">
                                 <div class="relative inline-block text-left mr-1" x-data="{ open: false }">
                                     <div>
                                         <button type="button"

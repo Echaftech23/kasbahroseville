@@ -209,6 +209,17 @@ window.addEventListener("load", () => {
 
 window.addEventListener("load", () => {
     (function () {
+        const roomBookings = document
+            .getElementById("roomBookings")
+            .value.split(",")
+            .map(Number);
+        const totalBookings = roomBookings.reduce((a, b) => a + b, 0);
+        const roomBookingsPercentage = roomBookings.map((booking) =>
+            Math.round((booking / totalBookings) * 100)
+        );
+
+        console.log(roomBookingsPercentage);
+
         buildChart(
             "#hs-bubble-chart",
             () => ({
@@ -223,9 +234,9 @@ window.addEventListener("load", () => {
                     },
                 },
                 series: [
-                    { data: [[5, 6, 70]] },
-                    { data: [[8, 4, 45]] },
-                    { data: [[10, 9, 90]] },
+                    { data: [[5, 5, roomBookingsPercentage[0]]] },
+                    { data: [[8, 4, roomBookingsPercentage[1]]] },
+                    { data: [[7, 7.5, roomBookingsPercentage[2]]] },
                 ],
                 dataLabels: {
                     style: {
@@ -517,7 +528,6 @@ window.addEventListener("load", () => {
         );
     })();
 });
-
 
 // Drag and Drop : Room Images Upload for Edit Room :
 

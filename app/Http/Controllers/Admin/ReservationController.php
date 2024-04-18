@@ -25,6 +25,23 @@ class ReservationController extends Controller
         return view('admin.bookings.index', compact('reservations'));
     }
 
+    public function events()
+    {
+        $events = [];
+
+        $reservations = Reservation::with(['user', 'room'])->get();
+
+        foreach ($reservations as $reservation) {
+            $events[] = [
+                'title' => $reservation->user->name,
+                'start' => $reservation->checkIn,
+                'end' => $reservation->checkOut,
+            ];
+        }
+
+        return view('admin.events', compact('events'));        
+    }
+
     /**
      * Show the form for creating a new resource.
      */

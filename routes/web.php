@@ -35,9 +35,18 @@ Route::middleware(['guest'])->group(function () {
 
 // Admin Routes :
 Route::middleware(['auth', 'isAdmin'])->group(function () {
-    Route::get('dashboard', function () {
-        return view('admin.index');
-    })->name('dashboard');
+    // Route::get('dashboard', function () {
+    //     return view('admin.index');
+    // })->name('dashboard');
+
+    Route::get('/dashboard', [ReportController::class, 'getStats'])->name('dashboard');
+
+    Route::get('/events', [AdminReservationController::class, 'events'])->name('events');
+    Route::get('/test',function(){
+        return view('test');
+    });
+
+
 
     Route::resource('rooms', RoomController::class);
     Route::post('rooms/search', [RoomController::class, 'search'])->name('rooms.search');

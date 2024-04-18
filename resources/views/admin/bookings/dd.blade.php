@@ -136,3 +136,60 @@
                                             </div>
                                         </div>
                                     </td>
+
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    
+
+                                    {{-- <div class="w-full max-w-full  rounded-sm border bg-white shadow-default">
+                <div class="grid grid-cols-7 rounded-t-sm bg-primary text-black">
+                    @foreach ($days as $day)
+                        <div
+                            class="flex h-15 items-center justify-center p-1 text-xs font-semibold sm:text-base xl:p-5 first:rounded-tl-sm last:rounded-tr-sm">
+                            <span class="w-full h-full flex items-center justify-center">
+                                {{ $day }}<span class="hidden lg:block"> day </span>
+                            </span>
+                        </div>
+                    @endforeach
+                </div>
+                {{-- @dd($calendarDays); --}}
+                <div class="grid grid-cols-7">
+                    @foreach ($calendarDays as $day)
+                        <div
+                            class="ease relative h-20 cursor-pointer border p-2 transition duration-500 hover:bg-gray md:h-25 md:p-6 xl:h-31">
+                            <div
+                                class="mx-auto flex h-24 w-10 flex-col overflow-hidden sm:w-full md:h-40 md:w-20 lg:w-28 2xl:w-40">
+                                <span class="font-medium text-black">{{ $day['date']->format('d') }}</span>
+
+                                @if ($day['event'])
+                                    <div class="group h-16 w-full flex-grow cursor-pointer py-1 md:h-30">
+                                        <span class="group-hover:text-primary md:hidden"> More </span>
+                                        <div
+                                            class="event bg-[#D4EFFA] text-[#1127E3] absolute left-2 z-99 mb-1 flex w-[90%] flex-col rounded-sm border-l-[3px] border-primary bg-gray px-3 py-1 text-left">
+                                            <span class="event-name text-[12px] text- font-semibold">
+                                                {{ $day['event']->user->name }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div> --}}
