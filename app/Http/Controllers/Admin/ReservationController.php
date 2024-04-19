@@ -41,7 +41,7 @@ class ReservationController extends Controller
             ];
         }
 
-        return view('admin.events', compact('events', 'reservationsCount'));        
+        return view('admin.calender', compact('events', 'reservationsCount'));        
     }
 
     /**

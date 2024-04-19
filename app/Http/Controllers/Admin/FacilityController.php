@@ -49,7 +49,6 @@ class FacilityController extends Controller
     public function update(UpdateFacilityRequest $request, Facility $facility)
     {
         try {
-            abort_if(!$facility, 404, 'Facility not found.');
             $facility->update($request->validated());
 
             if ($request->hasFile('facility-image')) {
@@ -65,7 +64,6 @@ class FacilityController extends Controller
     public function destroy(Facility $facility)
     {
         try {
-            abort_if(!$facility, 404, 'Facility not found.');
             $facility->delete();
             return redirect()->back()->with('success', 'Facility deleted successfully');
         } catch (\Exception $e) {

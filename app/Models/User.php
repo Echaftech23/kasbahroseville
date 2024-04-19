@@ -24,7 +24,8 @@ class User extends Authenticatable implements HasMedia
         'name',
         'email',
         'password',
-        'phone'
+        'phone',
+        'statut',
     ];
 
     /**
@@ -46,6 +47,18 @@ class User extends Authenticatable implements HasMedia
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public const STATUT_RADIO = [
+        'Active' => 'Active',
+        'Banned' => 'Banned',
+        'Suspended' => 'Suspended',
+        'Inactive' => 'Inactive',
+    ];
+
+    public function getStatut()
+    {
+        return self::STATUT_RADIO[$this->statut];
+    }
 
     public function hasRole($roleName)
     {

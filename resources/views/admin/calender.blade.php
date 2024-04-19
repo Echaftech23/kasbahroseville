@@ -150,14 +150,12 @@
         <style>
             .fc-view-harness {
                 max-height: 500px;
-                /* Adjust this value as needed */
                 height: fit-content;
             }
 
             .fc-button-group button {
                 background-color: #4F46E5;
                 border: none;
-                /* color: white; */
             }
             .fc-today-button[disabled] {
                 background-color: #4F46E5;

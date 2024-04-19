@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\FacilityController;
+use App\Http\Controllers\Admin\GuestController;
 use App\Http\Controllers\Admin\RoomController;
 use App\Http\Controllers\Guest\RoomController as GuestRoomController;
 use App\Http\Controllers\Admin\TypeController;
@@ -35,13 +36,10 @@ Route::middleware(['guest'])->group(function () {
 
 // Admin Routes :
 Route::middleware(['auth', 'isAdmin'])->group(function () {
-    // Route::get('dashboard', function () {
-    //     return view('admin.index');
-    // })->name('dashboard');
 
     Route::get('/dashboard', [ReportController::class, 'getStats'])->name('dashboard');
 
-    Route::get('/events', [AdminReservationController::class, 'events'])->name('events');
+    Route::get('/front-desk', [AdminReservationController::class, 'events'])->name('events');
 
     Route::resource('rooms', RoomController::class);
     Route::post('rooms/search', [RoomController::class, 'search'])->name('rooms.search');
@@ -58,7 +56,7 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::post('/reports/filter', [ReportController::class, 'filter'])->name('reports.filter');
 
 
-    Route::resource('users', GuestRoomController::class);
+    Route::resource('guests', GuestController::class);
 
     Route::resource('types', TypeController::class)->except('show');
     Route::post('types/search', [TypeController::class, 'search'])->name('types.search');

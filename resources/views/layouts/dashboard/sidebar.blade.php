@@ -150,10 +150,10 @@
             <span class="mx-3">Reports</span>
         </a>
 
-        <a class="{{ Request::routeIs('users.index') || Request::routeIs('users.create') || Request::routeIs('users.edit') ? 'text-white bg-gray-700 bg-opacity-25' : 'text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100' }} flex items-center px-6 py-2 mt-4"
-            href="{{ route('dashboard') }}">
+        <a class="{{ Request::routeIs('guests.index') || Request::routeIs('guests.create') || Request::routeIs('guests.edit') ? 'text-white bg-gray-700 bg-opacity-25' : 'text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100' }} flex items-center px-6 py-2 mt-4"
+            href="{{ route('guests.index') }}">
             <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
-                class="{{ Request::routeIs('users.index') || Request::routeIs('users.create') || Request::routeIs('users.edit') ? 'fill-pink-600' : 'fill-gray-500' }}"
+                class="{{ Request::routeIs('guests.index') || Request::routeIs('guests.create') || Request::routeIs('guests.edit') ? 'fill-pink-600' : 'fill-gray-500' }}"
                 xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_15_1353)">
                     <path
