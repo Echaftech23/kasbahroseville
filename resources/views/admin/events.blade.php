@@ -115,30 +115,54 @@
         <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid/main.css" rel="stylesheet" />
         <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('DOMContentLoaded', function() {
                 var calendarEl = document.getElementById('calendar');
-        
+
+                function getBackgroundColor(statut) {
+                    var colors = {
+                        'Pending': '#F97316',
+                        'Confirmed': '#3B82F6',
+                        'Checked In': '#22C55E',
+                        'Checked Out': '#FFA500',
+                        'Due Out': '#9A3412'
+                    };
+
+                    return colors[statut];
+                }
+
                 var events = @json($events).map(function(event) {
-                    var checkoutDate = new Date(event.end);
-                    var now = new Date();
-        
-                    event.backgroundColor = checkoutDate < now ? 'orange' : '';
-                    event.borderColor = checkoutDate < now ? 'orange' : '';
+
+                    event.backgroundColor = getBackgroundColor(event.statut);
+                    event.borderColor = getBackgroundColor(event.statut);
                     return event;
                 });
 
-                calendarEl.style.width = '100%';
-                calendarEl.style.height = '100px';
-        
                 var calendar = new FullCalendar.Calendar(calendarEl, {
                     initialView: 'dayGridMonth',
                     themeSystem: 'tailwind',
                     events: events,
                 });
-        
+
                 calendar.render();
             });
         </script>
+
+        <style>
+            .fc-view-harness {
+                max-height: 500px;
+                /* Adjust this value as needed */
+                height: fit-content;
+            }
+
+            .fc-button-group button {
+                background-color: #4F46E5;
+                border: none;
+                /* color: white; */
+            }
+            .fc-today-button[disabled] {
+                background-color: #4F46E5;
+            }
+        </style>
     @endpush
     <div class="section-margin-100-0">
         <div class="container mx-auto px-6">
@@ -150,7 +174,7 @@
                                 Front Desk
                             </h3>
                             <div class="text-[#8094ae]">
-                                <p class="text-sm pt-1">You have total {{$reservationsCount}} booking's.</p>
+                                <p class="text-sm pt-1">You have total {{ $reservationsCount }} booking's.</p>
                             </div>
                         </div>
                         <div>
@@ -174,7 +198,43 @@
 
     <!-- Booking Section Details -->
     <section class="container mx-auto px-6 section-margin-20 ">
-        <div id="calendar" class=" bg-white p-6"></div>
+        <div class=" bg-white p-6">
+            <div id="calendar"></div>
+            <div>
+                <div class="flex items-center sm:-mt-6 flex-wrap">
+                    <div
+                        class="badge space-x-2.5 text-[13px] flex mr-8 items-center font-semibold
+                        text-orange-500">
+                        <div class="size-2 rounded-full bg-current"></div>
+                        <span>Pending</span>
+                    </div>
+                    <div
+                        class="badge space-x-2.5 text-[13px] flex mr-8 items-center font-semibold
+                        text-blue-500">
+                        <div class="size-2 rounded-full bg-current"></div>
+                        <span>Confirmed</span>
+                    </div>
+                    <div
+                        class="badge space-x-2.5 text-[13px] flex mr-8 items-center font-semibold
+                        text-green-500">
+                        <div class="size-2 rounded-full bg-current"></div>
+                        <span>Checked In</span>
+                    </div>
+                    <div
+                        class="badge space-x-2.5 text-[13px] mr-8 flex items-center font-semibold
+                        text-[#FFA500]">
+                        <div class="size-2 rounded-full bg-current"></div>
+                        <span>Checked Out</span>
+                    </div>
+                    <div
+                        class="badge space-x-2.5 text-[13px] mr-8 flex items-center font-semibold
+                        text-orange-800">
+                        <div class="size-2 rounded-full bg-current"></div>
+                        <span>Due Out</span>
+                    </div>
+                </div>
+            </div>
+        </div>
         @push('scripts')
             <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
         @endpush

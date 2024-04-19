@@ -35,6 +35,7 @@ class ReservationController extends Controller
         foreach ($reservations as $reservation) {
             $events[] = [
                 'title' => $reservation->user->name,
+                'statut' => $reservation->statut,
                 'start' => $reservation->checkIn,
                 'end' => $reservation->checkOut,
             ];
