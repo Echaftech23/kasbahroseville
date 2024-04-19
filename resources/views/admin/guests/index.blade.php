@@ -120,18 +120,7 @@
                                 guests List
                             </h3>
                             <div class="text-[#8094ae]">
-                                <p class="text-sm pt-1">Here is our verious guests.</p>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="inline-block">
-                                <!-- Button to open the modal -->
-                                <a href="{{ route('guests.create') }}" type="button"
-                                    class="inline-flex bg-indigo-600 w-full justify-center items-center gap-x-1.5 rounded-md text-white border-none px-3 pl-4 py-2 text-sm shadow-sm ring-1 ring-inset ring-gray-300">
-                                    <img class="h-[18.5px] w-[18px] shrink-0" alt=""
-                                        src="../img/dashborad/icon-201.svg" />
-                                </a>
+                                <p class="text-sm pt-1">You have total {{$Totalguests}} customer's.</p>
                             </div>
                         </div>
                     </div>
@@ -160,12 +149,12 @@
                                     </svg>
                                 </span>
 
-                                <form action="{{ route('rooms.search') }}" method="POST" id="roomForm">
+                                <form action="{{ route('guests.search') }}" method="POST" id="guestForm">
                                     @csrf
                                     <input
                                         class="w-[220px] sm:w-[180px] lg:w-[240px] pl-10 pr-4 rounded-lg form-input bg-[#ecf1f9] outline-none text-sm py-2 focus:border-indigo-600"
-                                        type="text" placeholder="Search" name="room-search"
-                                        onchange="document.getElementById('roomForm').submit();" />
+                                        type="text" placeholder="Search" name="guest-search"
+                                        onchange="document.getElementById('guestForm').submit();" />
 
                                 </form>
                             </div>

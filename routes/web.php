@@ -57,6 +57,7 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
 
 
     Route::resource('guests', GuestController::class);
+    Route::post('guests/search', [GuestController::class, 'search'])->name('guests.search');
 
     Route::resource('types', TypeController::class)->except('show');
     Route::post('types/search', [TypeController::class, 'search'])->name('types.search');
