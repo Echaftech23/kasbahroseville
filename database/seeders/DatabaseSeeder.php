@@ -2,9 +2,6 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-
-use App\Models\Payment;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,13 +17,11 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             PermissionSeeder::class,
             TypeSeeder::class,
-            TaskSeeder::class,
             FacilitySeeder::class,
             RoomSeeder::class,
             ReservationSeeder::class,
             PaymentSeeder::class,
             PaymentMethodeSeeder::class,
-            ReviewSeeder::class,
         ]);
     }
 }

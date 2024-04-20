@@ -70,18 +70,8 @@ class User extends Authenticatable implements HasMedia
         return $this->belongsToMany(Role::class);
     }
 
-    public function reviews()
-    {
-        return $this->hasMany(Review::class);
-    }
-
     public function reservations()
     {
         return $this->hasMany(Reservation::class);
-    }
-
-    public function tasks()
-    {
-        return $this->hasMany(Task::class);
     }
 }

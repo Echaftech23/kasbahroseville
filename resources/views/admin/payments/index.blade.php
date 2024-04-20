@@ -295,7 +295,7 @@
                                         <div class="flex space-x-2">
                                             <div
                                                 class="badge space-x-2.5 text-[13px] flex items-center font-semibold
-                                                {{ $payment->statut == 'Complete' ? 'text-green-400' : 'text-[#ffc107]' }}">
+                                                {{ $payment->statut == 'Completed' ? 'text-green-400' : 'text-[#ffc107]' }}">
                                                 <div class="size-2 rounded-full bg-current"></div>
                                                 <span>{{ $payment->statut }}</span>
                                             </div>

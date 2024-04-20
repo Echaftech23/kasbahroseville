@@ -7,6 +7,7 @@ use App\Models\Reservation;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Payment;
+use App\Models\PaymentMethode;
 use App\Models\Room;
 use App\Models\User;
 use Carbon\Carbon;
@@ -41,7 +42,7 @@ class ReservationController extends Controller
             ];
         }
 
-        return view('admin.calender', compact('events', 'reservationsCount'));        
+        return view('admin.calender', compact('events', 'reservationsCount'));
     }
 
     /**
@@ -62,7 +63,7 @@ class ReservationController extends Controller
         try{
             $room = Room::find($request->room_id);
 
-            if ($room && $room->isAvailable($request->total_children, $request->total_adults, $request->checkIn, $request->checkOut)) {
+            if ($room->isAvailable($request->total_children, $request->total_adults, $request->checkIn, $request->checkOut)) {
                 $user = User::firstOrCreate(
                     ['email' => $request->email],
                     ['name' => $request->name, 'password' => Hash::make($request->email)]
@@ -84,13 +85,16 @@ class ReservationController extends Controller
                     'reservation_id' => $reservation->id,
                 ]);
 
+                PaymentMethode::create([
+                    'payment_id' => $payment->id,
+                ]);
 
                 $room->update(['room_statut' => 'Booked']);
 
                 return redirect()->route('admin.reservations.index')->with('success', 'Reservation created successfully!');
             }
             else{
-                return redirect()->back()->with('error', 'Room is not available');
+                return redirect()->back()->with('error', 'Room is not available')->withInput();
             }
 
         } catch (\Exception $e) {
@@ -126,8 +130,8 @@ class ReservationController extends Controller
                 $reservation->fill($request->all());
 
                 if ($reservation->isDirty(['room_id', 'checkIn', 'checkOut', 'total_children', 'total_adults'])) {
-                    if (!$room->isAvailable($request->total_children, $request->total_adults, $request->checkIn, $request->checkOut)) {
-                        return redirect()->back()->with('error', 'Room is not available');
+                    if (!$room->isAvailable($request->total_children, $request->total_adults, $request->checkIn, $request->checkOut) && $reservation->statut !== 'Rejected') {
+                        return redirect()->back()->with('error', 'Room is not available')->withInput();
                     }
                 }
 

@@ -82,7 +82,7 @@
 
                     <div>
                         <label class="block text-sm font-semibold text-[#344357]">Guest Phone</label>
-                        <input type="text" name="phone" value="{{$reservation->user->phone}}" placeholder="Enter Phone"
+                        <input type="text" name="phone" value="{{old('phone', $reservation->user->phone)}}" placeholder="Enter Phone"
                             class="w-full mt-1.5 text-[13px] outline-none rounded-[6px] border border-slate-300 bg-white px-3 py-2 hover:border-slate-400 @error('name') border-red-500 @enderror" />
                         @error('phone')
                             <span class="text-xs mt-1 text-red-500">{{ $message }}</span>
@@ -94,7 +94,7 @@
                         <div class="flex justify-between items-center mt-1.5 text-gray shadow-sm rounded-[6px] cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-400"
                             onclick="document.getElementById('fileInput').click()">
                             <div class="flex px-2 py-2 w-10/12 border border-r-0 rounded-l-[6px] bg-[#EEF5FF] items-center">
-                                <input type="file" id="fileInput" name="user-image" class="hidden w-full"
+                                <input type="text" id="fileInput" name="user-image" value="{{$reservation->user->getFirstMediaUrl('profile')}}" class="hidden w-full"
                                     onchange="updateFileName()" />
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 24" stroke="#9CA3AF"
                                     class="h-5 w-6 mr-2">
@@ -128,8 +128,9 @@
                                 class="outline-none text-[13px] appearance-none w-full rounded-[6px] rounded-t-0 border border-slate-300 bg-white px-3 py-2 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:bg-navy-700 dark:hover:border-navy-400 dark:focus:border-accent">
                                 @foreach ($rooms as $room)
                                     <option value="{{ $room->id }}" data-price="{{ $room->price }}"
-                                        {{ old('room_id') == $room->id ? 'selected' : '' }}>
-                                        {{ $room->name }}</option>
+                                        {{ $reservation->room_id == $room->id ? 'selected' : '' }}>
+                                        {{ $room->name }}
+                                    </option>
                                 @endforeach
                             </select>
                             <div

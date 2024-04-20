@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Reservation;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ReservationSeeder extends Seeder
@@ -21,8 +20,8 @@ class ReservationSeeder extends Seeder
                 'total_adults' => 2,
                 'total_children' => 0,
                 'ref' => 'admin',
-                'user_id' => 1, // Replace with the actual user ID
-                'room_id' => 1, // Replace with the actual user ID
+                'user_id' => 1,
+                'room_id' => 1,
             ],
             [
                 'checkIn' => '2024-03-10',
@@ -31,8 +30,8 @@ class ReservationSeeder extends Seeder
                 'total_adults' => 2,
                 'total_children' => 0,
                 'ref' => 'admin',
-                'user_id' => 2, // Replace with the actual user ID
-                'room_id' => 2, // Replace with the actual user ID
+                'user_id' => 2,
+                'room_id' => 2,
             ],
             [
                 'checkIn' => '2024-03-20',
@@ -41,8 +40,8 @@ class ReservationSeeder extends Seeder
                 'total_adults' => 2,
                 'total_children' => 0,
                 'ref' => 'admin',
-                'user_id' => 3, // Replace with the actual user ID
-                'room_id' => 3, // Replace with the actual user ID
+                'user_id' => 3,
+                'room_id' => 3,
             ],
 
         ];

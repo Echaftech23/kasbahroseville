@@ -37,7 +37,7 @@ class ReservationController extends Controller
 
             $room = Room::find($request->room_id);
 
-            if ($room && $room->isAvailable($request->total_children, $request->total_adults, $request->checkIn, $request->checkOut)) {
+            if ($room->isAvailable($request->total_children, $request->total_adults, $request->checkIn, $request->checkOut)) {
 
                 $sessionData = [
                     'user_id' => Auth::id(),

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->decimal('amountPaid', 10, 2);
             $table->decimal('totalAmount', 10, 2);
-            $table->enum('statut', ['Pending', 'Complete'])->default('Pending');
+            $table->enum('statut', ['Pending', 'Completed'])->default('Pending');
             $table->foreignId('reservation_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

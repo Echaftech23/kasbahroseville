@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Room;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -26,7 +25,6 @@ class GuestController extends Controller
      */
     public function show(User $guest)
     {
-
         try {
             $reservations = $guest->reservations()->latest()->paginate(10);
             return view('admin.guests.show', compact('guest', 'reservations'));
@@ -48,6 +46,14 @@ class GuestController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('warning', 'Something went wrong!');
         }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function profile(){
+        $profile = auth()->user();
+        return view('admin.profile', compact('profile'));
     }
 
     /**

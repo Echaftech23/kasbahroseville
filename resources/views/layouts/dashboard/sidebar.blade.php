@@ -191,11 +191,11 @@
         </a>
 
         <div x-data="{ open: false }"
-            class="{{ Request::routeIs('admin.settings.index') || Request::routeIs('admin.settings.create') || Request::routeIs('admin.reservations.edit') ? 'text-white bg-gray-700 bg-opacity-25' : 'text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100' }} px-6 py-2 mt-4">
+            class="{{ Request::routeIs('admin.settings.index') || Request::routeIs('admin.settings.create') ? 'text-white bg-gray-700 bg-opacity-25' : 'text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100' }} px-6 py-2 mt-4">
             <h2 id="accordion-color-heading-1">
                 <div class="flex items-center">
                     <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
-                        class="{{ Request::routeIs('admin.settings.index') || Request::routeIs('admin.settings.create') || Request::routeIs('admin.reservations.edit') ? 'fill-pink-600' : 'fill-gray-500' }}"
+                        class="{{Request::routeIs('profile') ? 'fill-pink-600' : 'fill-gray-500' }}"
                         xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_15_1383)">
                             <path
@@ -210,7 +210,7 @@
                     </svg>
 
                     <button @click="open = !open"
-                        class="{{ Request::routeIs('rooms.index') || Request::routeIs('rooms.filter') || Request::routeIs('rooms.search') || Request::routeIs('types.index') || Request::routeIs('facilities.index') ? 'text-white' : 'text-gray-500' }} flex outline-none items-center justify-between w-full px-3"
+                        class="{{ Request::routeIs('profile')  ? 'text-white' : 'text-gray-500' }} flex outline-none items-center justify-between w-full px-3"
                         :aria-expanded="open.toString()">
                         <span>Settings</span>
                         <svg :class="{ 'rotate-180': open }" class="-mr-1 h-5 w-5 font-bold text-gray-400"
@@ -228,7 +228,7 @@
                 x-transition:leave="transition ease-in-out duration-300"
                 x-transition:leave-start="transform translate-y-0" x-transition:leave-end="transform -translate-y-2">
                 <a class="flex items-center px-6 py-1 text-gray-500 text-[14px] hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
-                    href="{{ route('rooms.index') }}">
+                    href="{{ route('profile') }}">
                     <span class="mx-3">Account</span>
                 </a>
 

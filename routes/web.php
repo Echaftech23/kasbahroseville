@@ -39,6 +39,8 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
 
     Route::get('/dashboard', [ReportController::class, 'getStats'])->name('dashboard');
 
+    Route::get('/profile', [GuestController::class, 'profile'])->name('profile');
+
     Route::get('/front-desk', [AdminReservationController::class, 'events'])->name('events');
 
     Route::resource('rooms', RoomController::class);

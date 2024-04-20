@@ -18,7 +18,7 @@ class Payment extends Model
 
     public const STATUT_RADIO = [
         'Pending' => 'Pending',
-        'Complete' => 'Complete',
+        'Completed' => 'Completed',
     ];
 
     public function getStatut()
