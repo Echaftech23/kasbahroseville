@@ -24,19 +24,12 @@ class GuestController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Room $room)
+    public function show(User $guest)
     {
 
-        if (!$room) {
-            return abort(404, 'Room not found.');
-        }
-
         try {
-            $room->load('facilities', 'type');
-
-            $images = $room->getMedia('rooms');
-
-            return view('admin.rooms.show', compact('room', 'images'));
+            $reservations = $guest->reservations()->latest()->paginate(10);
+            return view('admin.guests.show', compact('guest', 'reservations'));
         } catch (\Exception $e) {
             return back()->with('error', 'Something went wrong!');
         }
@@ -48,7 +41,8 @@ class GuestController extends Controller
     public function update(Request $request, User $guest)
     {
         try {
-            $guest->update($request->validated());
+
+            $guest->update(['statut' => $request->input('statut')]);
 
             return redirect()->back()->with('success', 'Guest updated successfully');
         } catch (\Exception $e) {
