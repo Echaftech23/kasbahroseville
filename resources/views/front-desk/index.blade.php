@@ -4,13 +4,13 @@
 @if (Session::has('success'))
     <div id="dismiss-alert" x-data="{ show: true }" x-show="show" x-transition:leave="transition ease-in duration-2000"
         x-transition:leave-start="opacity-100 translate-x-0" x-transition:leave-end="opacity-0 -translate-x-full"
-        x-init="setTimeout(() => show = false, 4000)" class="fixed left-0 top-1/4 m-6 max-w-md rounded-lg p-4"
+        x-init="setTimeout(() => show = false, 4000)" class="fixed left-0 top-[24%] m-6 max-w-md rounded-lg p-4"
         style="z-index: 9999; background-color: #E42C76; color: #fff; border-color: #E42C76;" role="alert">
         <div class="flex">
             <div class="flex-shrink-0">
-                <svg class="flex-shrink-0 size-4 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="24"
-                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
+                <svg class="flex-shrink-0 size-4 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
                     <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
                     <path d="m9 12 2 2 4-4"></path>
                 </svg>
@@ -26,9 +26,9 @@
                         class="inline-flex rounded-lg p-1.5 hover:bg-[#E42C76] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#E42C76] focus:ring-[#E42C76]"
                         style="background-color: #E42C76; color: #fff;" @click="show = !open">
                         <span class="sr-only">Dismiss</span>
-                        <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
-                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
+                        <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
                             <path d="M18 6 6 18"></path>
                             <path d="m6 6 12 12"></path>
                         </svg>
@@ -109,7 +109,7 @@
 @endif
 
 @section('contents')
-    <!-- Booking Section Top -->
+    <!-- main Top -->
     <div class="section-margin-100-0">
         <div class="container mx-auto px-6">
             <div class="flex-grow">
@@ -117,13 +117,14 @@
                     <div class="flex justify-between items-center flex-wrap">
                         <div class="block-head-content mpb">
                             <h3 class="block-title font-bold text-[24px] text-[#364A63]">
-                                Booking Reports List
+                                Dashboard Overview
                             </h3>
                             <div class="text-[#8094ae]">
-                                <p class="text-sm pt-1">Here is our booking report.</p>
+                                <p class="text-sm pt-1">
+                                    Welcome to Roseville Dashboard Template.
+                                </p>
                             </div>
                         </div>
-
                         <div>
                             <div class="relative inline-block text-left mr-1" x-data="{ open: false }">
                                 <div>
@@ -156,16 +157,17 @@
                                     </button>
                                 </div>
 
-                                <div @click.away="open = false" class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                <div class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                     role="menu" aria-orientation="vertical" aria-labelledby="menu-button"
                                     tabindex="-1" x-show="open" x-cloak style="display: none;">
-                                    <form action="{{ route('admin.reports.filter') }}" method="POST">
-                                        @csrf
-                                        <button type="submit" name="from" value="7" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">Last 7 Days</button>
-                                        <button type="submit" name="from" value="30" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">Last 30 Days</button>
-                                        <button type="submit" name="from" value="180" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">Last 6 Months</button>
-                                        <button type="submit" name="from" value="365" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">Last Year</button>
-                                    </form>
+                                    <div class="py-1" role="none">
+                                        <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem"
+                                            tabindex="-1" id="menu-item-0">Last 30 Days</a>
+                                        <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem"
+                                            tabindex="-1" id="menu-item-1">Last 6 Months</a>
+                                        <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem"
+                                            tabindex="-1" id="menu-item-2">Last Year</a>
+                                    </div>
                                 </div>
                             </div>
 
@@ -190,7 +192,7 @@
                                             </defs>
                                         </svg>
 
-                                        Import
+                                        Reports
                                     </button>
                                 </div>
                             </div>
@@ -201,244 +203,229 @@
         </div>
     </div>
 
-    <!-- Booking Section Details -->
-    <section class="container mx-auto px-6 section-margin-20">
-        <div class="rounded-t-[4px] border bg-white">
-            <!-- Booking Section Details Top -->
-            <div class="px-5 py-5 flex justify-between items-center border-b-[0.7px]">
-                <h3 class="text-[20px] text-[#364A63] font-semibold">All Reports</h3>
+    <!-- main charts -->
+    <section class="statistics-section">
+        <div class="container mx-auto px-6">
+            <div class="mt-4 grid grid-cols-12 gap-6 transition-all duration-[.25s] sm:gap-5 lg:gap-6">
+                <div class="card col-span-12">
+                    <div class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-3">
+                        <div
+                            class="relative flex flex-col overflow-hidden rounded-lg bg-gradient-to-br from-blue-400 to-blue-600 p-3.5">
+                            <p class="text-xs uppercase text-blue-100">Total Booking</p>
+                            <div class="flex items-end justify-between space-x-2">
+                                <p class="mt-4 text-2xl font-medium text-white">{{ $totalBooking }}</p>
+                                <a href="#"
+                                    class="border-b border-dotted border-current pb-0.5 text-xs font-medium text-sky-100 outline-none transition-colors duration-300 line-clamp-1 hover:text-white focus:text-white">Get
+                                    Report
+                                </a>
+                            </div>
+                            <div class="mask is-reuleaux-triangle absolute top-0 right-0 -m-3 size-16 bg-white/20"></div>
+                        </div>
+                        <div
+                            class="relative flex flex-col overflow-hidden rounded-lg bg-gradient-to-br from-amber-400 to-orange-600 p-3.5">
+                            <p class="text-xs uppercase text-amber-50">Total Revenue</p>
+                            <div class="flex items-end justify-between space-x-2">
+                                <p class="mt-4 text-2xl font-medium text-white">
+                                    ${{$totalRevenueLast30Days}}
+                                </p>
+                                <a href="#"
+                                    class="border-b border-dotted border-current pb-0.5 text-xs font-medium text-amber-50 outline-none transition-colors duration-300 line-clamp-1 hover:text-white focus:text-white">Get
+                                    Report
+                                </a>
+                            </div>
+                            <div class="mask is-diamond absolute top-0 right-0 -m-3 size-16 bg-white/20"></div>
+                        </div>
+                        <div
+                            class="relative flex flex-col overflow-hidden rounded-lg bg-gradient-to-br from-pink-500 to-rose-500 p-3.5">
+                            <p class="text-xs uppercase text-pink-100">Total Costumers</p>
+                            <div class="flex items-end justify-between space-x-2">
+                                <p class="mt-4 text-2xl font-medium text-white">
+                                    {{$totalCustomer}}
+                                </p>
+                                <a href="#"
+                                    class="border-b border-dotted border-current pb-0.5 text-xs font-medium text-pink-100 outline-none transition-colors duration-300 line-clamp-1 hover:text-white focus:text-white">Get
+                                    Report
+                                </a>
+                            </div>
+                            <div class="mask is-hexagon-2 absolute top-0 right-0 -m-3 size-16 bg-white/20"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                <div class="relative inline-block text-left">
-                    <div class="flex hidden-area">
-                        <div class="flex items-center mr-4">
-                            <div class="relative mx-4 lg:mx-0">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                                    <svg class="w-5 h-5 text-gray-500" viewBox="0 0 24 24" fill="none">
-                                        <path
-                                            d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
-                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round"></path>
-                                    </svg>
-                                </span>
+            <div class="grid grid-cols-12">
+                <div class="col-span-12 pb-4">
+                    <div class="mt-3 grid grid-cols-12">
+                        <div class="col-span-12 sm:col-span-6 sm:pr-5 lg:col-span-6">
+                            <div class="bg-white mt-6 pt-8 rounded-[4px] border">
+                                <div class="card-header px-6 pb-6">
+                                    <h2 class="text-sm+ font-medium tracking-wide text-slate-700 dark:text-navy-100">
+                                        Sales Revenue
+                                    </h2>
+                                    <small class="text-xs text-gray-600">In last 30 days revenue from rent.</small>
+                                </div>
+                                <div class="flex px-6 justify-between w-full">
+                                    <div class="w-1/3">
+                                        <p class="text-xs uppercase text-slate-400 dark:text-navy-300">
+                                            Monthly
+                                        </p>
+                                        <p>9.28K</p>
+                                        <span class="text-xs text-green-500">+4.63%</span>
+                                    </div>
 
-                                <form action="#">
-                                    <input
-                                        class="w-[220px] sm:w-[180px] lg:w-[240px] pl-10 pr-4 rounded-lg form-input bg-[#ecf1f9] outline-none text-sm py-2 focus:border-indigo-600"
-                                        type="text" placeholder="Search" name="room-search"
-                                        onchange="document.getElementById('roomForm').submit();" />
+                                    <div class="w-1/3">
+                                        <p class="text-xs uppercase text-slate-400 dark:text-navy-300">
+                                            Weekly
+                                        </p>
+                                        <p>2.69K</p>
+                                        <span class="text-xs text-red-500">+1.92%</span>
+                                    </div>
 
-                                </form>
+                                    <div class="w-1/3">
+                                        <p class="text-xs uppercase text-slate-400 dark:text-navy-300">
+                                            Daily (Avg)
+                                        </p>
+                                        <p>0.94K</p>
+                                        <span class="text-xs text-green-500">+3.45%</span>
+                                    </div>
+                                </div>
+                                <div id="hs-single-bar-chart" class="col-span-12 sm:col-span-6 sm:px-5 lg:col-span-6">
+                                </div>
                             </div>
                         </div>
-                        <div class="relative inline-block text-left" x-data="{ open: false }" @click.away="open = false">
-                            <div>
-                                <button type="button"
-                                    class="inline-flex w-full justify-center items-center py-2 font-medium border-0"
-                                    id="menu-button" aria-expanded="true" aria-haspopup="true" @click="open = !open">
-                                    <img src="../img/dashborad/speen.svg" alt="" />
-                                </button>
-                            </div>
 
-                            <div class="absolute right-0 z-10 mt-2 w-24 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                                role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
-                                x-show="open" x-cloak style="display: none;">
-                                <div class="py-1" role="none">
-                                    <a href="#" class="text-gray-700 block px-4 py-2 text-[13px]" role="menuitem"
-                                        tabindex="-1" id="menu-item-0">Due</a>
-                                    <a href="#" class="text-gray-700 block px-4 py-2 text-[13px]" role="menuitem"
-                                        tabindex="-1" id="menu-item-1">Paid</a>
+                        <div class="bg-white mt-6 col-span-12 px-6 sm:col-span-6 lg:col-span-6 rounded-[4px] border">
+                            <div class="card-header flex items-center justify-between pt-8">
+                                <h2 class="text-sm+ font-medium tracking-wide text-slate-700 dark:text-navy-100">
+                                    Room Booking Chart
+                                </h2>
+                                <input type="hidden" id="roomBookings" value="{{ isset($roomBookings['Double']) ? $roomBookings['Double'] : 0 }},{{ isset($roomBookings['Single']) ? $roomBookings['Single'] : 0 }},{{ isset($roomBookings['Suite']) ? $roomBookings['Suite'] : 0 }}">
+                                <div class="relative inline-block text-left mr-1" x-data="{ open: false }">
+                                    <div>
+                                        <button type="button"
+                                            class="inline-flex w-full justify-center items-center gap-x-1.5 rounded-md bg-white text-[#000] px-3 py-2 text-xs shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                                            id="menu-button" aria-expanded="true" aria-haspopup="true"
+                                            @click="open = !open">
+                                            30 Days
+                                            <svg class="-mr-1 h-3 w-3" viewBox="0 0 16 16" fill="currentColor"
+                                                aria-hidden="true">
+                                                <path fill-rule="evenodd"
+                                                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                    <div class="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                        role="menu" aria-orientation="vertical" aria-labelledby="menu-button"
+                                        tabindex="-1" x-show="open" x-cloak style="display: none;">
+                                        <div class="py-1" role="none">
+                                            <a href="#" class="text-gray-700 block px-4 py-2 text-sm"
+                                                role="menuitem" tabindex="-1" id="menu-item-1">
+                                                7 Days</a>
+                                            <a href="#" class="text-gray-700 block px-4 py-2 text-sm"
+                                                role="menuitem" tabindex="-1" id="menu-item-2">
+                                                15 Days</a>
+                                            <a href="#" class="text-gray-700 block px-4 py-2 text-sm"
+                                                role="menuitem" tabindex="-1" id="menu-item-0">30 Days</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col justify-center items-center h-[340px] pb-10 sm:pb-0">
+                                <div id="hs-bubble-chart"></div>
+
+                                <!-- Legend Indicator -->
+                                <div class="flex justify-center sm:justify-end items-center gap-x-4">
+                                    <div class="inline-flex items-center">
+                                        <span class="size-2.5 inline-block bg-blue-600 rounded-sm me-2"></span>
+                                        <span class="text-[13px] text-gray-600 dark:text-neutral-400">
+                                            Single
+                                        </span>
+                                    </div>
+                                    <div class="inline-flex items-center">
+                                        <span class="size-2.5 inline-block bg-cyan-500 rounded-sm me-2"></span>
+                                        <span class="text-[13px] text-gray-600 dark:text-neutral-400">
+                                            Double
+                                        </span>
+                                    </div>
+                                    <div class="inline-flex items-center">
+                                        <span class="size-2.5 inline-block bg-yellow-300 rounded-sm me-2"></span>
+                                        <span class="text-[13px] text-gray-600 dark:text-yellow-400">
+                                            Suit
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- End Legend Indicator -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="mt-4 grid grid-cols-12 gap-4 sm:mt-5 sm:gap-5 lg:mt-6 lg:gap-6 bg-white px-6 pt-4 rounded-[4px] border">
+                <div class="card col-span-12 pb-4">
+                    <div class="mt-3 flex items-center justify-between">
+                        <div>
+                            <h2 class="text-sm+ font-medium tracking-wide text-slate-700 dark:text-navy-100">
+                                Income vs Expenses
+                            </h2>
+                            <small class="text-xs text-gray-600">How was your income and Expenses this month.</small>
+                        </div>
+
+                        <div class="flex items-center space-x-4">
+                            <!-- Legend Indicator -->
+                            <div class="hidden sm:flex justify-center sm:justify-end items-center gap-x-4 mb-3 sm:mb-6">
+                                <div class="sm:inline-flex items-center">
+                                    <span class="size-2.5 inline-block bg-blue-600 rounded-sm me-2"></span>
+                                    <span class="text-[13px] text-gray-600 dark:text-neutral-400">
+                                        Income
+                                    </span>
+                                </div>
+                                <div class="inline-flex items-center">
+                                    <span class="size-2.5 inline-block bg-purple-600 rounded-sm me-2"></span>
+                                    <span class="text-[13px] text-gray-600 dark:text-neutral-400">
+                                        Expenses
+                                    </span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                    <div class="mt-3 grid grid-cols-12">
+                        <div class="col-span-12 px-4 sm:col-span-6 sm:px-5 lg:col-span-4">
+                            <div class="mt-6 grid grid-cols-2 gap-x-4 gap-y-8">
+                                <div>
+                                    <p class="text-xs uppercase text-slate-400 dark:text-navy-300">
+                                        Income
+                                    </p>
+                                    <p class="mt-1">
+                                        <span class="text-xl font-medium text-slate-700 dark:text-navy-100">
+                                            70k
+                                        </span>
+                                        <span class="text-xs text-green-500">+10%</span>
+                                    </p>
+                                </div>
 
-            <!-- Booking Section Details main -->
-            <div class="card">
-                <div class="min-w-full overflow-x-auto">
-                    <table class="w-full text-left">
-                        <thead>
-                            <tr class="bg-[#F8FAFC] border-b-[0.7px]">
-                                <th class="whitespace-nowrap px-4 py-3 text-[13px] text-[#364A62] lg:px-5">
-                                    Room ID
-                                </th>
-                                <th class="whitespace-nowrap px-4 py-3 text-[13px] text-[#364A62] lg:px-5">
-                                    Room Name
-                                </th>
-                                <th class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5">
-                                    Room Type
-                                </th>
-                                <th class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5">
-                                    From
-                                </th>
-                                <th class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5">
-                                    TO
-                                </th>
-                                <th class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5">
-                                    total Amount
-                                </th>
-                                <th class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5">
-                                    More
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody x-data="{ expanded: false }">
-                            @forelse ($rooms as $room)
-                                <tr class="border-y">
-                                    <td class="whitespace-nowrap px-4 py-3 sm:px-5">{{ $room->id }}</td>
-                                    <td
-                                        class="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5">
-                                        {{ $room->name }}
-                                    </td>
-                                    <td
-                                        class="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5">
-                                        {{ $room->type->type }}
-                                    </td>
-                                    <td
-                                        class="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5">
-                                        {{ $from->format('d M Y') }}
-                                    </td>
-                                    <td
-                                        class="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5">
-                                        {{ $to->format('d M Y') }}
-                                    </td>
-                                    <td
-                                        class="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5">
-                                        ${{ $room->totalAmount }}
-                                    </td>
-                                    <td class="whitespace-nowrap px-4 py-3 sm:px-5">
-                                        <div class="flex items-center">
-                                            <div x-data="{
-                                                open: false,
-                                                name: '',
-                                                nameError: false,
-                                                submitForm: function() {
-                                                    if (this.name) {
-                                                        let form = document.querySelector('#payment-form-' + {{ $room->id }});
-                                                        form.submit();
-                                                    }
-                                                }
-                                            }">
-                                                <!-- Button trigger modal -->
-                                                <a @click="open = true, name = '{{ $room->name }}'"
-                                                    class="badge mr-2 text-white space-x-2 p-2 px-3 text-[13px] rounded-sm font-semibold flex items-center focus:bg-[#6576FF] hover:bg-[#6576FF] hover:text-white focus:text-white bg-blue-600 dark:bg-navy-500 dark:text-navy-100">
-                                                    <span>View</span>
-                                                </a>
-
-                                                <!-- Modal -->
-                                                <div x-show="open" x-cloak style="display: none;"
-                                                    class="fixed z-50 inset-0 flex items-center justify-center"
-                                                    aria-labelledby="modal-title" role="dialog" aria-modal="true">
-                                                    <div class="fixed w-full h-full  top-0 left-0 bg-gray-500 bg-opacity-75 transition-opacity"
-                                                        aria-hidden="true"></div>
-
-                                                    <!-- Modal content -->
-                                                    <div
-                                                        class="bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all w-11/12 sm:max-w-3xl sm:w-full">
-                                                        <div class="pb-4 sm:py-6 sm:pb-4">
-                                                            <div class="flex items-center justify-between px-4 sm:px-4 sm:pl-8 mb-4">
-                                                                <h3 class="text-lg leading-6 font-medium text-gray-900"
-                                                                    id="modal-title">
-                                                                    Details
-                                                                </h3>
-                                                                <button type="button" @click="open = false"
-                                                                    class=" text-gray-400 bg-transparent  hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
-                                                                    <svg class="w-3 h-3" aria-hidden="true"
-                                                                        xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                        viewBox="0 0 14 14">
-                                                                        <path stroke="currentColor" stroke-linecap="round"
-                                                                            stroke-linejoin="round" stroke-width="2"
-                                                                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                                                                    </svg>
-                                                                </button>
-                                                            </div>
-                                                            <div class="w-11/12 mb-6 mx-auto">
-                                                                <div class="min-w-full max-h-80 overflow-auto">
-                                                                    <table class="w-full border-2 text-left">
-                                                                        <thead>
-                                                                            <tr class="bg-[#F8FAFC] border-b-[0.7px]">
-                                                                                <th
-                                                                                    class="whitespace-nowrap px-4 py-3 text-[13px] text-[#364A62] lg:px-5">
-                                                                                    ID
-                                                                                </th>
-                                                                                <th
-                                                                                    class="whitespace-nowrap px-4 py-3 text-[13px] text-[#364A62] lg:px-5">
-                                                                                    Room Name
-                                                                                </th>
-                                                                                <th
-                                                                                    class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5">
-                                                                                    Payment
-                                                                                </th>
-                                                                                <th
-                                                                                    class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5">
-                                                                                    Amount
-                                                                                </th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody x-data="{ expanded: false }">
-                                                                            @forelse ($room->reservations as $reservation)
-                                                                                <tr class="border-y">
-                                                                                    <td
-                                                                                        class="whitespace-nowrap px-4 py-3 sm:px-5">
-                                                                                        {{ $reservation->id }}</td>
-                                                                                    <td
-                                                                                        class="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5">
-                                                                                        {{ $reservation->payment->created_at->format('d M Y') }}
-                                                                                    </td>
-                                                                                    <td
-                                                                                        class="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5">
-                                                                                        {{ $reservation->payment->statut }}
-                                                                                    </td>
-                                                                                    <td
-                                                                                        class="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5">
-                                                                                        {{ $reservation->payment->amountPaid }}
-                                                                                    </td>
-                                                                                </tr>
-                                                                            @empty
-                                                                                <tr>
-                                                                                    <td colspan="4"
-                                                                                        class="text-center text-gray-400 py-4">No
-                                                                                        Payment found</td>
-                                                                                </tr>
-                                                                            @endforelse
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="9" class="text-center text-gray-400 py-4">No Report found</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-                @if ($rooms->hasPages())
-                    <div class="py-4 px-4">
-                        {{ $rooms->links() }}
+                                <div>
+                                    <p class="text-xs uppercase text-slate-400 dark:text-navy-300">
+                                        Expenses
+                                    </p>
+                                    <p class="mt-1">
+                                        <span class="text-xl font-medium text-slate-700 dark:text-navy-100">
+                                            55.55k
+                                        </span>
+                                        <span class="text-xs text-red-500">+7%</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ax-transparent-gridline col-span-12">
+                            <div id="hs-multiple-area-charts"></div>
+                        </div>
                     </div>
-                @endif
+                </div>
             </div>
         </div>
     </section>
-
-    <script>
-        document.querySelectorAll('.print-button').forEach(function(button) {
-            button.addEventListener('click', function() {
-                var invoiceUrl = this.dataset.url;
-                var win = window.open(invoiceUrl, '_blank');
-                win.onload = function() {
-                    this.print();
-                };
-            });
-        });
-    </script>
 @endsection

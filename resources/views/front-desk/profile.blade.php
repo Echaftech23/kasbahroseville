@@ -232,37 +232,12 @@
                                                                 <div class="mt-2">
                                                                     <form id="guest-form-{{ $profile->id }}"
                                                                         @submit.prevent="submitForm"
-                                                                        action="{{ route('admin.guests.updateProfile', $profile) }}"
-                                                                        method="POST" enctype="multipart/form-data">
+                                                                        action="{{ route('guests.update', $profile) }}"
+                                                                        method="POST">
                                                                         @csrf
                                                                         @method('PUT')
                                                                         <div class="border-t px-6 py-4">
                                                                             <div class="">
-                                                                                <label for="name-{{ $profile->name }}"
-                                                                                    class="block text-sm mt-3 font-medium text-gray-700">
-                                                                                    Name
-                                                                                </label>
-                                                                                <input type="text" id="name-{{ $profile->name }}" name="name"
-                                                                                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                                                    value="{{ $profile->name }}">
-
-                                                                                <label for="image"
-                                                                                    class="block text-sm mt-3 font-medium text-gray-700">
-                                                                                    Image Upload
-                                                                                </label>
-
-                                                                                <input type="file" id="image" name="user-image"
-                                                                                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-
-                                                                                <label for="name-{{ $profile->name }}"
-                                                                                    class="block text-sm mt-3 font-medium text-gray-700">
-                                                                                    Phone
-                                                                                </label>
-
-                                                                                <input type="text" id="phone-{{ $profile->phone }}" name="phone"
-                                                                                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                                                    value="{{ $profile->phone }}">
-
                                                                                 <label for="amountPaid-{{ $profile->id }}"
                                                                                     class="block text-sm mt-3 font-medium text-gray-700">
                                                                                     Statut
@@ -277,7 +252,6 @@
                                                                                         </option>
                                                                                     @endforeach
                                                                                 </select>
-
 
                                                                             </div>
 

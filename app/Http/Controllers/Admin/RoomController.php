@@ -54,7 +54,7 @@ class RoomController extends Controller
                 $room->addMedia($image)->toMediaCollection('rooms');
             }
 
-            return redirect()->route('rooms.index')->with('success', 'Room created successfully');
+            return redirect()->route('admin.rooms.index')->with('success', 'Room created successfully');
         } catch (\Exception $e) {
             return back()->withInput()->withErrors(['unexpected_error' => 'Something went wrong!']);
         }
@@ -65,10 +65,6 @@ class RoomController extends Controller
      */
     public function show(Room $room)
     {
-
-        if (!$room) {
-            return abort(404, 'Room not found.');
-        }
 
         try {
             $room->load('facilities', 'type');
@@ -87,7 +83,6 @@ class RoomController extends Controller
     public function edit(Room $room)
     {
         try {
-            abort_if(!$room, 404, 'Room not found.');
 
             $facilities = Facility::all();
             $types = Type::all();
@@ -124,7 +119,7 @@ class RoomController extends Controller
 
         $room->facilities()->sync($request->input('facility_id', []));
 
-        return redirect()->route('rooms.index')->with('success', 'Room updated successfully');
+        return redirect()->route('admin.rooms.index')->with('success', 'Room updated successfully');
     }
 
     /**
@@ -137,7 +132,7 @@ class RoomController extends Controller
 
             $room->delete();
 
-            return redirect()->route('rooms.index')->with('success', 'Room deleted successfully.');
+            return redirect()->route('admin.rooms.index')->with('success', 'Room deleted successfully.');
         } catch (\Exception $e) {
             return back()->with('error', 'Something went wrong! Please try again.');
         }

@@ -128,7 +128,7 @@
                                     <button type="button"
                                         class="inline-flex w-full justify-center items-center gap-x-1.5 rounded-md bg-white text-[#526484] px-3 py-2 font-medium text-sm shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
                                         <img class="h-[18.7px] w-[18.5px] relative overflow-hidden shrink-0"
-                                            alt="" src="{{asset('/img/dashborad/icon-191.svg')}}" />
+                                            alt="" src="../img/dashborad/icon-191.svg" />
 
                                         Export
                                     </button>
@@ -137,7 +137,7 @@
 
                             <div class="inline-block">
                                 <div>
-                                    <a href="{{ route('admin.reservations.create') }}" type="button"
+                                    <a href="{{ auth()->user()->hasRole('Admin') ? route('admin.reservations.create') : route('front-desk.reservations.create') }}" type="button"
                                         class="inline-flex bg-indigo-600 w-full justify-center items-center gap-x-1.5 rounded-md text-white border-none px-3 pl-4 py-2 text-sm shadow-sm ring-1 ring-inset ring-gray-300">
                                         <img class="h-[18.5px] w-[18px] shrink-0" alt=""
                                             src="{{ asset('/img/dashborad/icon-201.svg') }}" />
@@ -177,7 +177,7 @@
                         <div class="absolute right-0 z-10 mt-2 w-[135px] origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
                             x-show="open" x-cloak style="display: none;">
-                            <form action="{{ route('admin.reservations.filter') }}" method="POST">
+                            <form action="{{ route('reservations.filter') }}" method="POST">
                                 @csrf
                                 <button type="submit" name="period" value="24_hours"
                                     class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">Last 24
@@ -211,7 +211,7 @@
                             role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
                             x-show="open" x-cloak style="display: none;">
                             <div class="py-1" role="none">
-                                <form action="{{ route('admin.reservations.filter') }}" method="POST">
+                                <form action="{{ route('reservations.filter') }}" method="POST">
                                     @csrf
                                     <button type="submit" name="statut" value="Pending"
                                         class="text-gray-700 block px-4 py-2 text-sm" role="menuitem"
@@ -258,7 +258,7 @@
                             role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
                             x-show="open" x-cloak style="display: none;">
                             <div class="py-1" role="none">
-                                <form action="{{ route('admin.reservations.filter') }}" method="POST">
+                                <form action="{{ route('reservations.filter') }}" method="POST">
                                     @csrf
                                     <button type="submit" name="payment_statut" value="Completed"
                                         class="text-gray-700 block px-4 py-2 text-sm" role="menuitem"
@@ -276,7 +276,7 @@
                     <div class="flex hidden-area">
                         <div class="flex items-center">
                             <div class="relative mx-4 lg:mx-0">
-                                <form action="{{ route('admin.reservations.search') }}" method="POST" id="searchForm">
+                                <form action="{{ route('reservations.search') }}" method="POST" id="searchForm">
                                     <span class="absolute inset-y-0 left-0 flex items-center pl-3">
                                         <svg class="w-5 h-5 text-gray-500" viewBox="0 0 24 24" fill="none">
                                             <path
@@ -289,8 +289,8 @@
                                     @csrf
                                     <input
                                         class="w-[220px] sm:w-[180px] lg:w-[240px] pl-10 pr-4 rounded-lg form-input bg-[#ecf1f9] outline-none text-sm py-2 focus:border-indigo-600"
-                                        type="search" name="reservation-search"
-                                        placeholder="Search" onchange="document.getElementById('searchForm').submit();"/>
+                                        type="search" name="reservation-search" id="searchFormInput"
+                                        placeholder="Search" />
                                 </form>
                             </div>
                         </div>
@@ -311,7 +311,7 @@
                                         <h3 class="text-[13px] font-semibold text-[#364a63]">Filter Rooms</h3>
                                         <span class="font-bold text-[24] -mt-3" @click="open = !open">...</span>
                                     </div>
-                                    <form action="{{ route('admin.reservations.filter') }}" method="POST">
+                                    <form action="{{ route('reservations.filter') }}" method="POST">
                                         @csrf
                                         <div class="py-4  px-4 border-y">
                                             <div class="flex flex-wrap">
@@ -786,7 +786,7 @@
                                                                                                 <form
                                                                                                     enctype="multipart/form-data"
                                                                                                     id="reservation-form-{{ $reservation->id }});"
-                                                                                                    action="{{ route('admin.reservations.update', $reservation) }}"
+                                                                                                    action="{{ auth()->user()->hasRole('Admin') ? route('admin.reservations.update', $reservation) : route('front-desk.reservations.update', $reservation) }}"
                                                                                                     method="POST">
                                                                                                     @csrf
                                                                                                     @method('PUT')
@@ -884,9 +884,9 @@
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                        {{-- @elseif ($reservation->ref == 'front-desk') --}}
+                                                                        @elseif($reservation->ref == 'front-desk')
                                                                             <!-- Button trigger modal -->
-                                                                            {{-- <a href="{{ route('front-desk.reservations.edit', $reservation) }}"
+                                                                            <a href="{{ route('front-desk.reservations.edit', $reservation) }}"
                                                                                 class="modalButton text-gray-700 block px-4 py-2 text-sm"
                                                                                 role="menuitem" tabindex="-1"
                                                                                 data-target-modal="myModal{{ $reservation->id }}"
@@ -898,7 +898,7 @@
                                                                                         d="M19.7 8.3c-.4-.4-1-.4-1.4 0l-10 10c-.2.2-.3.4-.3.7v4c0 .6.4 1 1 1h4c.3 0 .5-.1.7-.3l10-10c.4-.4.4-1 0-1.4l-4-4zM12.6 22H10v-2.6l6-6 2.6 2.6-6 6zm7.4-7.4L17.4 12l1.6-1.6 2.6 2.6-1.6 1.6z">
                                                                                     </path>
                                                                                 </svg>
-                                                                            </a> --}}
+                                                                            </a>
                                                                         @else
                                                                             <!-- Button trigger modal -->
                                                                             <a href="{{ route('admin.reservations.edit', $reservation) }}"
@@ -966,7 +966,7 @@
                                                                                         class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                                                                                         <form
                                                                                             class="flex items-center justify-center w-full pb-3"
-                                                                                            action="{{ route('admin.reservations.destroy', $reservation) }}"
+                                                                                            action="{{ auth()->user()->hasRole('Admin') ? route('admin.reservations.destroy', $reservation) : route('front-desk.reservations.destroy', $reservation) }}"
                                                                                             method="POST">
                                                                                             @csrf
                                                                                             @method('DELETE')
@@ -1032,6 +1032,443 @@
                 var targetModal = this.closest('.myModal');
                 targetModal.style.display = 'none';
             });
+        });
+    </script>
+
+
+    <script>
+        document.getElementById("searchForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let url = event.target.action;
+            let formData = new FormData(event.target);
+
+            fetch(url, {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest",
+                        "X-CSRF-TOKEN": document
+                            .querySelector('meta[name="csrf-token"]')
+                            .getAttribute("content"),
+                    },
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    // Clear the existing rooms
+                    let reservationContainer = document.getElementById("reservationsList");
+                    reservationContainer.innerHTML = "";
+
+                    statusColors = {
+                        'Confirmed': 'bg-cyan-100 border-cyan-500 text-cyan-500',
+                        'Due In': 'bg-green-100 border-green-500 text-green-500',
+                        'Checked In': 'bg-indigo-100 border-indigo-500 text-indigo-500',
+                        'Due Out': 'bg-pink-100 border-pink-500 text-pink-500',
+                        'Checked Out': 'bg-orange-100 border-orange-500 text-orange-500',
+                        'Pending': 'bg-yellow-100 border-yellow-500 text-yellow-500',
+                        'Rejected': 'bg-red-100 border-red-500 text-red-500',
+                    };
+
+
+                    roomStatus = {
+                        'Single': 'text-orange-500',
+                        'Double': 'text-green-500',
+                        'Suite': 'bg-indigo-100 border-indigo-500 text-indigo-500',
+                    };
+
+
+                    // Add the new reservations
+                    data.reservations.forEach((reservation) => {
+
+                        var statusClass = statusColors[reservation.statut];
+
+                        let reservationElement = `
+                        <tr class="border-y border-transparent">
+                            <td class="whitespace-nowrap px-4 py-3 sm:px-5">${reservation.id}</td>
+                            <td class="whitespace-nowrap  px-4 py-3 sm:px-5">
+                                <div class="block w-9 h-9 overflow-hidden rounded-full shadow focus:outline-none">
+                                    <img class="object-cover w-full h-full"
+                                        src="${reservation.image ? reservation.image : 'img/bg-img/default-profile.jpeg'}"
+                                        alt="Your avatar" />
+                                </div>
+                            </td>
+                            <td
+                                class="whitespace-nowrap  px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5">
+                                ${reservation.name}
+                            </td>
+                            <td class="text-[13px] whitespace-nowrap  text-[#64748B] text-sm px-4 py-3 sm:px-5">
+                                ${new Date(reservation.checkIn).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
+                            </td>
+                            <td class="text-[13px] whitespace-nowrap  text-[#64748B] text-sm px-4 py-3 sm:px-5">
+                                ${new Date(reservation.checkOut).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
+                            </td>
+                            <td
+                                class="whitespace-nowrap  px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5">
+                                $${reservation.totalAmount}
+                            </td>
+                            <td
+                                class="whitespace-nowrap  px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5">
+                                $${reservation.amountPaid}
+                            </td>
+                            <td class="whitespace-nowrap  px-4 py-3 sm:px-5">
+                                <div class="flex space-x-2">
+                                    <div
+                                        class="rounded-full border ${statusClass} text-[11px] px-[8px] py-[3px] font-semibold">
+                                        ${reservation.statut}
+                                    </div>
+
+                                </div>
+                            </td>
+                            <td class="text-[13px] whitespace-nowrap  text-[#64748B] text-sm px-4 py-3 sm:px-5">
+                                ${reservation.ref}
+                            </td>
+                            <td class="whitespace-nowrap  px-4 py-3 sm:px-5">
+                                <button onclick="document.getElementById('showTr${reservation.id}').classList.toggle('hidden')"
+                                    class="btn size-8 rounded-full p-0 text-[#64748B] text-sm hover:bg-slate-300/20 focus:bg-slate-300/20 active:bg-slate-300/25 dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25">
+                                    <i id="icon"
+                                        class="fas fa-chevron-down text-sm transition-transform"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <tr id="showTr${reservation.id}"
+                            class="hidden border-y border-transparent border-b-slate-200 dark:border-b-navy-500">
+                            <td colspan="100" class="p-0">
+                                <div>
+                                    <div class="px-4 pb-4 sm:px-5">
+                                        <div class="is-scrollbar-hidden min-w-full overflow-x-auto">
+                                            <table class="is-hoverable w-full text-left">
+                                                <thead>
+                                                    <tr
+                                                        class="border-y border-transparent border-b-slate-200 dark:border-b-navy-500">
+                                                        <th
+                                                            class="whitespace-nowrap  px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5">
+                                                            EMail
+                                                        </th>
+                                                        <th
+                                                            class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5">
+                                                            Phone
+                                                        </th>
+                                                        <th
+                                                            class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5">
+                                                            Room
+                                                        </th>
+                                                        <th
+                                                            class="whitespace-nowrap  px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5">
+                                                            Room Type
+                                                        </th>
+                                                        <th
+                                                            class="whitespace-nowrap  px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5">
+                                                            Price
+                                                        </th>
+                                                        <th
+                                                            class="whitespace-nowrap  px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5">
+                                                            created at
+                                                        </th>
+                                                        <th
+                                                            class="whitespace-nowrap  px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5">
+                                                            Actions
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="border-y border-transparent">
+                                                        <td
+                                                            class="whitespace-nowrap  text-[#364A62] text-sm px-4 py-3 sm:px-5">
+                                                            ${reservation.email}
+                                                        </td>
+                                                        <td
+                                                            class="whitespace-nowrap  text-[#64748B] text-sm px-4 py-3 sm:px-5">
+                                                            ${reservation.phone ? reservation.phone : '000-000-0000'}
+                                                        </td>
+                                                        <td
+                                                            class="whitespace-nowrap text-[#364A62] text-sm px-4 py-3 sm:px-5">
+                                                            ${reservation.name }
+                                                        </td>
+                                                        <td class="whitespace-nowrap px-4 py-3 sm:px-5">
+                                                            <div class="flex space-x-2">
+
+
+                                                                <div
+                                                                    class="rounded-full ${roomStatus[reservation.room_type]} text-xs px-2 py-1 font-semibold">
+                                                                    ${reservation.room_type }
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="whitespace-nowrap px-4 py-3 sm:px-5">
+                                                            <div class="flex space-x-2">
+                                                                <div class=" px-[8px] py-[3px] font-semibold">
+                                                                    ${ reservation.room_price }
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td
+                                                            class="whitespace-nowrap text-[#364A62] text-sm px-4 py-3 sm:px-5">
+                                                            ${new Date(reservation.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric'})}
+                                                        </td>
+                                                        <td>
+                                                            <div class="flex justify-center items-center">
+                                                                @if ($reservation->ref == 'guest')
+                                                                    <div>
+                                                                        <!-- Button trigger modal -->
+                                                                        <a href="${reservation.detailsUrl}"
+                                                                            class="modalButton text-gray-700 block px-4 py-2 text-sm"
+                                                                            role="menuitem" tabindex="-1"
+                                                                            data-target-modal="myModal${reservation.id}"
+                                                                            id="modalButton">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                viewBox="0 0 32 32" width="32"
+                                                                                fill="#364A62" height="32">
+                                                                                <path
+                                                                                    d="M19.7 8.3c-.4-.4-1-.4-1.4 0l-10 10c-.2.2-.3.4-.3.7v4c0 .6.4 1 1 1h4c.3 0 .5-.1.7-.3l10-10c.4-.4.4-1 0-1.4l-4-4zM12.6 22H10v-2.6l6-6 2.6 2.6-6 6zm7.4-7.4L17.4 12l1.6-1.6 2.6 2.6-1.6 1.6z">
+                                                                                </path>
+                                                                            </svg>
+                                                                        </a>
+
+                                                                        <!-- Modal -->
+                                                                        <div class="myModal fixed z-50 inset-0 flex items-center justify-center"
+                                                                            aria-labelledby="modal-title"
+                                                                            id="myModal${reservation.id}"
+                                                                            style="display: none;" role="dialog"
+                                                                            aria-modal="true">
+                                                                            <div class="fixed w-full h-full  top-0 left-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                                                                                aria-hidden="true"></div>
+
+                                                                            <!-- Modal content -->
+                                                                            <div
+                                                                                class="bg-white rounded-lg text-left shadow-xl transform transition-all sm:max-w-sm sm:w-full">
+                                                                                <div class="pb-4 sm:py-6 sm:pb-4">
+                                                                                    <div
+                                                                                        class="flex items-center justify-between px-6">
+                                                                                        <h3 class="text-lg leading-6 font-medium text-gray-900"
+                                                                                            id="modal-title">
+                                                                                            Edit Reservation statut
+                                                                                        </h3>
+                                                                                        <button type="button"
+                                                                                            class="closeModal text-gray-400 bg-transparent  hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                                                                                            <svg class="w-3 h-3"
+                                                                                                aria-hidden="true"
+                                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                                fill="none"
+                                                                                                viewBox="0 0 14 14">
+                                                                                                <path
+                                                                                                    stroke="currentColor"
+                                                                                                    stroke-linecap="round"
+                                                                                                    stroke-linejoin="round"
+                                                                                                    stroke-width="2"
+                                                                                                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                                                                            </svg>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    <div class="mt-2">
+                                                                                        <form
+                                                                                            enctype="multipart/form-data"
+                                                                                            id="reservation-form-${reservation.id });"
+                                                                                            action="${reservation.updateUrl}"
+                                                                                            method="POST">
+                                                                                            @csrf
+                                                                                            @method('PUT')
+                                                                                            <div
+                                                                                                class="border-t px-6 py-4">
+                                                                                                <div
+                                                                                                    class="">
+                                                                                                    <div
+                                                                                                        class="pr-4">
+                                                                                                        <label
+                                                                                                            for="statut"
+                                                                                                            class="text-[12px] font-semibold text-[#364a63]">
+                                                                                                            Rservation
+                                                                                                            Statut
+                                                                                                        </label>
+                                                                                                        <div class="relative w-full inline-block text-left mr-1"
+                                                                                                            x-data="{ open: false }"
+                                                                                                            @click.away="open = false">
+                                                                                                            <div>
+                                                                                                                <button
+                                                                                                                    type="button"
+                                                                                                                    class="inline-flex w-full justify-between items-center gap-x-1.5 rounded-[5px] text-[#526484] px-3 py-3 font-medium text-sm shadow-sm ring-1 ring-inset ring-gray-300"
+                                                                                                                    id="menu-button"
+                                                                                                                    aria-expanded="true"
+                                                                                                                    aria-haspopup="true"
+                                                                                                                    @click="open = !open">
+                                                                                                                    <input
+                                                                                                                        type="hidden"
+                                                                                                                        name="statut"
+                                                                                                                        value="${reservation.statut }"
+                                                                                                                        id="inputValue${reservation.id}" />
+                                                                                                                    <input
+                                                                                                                        type="text"
+                                                                                                                        class="outline-none text-[12px] pointer-events-none cursor-pointer border-0 overflow-hidden w-11/12"
+                                                                                                                        name="statut"
+                                                                                                                        disabled
+                                                                                                                        value="${reservation.statut }"
+                                                                                                                        id="filter-type${reservation.id }" />
+                                                                                                                    <svg :class="{ 'rotate-180': open }"
+                                                                                                                        class="-mr-1 h-4 w-4 text-gray-400"
+                                                                                                                        viewBox="0 0 20 20"
+                                                                                                                        fill="currentColor"
+                                                                                                                        aria-hidden="true">
+                                                                                                                        <path
+                                                                                                                            fill-rule="evenodd"
+                                                                                                                            d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                                                                                                                            clip-rule="evenodd" />
+                                                                                                                    </svg>
+                                                                                                                </button>
+                                                                                                            </div>
+
+                                                                                                            <div class="absolute right-0 z-50 mt-2 w-6/12 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                                                                                                role="menu"
+                                                                                                                aria-orientation="vertical"
+                                                                                                                aria-labelledby="menu-button"
+                                                                                                                tabindex="-1"
+                                                                                                                x-show="open">
+                                                                                                                <div class="py-1"
+                                                                                                                    role="none">
+                                                                                                                    @foreach (App\Models\Reservation::STATUT_RADIO as $value => $label)
+                                                                                                                        <button
+                                                                                                                            type="button"
+                                                                                                                            class="text-gray-70 block px-4 py-1.5 sm:py-2 text-[15px]"
+                                                                                                                            role="menuitem"
+                                                                                                                            tabindex="-1"
+                                                                                                                            id="menu-item-0"
+                                                                                                                            onclick="document.getElementById('filter-type${reservation.id }').value = '{{ $value }}'
+                                                                                                                            document.getElementById('inputValue{{ $reservation->id }}').value = '{{ $value }}'"
+                                                                                                                            @click="open = !open">{{ $label }}
+                                                                                                                        </button>
+                                                                                                                    @endforeach
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div
+                                                                                                    class="mt-5  sm:mt-6">
+                                                                                                    <button
+                                                                                                        type="submit"
+                                                                                                        class="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
+                                                                                                        Save
+                                                                                                    </button>
+                                                                                                    <button
+                                                                                                        type="button"
+                                                                                                        class="closeModalButton mt-3 inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                                                                                                        Close
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                @else
+                                                                    <!-- Button trigger modal -->
+                                                                    <a href="${reservation.detailsUrl}"
+                                                                        class="modalButton text-gray-700 block px-4 py-2 text-sm"
+                                                                        role="menuitem" tabindex="-1"
+                                                                        data-target-modal="myModal${reservation.id}"
+                                                                        id="modalButton">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            viewBox="0 0 32 32" width="32"
+                                                                            fill="#364A62" height="32">
+                                                                            <path
+                                                                                d="M19.7 8.3c-.4-.4-1-.4-1.4 0l-10 10c-.2.2-.3.4-.3.7v4c0 .6.4 1 1 1h4c.3 0 .5-.1.7-.3l10-10c.4-.4.4-1 0-1.4l-4-4zM12.6 22H10v-2.6l6-6 2.6 2.6-6 6zm7.4-7.4L17.4 12l1.6-1.6 2.6 2.6-1.6 1.6z">
+                                                                            </path>
+                                                                        </svg>
+                                                                    </a>
+                                                                @endif
+
+                                                                <!-- Delete Icon -->
+                                                                <div x-data="{ open: false }">
+                                                                    <!-- Delete Icon -->
+                                                                    <button @click="open = true">
+                                                                        <svg class="mt-1"
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            fill="#E11D48" viewBox="0 0 32 32"
+                                                                            width="32" height="32"
+                                                                            stroke-width="1">
+                                                                            <path d="M13 15h2v6h-2zM17 15h2v6h-2z">
+                                                                            </path>
+                                                                            <path
+                                                                                d="M20 9c0-.6-.4-1-1-1h-6c-.6 0-1 .4-1 1v2H8v2h1v10c0 .6.4 1 1 1h12c.6 0 1-.4 1-1V13h1v-2h-4V9zm-6 1h4v1h-4v-1zm7 3v9H11v-9h10z">
+                                                                            </path>
+                                                                        </svg>
+                                                                    </button>
+
+                                                                    <!-- Modal -->
+                                                                    <div x-show="open"
+                                                                        class="fixed z-50 inset-0 flex items-center justify-center"
+                                                                        aria-labelledby="modal-title"
+                                                                        role="dialog" aria-modal="true">
+                                                                        <div class="fixed w-full h-full  top-0 left-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                                                                            aria-hidden="true"></div>
+
+                                                                        <!-- Modal content -->
+                                                                        <div
+                                                                            class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                                                                            <div
+                                                                                class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                                                                <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+                                                                                    aria-hidden="true"
+                                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                                    fill="none"
+                                                                                    viewBox="0 0 20 20">
+                                                                                    <path stroke="currentColor"
+                                                                                        stroke-linecap="round"
+                                                                                        stroke-linejoin="round"
+                                                                                        stroke-width="2"
+                                                                                        d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                                                </svg>
+                                                                                <h3
+                                                                                    class="mb-3 text-center text-lg font-normal text-gray-500 dark:text-gray-400">
+                                                                                    Are you sure you want to delete
+                                                                                    this Reservation?</h3>
+                                                                            </div>
+                                                                            <div
+                                                                                class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                                                                <form
+                                                                                    class="flex items-center justify-center w-full pb-3"
+                                                                                    action="${reservation.deleteUrl}"
+                                                                                    method="POST">
+                                                                                    @csrf
+                                                                                    @method('DELETE')
+
+                                                                                    <button type="submit"
+                                                                                        @click="open = false"
+                                                                                        class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                                                                                        Yes, I'm sure
+                                                                                    </button>
+                                                                                    <button type="button"
+                                                                                        @click="open = false"
+                                                                                        class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">No,
+                                                                                        cancel
+                                                                                    </button>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>`
+                        reservationContainer.innerHTML += reservationElement;
+                    });
+
+                    document.getElementById("paginationContainer").innerHTML =
+                        data.links;
+                })
+
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
         });
     </script>
 @endsection

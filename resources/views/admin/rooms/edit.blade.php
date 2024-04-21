@@ -24,7 +24,7 @@
     <section class="container mx-auto px-6 section-margin-20">
         <div class="rounded-t-[4px] border bg-white">
         <!-- Booking create Section -->
-        <form method="POST" action="{{ route('rooms.update', $room->id) }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('admin.rooms.update', $room->id) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div

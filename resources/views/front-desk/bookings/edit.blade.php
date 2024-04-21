@@ -58,7 +58,7 @@
     <section class="container mx-auto px-6 section-margin-20">
         <div class="rounded-t-[4px] border bg-white">
             <!-- Booking create Section -->
-            <form method="POST" action="{{ route('admin.reservations.update', $reservation) }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ auth()->user()->hasRole('admin') ? route('admin.reservations.update', $reservation) : route('front-desk.reservations.update', $reservation) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="px-5 py-5 justify-between border-b-[0.7px] grid lg:grid-cols-3 md:grid-cols-2 gap-4">

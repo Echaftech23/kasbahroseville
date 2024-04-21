@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\FrontDesk;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class GuestController extends Controller
 {
@@ -17,7 +16,7 @@ class GuestController extends Controller
         $guests = User::latest()->paginate(10);
         $Totalguests = User::count();
 
-        return view('admin.guests.index', compact('guests', 'Totalguests'));
+        return view('front-desk.guests.index', compact('guests', 'Totalguests'));
     }
 
 
@@ -28,7 +27,7 @@ class GuestController extends Controller
     {
         try {
             $reservations = $guest->reservations()->latest()->paginate(10);
-            return view('admin.guests.show', compact('guest', 'reservations'));
+            return view('front-desk.guests.show', compact('guest', 'reservations'));
         } catch (\Exception $e) {
             return back()->with('error', 'Something went wrong!');
         }
@@ -54,22 +53,7 @@ class GuestController extends Controller
      */
     public function profile(){
         $profile = auth()->user();
-        return view('admin.profile', compact('profile'));
-    }
-
-    public function updateProfile(Request $request, User $profile){
-        try {
-
-            if ($request->hasFile('user-image')) {
-                $profile->clearMediaCollection('profile');
-                $profile->addMediaFromRequest('user-image')->toMediaCollection('profile');
-            }
-
-            $profile->update($request->all());
-            return redirect()->back()->with('success', 'Profile updated successfully');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('warning', 'Something went wrong!');
-        }
+        return view('front-desk.profile', compact('profile'));
     }
 
     /**
@@ -81,7 +65,7 @@ class GuestController extends Controller
 
             $guest->delete();
 
-            return redirect()->route('admin.guests.index')->with('success', 'Guest deleted successfully.');
+            return redirect()->route('guests.index')->with('success', 'Guest deleted successfully.');
         } catch (\Exception $e) {
             return back()->with('error', 'Something went wrong! Please try again.');
         }
@@ -95,7 +79,7 @@ class GuestController extends Controller
             ->orWhere('statut', 'like', '%' . $search . '%')
             ->latest()->paginate(10);
 
-        return view('admin.guests.index', ['guests' => $guests, 'Totalguests' => $Totalguests]);
+        return view('front-desk.guests.index', ['guests' => $guests, 'Totalguests' => $Totalguests]);
     }
 
 }

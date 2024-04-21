@@ -233,7 +233,7 @@
                                         </div>
                                         <div class="mt-2">
                                             <form id="guest-form-{{ $guest->id }}" @submit.prevent="submitForm"
-                                                action="{{ route('admin.guests.update', $guest) }}" method="POST">
+                                                action="{{ route('guests.update', $guest) }}" method="POST">
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="border-t px-6 py-4">
@@ -302,7 +302,7 @@
                                 </div>
                                 <div class="flex grow flex-col px-4 pb-5 pt-1 text-center sm:px-5">
                                     <div class="mt-1">
-                                        <a href="{{ route('admin.reservations.show', $reservation->room->id) }}"
+                                        <a href="{{ route('reservations.show', $reservation->room->id) }}"
                                             class="text-lg font-medium text-gray-700 hover:text-blue-500 focus:text-blue-500 dark:text-gray-100 dark:hover:text-blue-300 dark:focus:text-blue-300">
                                             {{ $reservation->room->name }} Room
                                         </a>

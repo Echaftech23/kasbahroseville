@@ -28,7 +28,7 @@ class AuthController extends Controller
             'level' => 'Admin'
         ]);
 
-        $user->roles()->attach([2]);
+        $user->roles()->sync([3]);
         return redirect()->route('login')->with('success', 'Registered successfully');
     }
 
@@ -51,9 +51,9 @@ class AuthController extends Controller
 
         // Check the user's role and redirect based on the role
         if ($user && $user->hasRole('Admin')) {
-            return redirect()->route('dashboard');
+            return redirect()->route('admin.dashboard');
         } elseif ($user && $user->hasRole('Front-desk')) {
-            return redirect('reservations');
+            return redirect()->route('front-desk.dashboard');
         }
         else {
             return redirect('/home')->with('success', "logged In Successfully");

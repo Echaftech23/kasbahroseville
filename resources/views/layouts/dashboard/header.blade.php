@@ -32,7 +32,7 @@
                         src="{{ Auth::user()->getFirstMediaUrl('profile') ? Auth::user()->getFirstMediaUrl('profile') : asset('img/bg-img/default-profile.jpeg') }}"
                         alt="Your avatar" />
                 </div>
-                <span class="text-sm font-medium mobile md:block cursor-pointer">Rachid Echafai</span>
+                <span class="text-sm font-medium mobile md:block cursor-pointer">{{Auth::user()->name}}</span>
             </button>
 
             <div x-show="dropdownOpen" @click="dropdownOpen = ! dropdownOpen"

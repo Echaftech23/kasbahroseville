@@ -149,7 +149,7 @@
                                     </svg>
                                 </span>
 
-                                <form action="{{ route('admin.guests.search') }}" method="POST" id="guestForm">
+                                <form action="{{ route('guests.search') }}" method="POST" id="guestForm">
                                     @csrf
                                     <input
                                         class="w-[220px] sm:w-[180px] lg:w-[240px] pl-10 pr-4 rounded-lg form-input bg-[#ecf1f9] outline-none text-sm py-2 focus:border-indigo-600"
@@ -254,7 +254,7 @@
                                     </td>
                                     <td class="whitespace-nowrap flex items-center px-4 py-3 sm:px-5">
 
-                                        <a href="{{ route('admin.guests.show', $guest) }}"
+                                        <a href="{{ route('guests.show', $guest) }}"
                                             class="badge mr-2 text-[#6576FF] space-x-2 p-2 px-3 text-[12px] rounded-sm font-semibold flex items-center focus:bg-[#6576FF] hover:bg-[#6576FF] hover:text-white focus:text-white bg-slate-100 dark:bg-navy-500 dark:text-navy-100">
                                             <span>View</span>
                                         </a>
@@ -307,7 +307,7 @@
                                                             <form
                                                                 id="guest-form-{{ $guest->id }}"
                                                                 @submit.prevent="submitForm"
-                                                                action="{{ route('admin.guests.update', $guest) }}"
+                                                                action="{{ route('guests.update', $guest) }}"
                                                                 method="POST">
                                                                 @csrf
                                                                 @method('PUT')
@@ -359,7 +359,7 @@
                                             </button>
 
                                             <!-- Modal -->
-                                            <div x-show="open" style="display: none;" x-cloak
+                                            <div x-show="open"
                                                 class="fixed z-50 inset-0 flex items-center justify-center"
                                                 aria-labelledby="modal-title" role="dialog" aria-modal="true">
                                                 <div class="fixed w-full h-full  top-0 left-0 bg-gray-500 bg-opacity-75 transition-opacity"
@@ -384,7 +384,7 @@
                                                     <div
                                                         class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                                                         <form class="flex items-center justify-center w-full pb-3"
-                                                            action="{{ route('admin.guests.destroy', $guest) }}"
+                                                            action="{{ route('guests.destroy', $guest) }}"
                                                             method="POST">
                                                             @csrf
                                                             @method('DELETE')

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\FrontDesk;
 
 use App\Http\Controllers\Controller;
 use App\Models\Reservation;
@@ -23,7 +23,7 @@ class ReservationController extends Controller
     {
         $reservations = Reservation::with('payment', 'user', 'room')->latest()->paginate(10);
 
-        return view('admin.bookings.index', compact('reservations'));
+        return view('front-desk.bookings.index', compact('reservations'));
     }
 
     public function events()
@@ -42,7 +42,7 @@ class ReservationController extends Controller
             ];
         }
 
-        return view('admin.calender', compact('events', 'reservationsCount'));
+        return view('front-desk.calender', compact('events', 'reservationsCount'));
     }
 
     /**
@@ -52,7 +52,7 @@ class ReservationController extends Controller
     {
         $rooms = Room::all();
 
-        return view('admin.bookings.create', compact('rooms'));
+        return view('front-desk.bookings.create', compact('rooms'));
     }
 
     /**
@@ -60,7 +60,7 @@ class ReservationController extends Controller
      */
     public function store(StoreReservationRequest $request)
     {
-        try{
+        try {
             $room = Room::find($request->room_id);
 
             if ($room->isAvailable($request->total_children, $request->total_adults, $request->checkIn, $request->checkOut)) {
@@ -77,7 +77,7 @@ class ReservationController extends Controller
                     $user->addMediaFromRequest('user-image')->toMediaCollection('profile');
                 }
 
-                $reservation = Reservation::create(array_merge($request->validated(), ['user_id' => $user->id, 'ref' => 'admin']));
+                $reservation = Reservation::create(array_merge($request->validated(), ['user_id' => $user->id, 'ref' => 'front-desk']));
 
                 $payment = Payment::create([
                     'totalAmount' => $request->totalAmount,
@@ -91,12 +91,10 @@ class ReservationController extends Controller
 
                 $room->update(['room_statut' => 'Booked']);
 
-                return redirect()->route('admin.reservations.index')->with('success', 'Reservation created successfully!');
-            }
-            else{
+                return redirect()->route('front-desk.reservations.index')->with('success', 'Reservation created successfully!');
+            } else {
                 return redirect()->back()->with('error', 'Room is not available')->withInput();
             }
-
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong Please try again!');
         }
@@ -109,7 +107,7 @@ class ReservationController extends Controller
     {
         $rooms = Room::all();
 
-        return view('admin.bookings.edit', compact( 'rooms', 'reservation'));
+        return view('front-desk.bookings.edit', compact('rooms', 'reservation'));
     }
 
     /**
@@ -156,12 +154,51 @@ class ReservationController extends Controller
 
                 $room->update(['room_statut' => $request->room_statut]);
 
-                return redirect()->route('admin.reservations.index')->with('success', 'Reservation updated successfully!');
-
+                return redirect()->route('front-desk.reservations.index')->with('success', 'Reservation updated successfully!');
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong Please try again!');
         }
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->get('reservation-search');
+
+        $reservations = Reservation::where('ref', 'like', '%' . $search . '%')
+            ->orWhere('statut', 'like', '%' . $search . '%')
+            ->orWhere('checkIn', 'like', '%' . $search . '%')
+            ->orWhere('checkOut', 'like', '%' . $search . '%')
+            ->orWhereHas('user', function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%');
+            })->latest()->paginate(10);
+
+        $links = $reservations->links('vendor.pagination.custom')->toHtml();
+
+        $reservationData = $reservations->map(function ($reservation) {
+            return [
+                'detailsUrl' => route('front-desk.reservations.edit', $reservation->id),
+                'updateUrl' => route('front-desk.reservations.update', $reservation->id),
+                'deleteUrl' => route('front-desk.reservations.destroy', $reservation->id),
+                'id' => $reservation->id,
+                'image' => $reservation->user->getFirstMediaUrl('profile'),
+                'name' => $reservation->user->name,
+                'email' => $reservation->user->email,
+                'phone' => $reservation->user->phone,
+                'checkIn' => $reservation->checkIn,
+                'checkOut' => $reservation->checkOut,
+                'totalAmount' => $reservation->payment->totalAmount,
+                'amountPaid' => $reservation->payment->amountPaid,
+                'statut' => $reservation->statut,
+                'ref' => $reservation->ref,
+                'room' => $reservation->room->name,
+                'room_type' => $reservation->room->type->type,
+                'room_price' => $reservation->room->price,
+                'created_at' => $reservation->created_at,
+            ];
+        });
+
+        return response()->json(['reservations' => $reservationData, 'links' => $links,]);
     }
 
     public function filter(Request $request)
@@ -170,7 +207,7 @@ class ReservationController extends Controller
 
         $reservations = Reservation::with('room', 'user', 'payment');
 
-        if ($request->has('payment_statut')) {
+        if ($request->input('payment_statut')) {
             $query->whereHas('payment', function ($query) use ($request) {
                 $query->where('statut', $request->get('payment_statut'));
             });
@@ -198,7 +235,7 @@ class ReservationController extends Controller
                     $date = $date->subMonth();
                     break;
             }
-            $query->where('created_at','>=', $date)->get();
+            $query->where('created_at', '>=', $date)->get();
         }
 
         if ($request->has('statut')) {
@@ -207,26 +244,13 @@ class ReservationController extends Controller
 
         $reservations = $query->latest()->paginate(10);
 
+        // dd($reservations);
+
         if ($reservations->isEmpty()) {
-            return view('admin.bookings.index')->with('error', 'No reservations found.');
+            return view('front-desk.bookings.index')->with('error', 'No reservations found.');
         }
 
-        return view('admin.bookings.index', compact('reservations'));
-    }
-
-    public function search(Request $request)
-    {
-        $search = $request->get('reservation-search');
-
-        $reservations = Reservation::where('ref', 'like', '%' . $search . '%')
-            ->orWhere('statut', 'like', '%' . $search . '%')
-            ->orWhere('checkIn', 'like', '%' . $search . '%')
-            ->orWhere('checkOut', 'like', '%' . $search . '%')
-            ->orWhereHas('user', function ($query) use ($search) {
-                $query->where('name', 'like', '%' . $search . '%');
-            })->latest()->paginate(10);
-
-        return view('admin.bookings.index', ['reservations' => $reservations]);
+        return view('front-desk.bookings.index', compact('reservations'));
     }
 
 
@@ -239,7 +263,7 @@ class ReservationController extends Controller
 
             $reservation->delete();
 
-            return redirect()->back()->with('success', 'Reservation deleted successfully.');
+            return redirect()->route('front-desk.bookings.index')->with('success', 'Reservation deleted successfully.');
         } catch (\Exception $e) {
             return back()->with('error', 'Something went wrong! Please try again.');
         }

@@ -1,18 +1,24 @@
 <?php
 
-use App\Http\Controllers\Admin\FacilityController;
-use App\Http\Controllers\Admin\GuestController;
-use App\Http\Controllers\Admin\RoomController;
-use App\Http\Controllers\Guest\RoomController as GuestRoomController;
-use App\Http\Controllers\Admin\TypeController;
-use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Guest\PaymentController;
-use App\Http\Controllers\Admin\PaymentController as AdminPaymentController;
 use App\Http\Controllers\Guest\ReservationController;
+use App\Http\Controllers\Guest\RoomController as GuestRoomController;
+use App\Http\Controllers\Admin\RoomController;
+use App\Http\Controllers\Admin\TypeController;
+use App\Http\Controllers\Admin\GuestController;
+use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\FacilityController;
+use App\Http\Controllers\Admin\PaymentController as AdminPaymentController;
 use App\Http\Controllers\Admin\ReservationController as AdminReservationController ;
+use App\Http\Controllers\FrontDesk\GuestController as FrontDeskGuestController;
+use App\Http\Controllers\FrontDesk\RoomController as FrontDeskRoomController;
+use App\Http\Controllers\FrontDesk\ReportController as FrontDeskReportController;
+use App\Http\Controllers\FrontDesk\PaymentController as FrontDeskPaymentController;
+use App\Http\Controllers\FrontDesk\ReservationController as FrontDeskReservationController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\ReportController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -37,46 +43,118 @@ Route::middleware(['guest'])->group(function () {
 // Admin Routes :
 Route::middleware(['auth', 'isAdmin'])->group(function () {
 
-    Route::get('/dashboard', [ReportController::class, 'getStats'])->name('dashboard');
-    Route::get('/profile', [GuestController::class, 'profile'])->name('profile');
+    Route::get('/admin/dashboard', [ReportController::class, 'getStats'])->name('admin.dashboard');
+    Route::get('/admin/profile', [GuestController::class, 'profile'])->name('admin.profile');
 
-    Route::resource('rooms', RoomController::class);
-    Route::post('rooms/search', [RoomController::class, 'search'])->name('rooms.search');
-    Route::post('rooms/filter', [RoomController::class, 'filter'])->name('rooms.filter');
-    Route::post('reservations/search', [AdminReservationController::class, 'search'])->name('reservations.search');
-    Route::post('reservations/filter', [AdminReservationController::class, 'filter'])->name('reservations.filter');
+    Route::resource('/admin/rooms', RoomController::class)->names([
+        'index' => 'admin.rooms.index',
+        'create' => 'admin.rooms.create',
+        'store' => 'admin.rooms.store',
+        'show' => 'admin.rooms.show',
+        'edit' => 'admin.rooms.edit',
+        'update' => 'admin.rooms.update',
+        'destroy' => 'admin.rooms.destroy',
+    ]);
 
-    Route::get('/front-desk', [AdminReservationController::class, 'events'])->name('events');
+    Route::post('/admin/rooms/search', [RoomController::class, 'search'])->name('admin.rooms.search');
+    Route::post('/admin/rooms/filter', [RoomController::class, 'filter'])->name('admin.rooms.filter');
+    Route::post('/admin/reservations/search', [AdminReservationController::class, 'search'])->name('admin.reservations.search');
+    Route::post('/admin/reservations/filter', [AdminReservationController::class, 'filter'])->name('admin.reservations.filter');
 
-    Route::resource('payments', AdminPaymentController::class);
-    Route::get('/admin/payments/invoices/{payment}', [AdminPaymentController::class, 'download'])->name('invoice.download');
+    Route::get('/admin/calender', [AdminReservationController::class, 'events'])->name('admin.calender');
 
-    Route::get('/booking/reports', [ReportController::class, 'index'])->name('reports.index');
-    Route::post('reports/search', [ReportController::class, 'search'])->name('reports.search');
-    Route::post('/reports/filter', [ReportController::class, 'filter'])->name('reports.filter');
+    Route::resource('/admin/payments', AdminPaymentController::class)->names([
+        'index' => 'admin.payments.index',
+        'create' => 'admin.payments.create',
+        'store' => 'admin.payments.store',
+        'show' => 'admin.payments.show',
+        'edit' => 'admin.payments.edit',
+        'update' => 'admin.payments.update',
+        'destroy' => 'admin.payments.destroy'
+    ]);
+
+    Route::get('/admin/payments/invoices/{payment}', [AdminPaymentController::class, 'download'])->name('admin.invoice.download');
+
+    Route::get('/admin/bookings/reports', [ReportController::class, 'index'])->name('admin.reports.index');
+    Route::post('reports/search', [ReportController::class, 'search'])->name('admin.reports.search');
+    Route::post('/reports/filter', [ReportController::class, 'filter'])->name('admin.reports.filter');
 
 
-    Route::resource('guests', GuestController::class);
-    Route::post('guests/search', [GuestController::class, 'search'])->name('guests.search');
+    Route::resource('/admin/guests', GuestController::class)->names([
+        'index' => 'admin.guests.index',
+        'create' => 'admin.guests.create',
+        'store' => 'admin.guests.store',
+        'show' => 'admin.guests.show',
+        'edit' => 'admin.guests.edit',
+        'update' => 'admin.guests.update',
+        'destroy' => 'admin.guests.destroy',
+    ]);
 
-    Route::resource('types', TypeController::class)->except('show');
-    Route::post('types/search', [TypeController::class, 'search'])->name('types.search');
+    Route::put('/admin/guests/updateProfile/{profile}', [GuestController::class, 'updateProfile'])->name('admin.guests.updateProfile');
+    Route::post('/admin/guests/search', [GuestController::class, 'search'])->name('admin.guests.search');
 
-    Route::resource('facilities', FacilityController::class)->except('show');
-    Route::post('facilities/search', [FacilityController::class, 'search'])->name('facilities.search');
+    Route::resource('/admin/types', TypeController::class)->except('show')->names([
+        'index' => 'admin.types.index',
+        'create' => 'admin.types.create',
+        'store' => 'admin.types.store',
+        'edit' => 'admin.types.edit',
+        'update' => 'admin.types.update',
+        'destroy' => 'admin.types.destroy'
+    ]);
 
-    Route::prefix('admin')->name('admin.')->group(function () {
-        Route::resource('reservations', AdminReservationController::class);
-    });
+    Route::post('/admin/types/search', [TypeController::class, 'search'])->name('admin.types.search');
+
+    Route::resource('/admin/facilities', FacilityController::class)->except('show')->names([
+        'index' => 'admin.facilities.index',
+        'create' => 'admin.facilities.create',
+        'store' => 'admin.facilities.store',
+        'edit' => 'admin.facilities.edit',
+        'update' => 'admin.facilities.update',
+        'destroy' => 'admin.facilities.destroy'
+    ]);
+
+    Route::post('/admin/facilities/search', [FacilityController::class, 'search'])->name('admin.facilities.search');
+
+    Route::resource('/admin/reservations', AdminReservationController::class)->names([
+        'index' => 'admin.reservations.index',
+        'create' => 'admin.reservations.create',
+        'store' => 'admin.reservations.store',
+        'show' => 'admin.reservations.show',
+        'edit' => 'admin.reservations.edit',
+        'update' => 'admin.reservations.update',
+        'destroy' => 'admin.reservations.destroy'
+    ]);
 
 });
 
-
-// Route::middleware(['auth', 'dashboard'])->group(function () {
-// });
-
 Route::middleware(['auth', 'isFrontDesk'])->group(function () {
+//     Route::get('/front-desk/dashboard', [FrontDeskReportController::class, 'getStats'])->name('front-desk.dashboard');
 
+//     // Route::post('/front-desk/reservations/search', [FrontDeskReservationController::class, 'search'])->name('reservations.search');
+//     // Route::post('/front-desk/reservations/filter', [FrontDeskReservationController::class, 'filter'])->name('reservations.filter');
+
+    Route::resource('/front-desk/reservations', FrontDeskReservationController::class)->names([
+        'index' => 'front-desk.reservations.index',
+        'create' => 'front-desk.reservations.create',
+        'store' => 'front-desk.reservations.store',
+        'show' => 'front-desk.reservations.show',
+        'edit' => 'front-desk.reservations.edit',
+        'update' => 'front-desk.reservations.update',
+        'destroy' => 'front-desk.reservations.destroy'
+    ]);
+
+//     Route::get('/front-desk/calender', [FrontDeskReservationController::class, 'events'])->name('front-desk.calender');
+
+//     // Route::resource('/front-desk/rooms', FrontDeskRoomController::class);
+
+//     // Route::post('/front-desk/rooms/search', [FrontDeskRoomController::class, 'search'])->name('rooms.search');
+//     // Route::post('/front-desk/rooms/filter', [FrontDeskRoomController::class, 'filter'])->name('rooms.filter');
+
+//     // Route::resource('payments', FrontDeskPaymentController::class);
+//     Route::get('/admin/payments/invoices/{payment}', [FrontDeskPaymentController::class, 'download'])->name('invoice.download');
+
+//     Route::resource('guests', FrontDeskGuestController::class);
+//     Route::post('guests/search', [FrontDeskGuestController::class, 'search'])->name('guests.search');
 
 });
 

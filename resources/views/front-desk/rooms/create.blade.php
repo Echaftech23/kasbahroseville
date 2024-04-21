@@ -24,7 +24,7 @@
     <section class="container mx-auto px-6 section-margin-20">
         <div class="rounded-t-[4px] border bg-white">
         <!-- Booking create Section -->
-        <form method="POST" action="{{ route('admin.rooms.store') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('rooms.store') }}" enctype="multipart/form-data">
             @csrf
             <div
             class="px-5 py-5 justify-between border-b-[0.7px] grid lg:grid-cols-3 md:grid-cols-2 gap-4"

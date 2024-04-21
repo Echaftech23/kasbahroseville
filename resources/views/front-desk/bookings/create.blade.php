@@ -22,8 +22,8 @@
                         style="background-color: #eb2817; color: #fff;" @click="show = false">
                         <span class="sr-only">Dismiss</span>
                         <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
-                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <path d="M18 6 6 18"></path>
                             <path d="m6 6 12 12"></path>
                         </svg>
@@ -45,7 +45,7 @@
                     <div class="flex justify-between items-center flex-wrap">
                         <div class="block-head-content mpb">
                             <h3 class="block-title font-semibold text-[24px] text-[#364A63]">
-                                Edit Reservation
+                                Add Reservation
                             </h3>
                         </div>
                     </div>
@@ -58,14 +58,13 @@
     <section class="container mx-auto px-6 section-margin-20">
         <div class="rounded-t-[4px] border bg-white">
             <!-- Booking create Section -->
-            <form method="POST" action="{{ route('admin.reservations.update', $reservation) }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ auth()->user()->hasRole('admin') ? route('admin.reservations.store') : route('front-desk.reservations.store') }}" enctype="multipart/form-data">
                 @csrf
-                @method('PUT')
                 <div class="px-5 py-5 justify-between border-b-[0.7px] grid lg:grid-cols-3 md:grid-cols-2 gap-4">
 
                     <div>
                         <label class="block text-sm font-semibold text-[#344357]">Guest Name</label>
-                        <input type="text" name="name" value="{{$reservation->user->name}}" placeholder="Enter Name"
+                        <input type="text" name="name" value="{{ old('name') }}" placeholder="Enter Name"
                             class="w-full mt-1.5 text-[13px] outline-none rounded-[6px] border border-slate-300 bg-white px-3 py-2 hover:border-slate-400 @error('name') border-red-500 @enderror" />
                         @error('name')
                             <span class="text-xs mt-1 text-red-500">{{ $message }}</span>
@@ -74,15 +73,16 @@
 
                     <div>
                         <label class="block text-sm font-semibold text-[#344357]">Guest Email</label>
-                        <input type="email" name="email" hidden value="{{$reservation->user->email}}">
-
-                        <input type="email" name="email" disabled value="{{$reservation->user->email}}" placeholder="Enter Email"
-                            class="w-full mt-1.5 text-[13px] outline-none rounded-[6px] border border-slate-300 bg-gray-100 px-3 py-2 hover:border-slate-400" />
+                        <input type="email" name="email" value="{{ old('email') }}" placeholder="Enter Email"
+                            class="w-full mt-1.5 text-[13px] outline-none rounded-[6px] border border-slate-300 bg-white px-3 py-2 hover:border-slate-400 @error('name') border-red-500 @enderror" />
+                        @error('email')
+                            <span class="text-xs mt-1 text-red-500">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div>
                         <label class="block text-sm font-semibold text-[#344357]">Guest Phone</label>
-                        <input type="text" name="phone" value="{{old('phone', $reservation->user->phone)}}" placeholder="Enter Phone"
+                        <input type="text" name="phone" value="{{ old('phone') }}" placeholder="Enter Phone"
                             class="w-full mt-1.5 text-[13px] outline-none rounded-[6px] border border-slate-300 bg-white px-3 py-2 hover:border-slate-400 @error('name') border-red-500 @enderror" />
                         @error('phone')
                             <span class="text-xs mt-1 text-red-500">{{ $message }}</span>
@@ -94,7 +94,7 @@
                         <div class="flex justify-between items-center mt-1.5 text-gray shadow-sm rounded-[6px] cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-400"
                             onclick="document.getElementById('fileInput').click()">
                             <div class="flex px-2 py-2 w-10/12 border border-r-0 rounded-l-[6px] bg-[#EEF5FF] items-center">
-                                <input type="file" id="fileInput" name="user-image" value="{{$reservation->user->getFirstMediaUrl('profile')}}" class="hidden w-full"
+                                <input type="file" id="fileInput" name="user-image" class="hidden w-full"
                                     onchange="updateFileName()" />
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 24" stroke="#9CA3AF"
                                     class="h-5 w-6 mr-2">
@@ -128,9 +128,8 @@
                                 class="outline-none text-[13px] appearance-none w-full rounded-[6px] rounded-t-0 border border-slate-300 bg-white px-3 py-2 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:bg-navy-700 dark:hover:border-navy-400 dark:focus:border-accent">
                                 @foreach ($rooms as $room)
                                     <option value="{{ $room->id }}" data-price="{{ $room->price }}"
-                                        {{ $reservation->room_id == $room->id ? 'selected' : '' }}>
-                                        {{ $room->name }}
-                                    </option>
+                                        {{ old('room_id') == $room->id ? 'selected' : '' }}>
+                                        {{ $room->name }}</option>
                                 @endforeach
                             </select>
                             <div
@@ -156,7 +155,7 @@
                                 class="outline-none text-[13px] appearance-none w-full rounded-[6px] rounded-t-0 border border-slate-300 bg-white px-3 py-2 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:bg-navy-700 dark:hover:border-navy-400 dark:focus:border-accent">
                                 @foreach ($total_adults as $adult)
                                     <option value="{{ $adult }}"
-                                        {{ $reservation->total_adults == $adult ? 'selected' : '' }}>
+                                        {{ old('total_adults') == $adult ? 'selected' : '' }}>
                                         {{ str_pad($adult, 2, '0', STR_PAD_LEFT) }}</option>
                                 @endforeach
                             </select>
@@ -183,7 +182,7 @@
                                 class="outline-none text-[13px] appearance-none w-full rounded-[6px] rounded-t-0 border border-slate-300 bg-white px-3 py-2 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:bg-navy-700 dark:hover:border-navy-400 dark:focus:border-accent">
                                 @foreach ($total_children as $children)
                                     <option value="{{ $children }}"
-                                        {{ $reservation->total_children == $children ? 'selected' : '' }}>
+                                        {{ old('total_children') == $children ? 'selected' : '' }}>
                                         {{ str_pad($children, 2, '0', STR_PAD_LEFT) }}</option>
                                 @endforeach
                             </select>
@@ -205,7 +204,8 @@
                             <select name="statut"
                                 class="outline-none text-[13px] appearance-none w-full rounded-[6px] rounded-t-0 border border-slate-300 bg-white px-3 py-2 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:bg-navy-700 dark:hover:border-navy-400 dark:focus:border-accent">
                                 @foreach (App\Models\Reservation::STATUT_RADIO as $value => $label)
-                                    <option value="{{ $value }}" {{ old('statut', $reservation->statut ?? '') == $value ? 'selected' : '' }}>
+                                    <option value="{{ $value }}"
+                                        {{ old('statut', $reservation->statut ?? '') == $value ? 'selected' : '' }}>
                                         {{ $label }}
                                     </option>
                                 @endforeach
@@ -223,31 +223,8 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-[#344357]">Room Availability</label>
-                        <div class="relative mt-1.5">
-                            <select name="room_statut"
-                                class="outline-none text-[13px] appearance-none w-full rounded-[6px] rounded-t-0 border border-slate-300 bg-white px-3 py-2 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:bg-navy-700 dark:hover:border-navy-400 dark:focus:border-accent">
-                                @foreach (App\Models\Room::ROOM_STATUT_RADIO as $value => $label)
-                                    <option value="{{ $value }}" {{ old('room_statut', $reservation->room->room_statut ?? '') == $value ? 'selected' : '' }}>
-                                        {{ $label }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            <div
-                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-700">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                </svg>
-                            </div>
-                        </div>
-                        @error('room_statut')
-                            <span class="text-xs mt-1 text-red-500">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div>
                         <label class="block text-sm font-semibold text-[#344357]">Check In</label>
-                        <input type="date" name="checkIn" value="{{ $reservation->checkIn }}"
+                        <input type="date" name="checkIn" value="{{ old('checkIn') }}"
                             class="w-full mt-1.5 text-[13px] outline-none rounded-[6px] border border-slate-300 @error('checkIn') border-red-500 @enderror bg-white px-3 py-2 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:bg-navy-700 dark:hover:border-navy-400 dark:focus:border-accent" />
                         @error('checkIn')
                             <span class="text-xs mt-1 text-red-500">{{ $message }}</span>
@@ -256,17 +233,11 @@
 
                     <div>
                         <label class="block text-sm font-semibold text-[#344357]">Check Out</label>
-                        <input type="date" name="checkOut" value="{{ $reservation->checkOut }}"
+                        <input type="date" name="checkOut" value="{{ old('checkOut') }}"
                             class="w-full mt-1.5 text-[13px] outline-none rounded-[6px] border border-slate-300 @error('checkOut') border-red-500 @enderror bg-white px-3 py-2 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:bg-navy-700 dark:hover:border-navy-400 dark:focus:border-accent" />
                         @error('checkOut')
                             <span class="text-xs mt-1 text-red-500">{{ $message }}</span>
                         @enderror
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-semibold text-[#344357]">Refference</label>
-                        <input type="text" name="ref" value="{{ $reservation->ref }}" disabled
-                            class="w-full mt-1.5 text-[13px] outline-none rounded-[6px] border border-slate-300  bg-gray-100 px-3 py-2 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:bg-navy-700 dark:hover:border-navy-400 dark:focus:border-accent" />
                     </div>
 
                     <div>
@@ -282,7 +253,7 @@
 
                     <div>
                         <label class="block text-sm font-semibold text-[#344357]">Amount Paid</label>
-                        <input type="number" name="amountPaid" value="{{ $room->first()->price }}"
+                        <input type="number" name="amountPaid" value="{{ old('amountPaid') }}"
                             placeholder="Enter Amount Paid"
                             class="w-full mt-1.5 text-[13px] outline-none rounded-[6px] border border-slate-300 bg-white px-3 py-2 hover:border-slate-400 @error('amountPaid') border-red-500 @enderror" />
                         @error('amountPaid')

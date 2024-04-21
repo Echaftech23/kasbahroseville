@@ -11,7 +11,7 @@
                 <h3
                     class="block-title font-semibold text-[24px] text-[#364A63]"
                 >
-                    Add Room
+                    Edit {{$room->name}} Room
                 </h3>
                 </div>
             </div>
@@ -24,8 +24,9 @@
     <section class="container mx-auto px-6 section-margin-20">
         <div class="rounded-t-[4px] border bg-white">
         <!-- Booking create Section -->
-        <form method="POST" action="{{ route('admin.rooms.store') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('rooms.update', $room->id) }}" enctype="multipart/form-data">
             @csrf
+            @method('PUT')
             <div
             class="px-5 py-5 justify-between border-b-[0.7px] grid lg:grid-cols-3 md:grid-cols-2 gap-4"
             >
@@ -33,25 +34,37 @@
                 <label class="block text-sm pb-2 font-semibold text-[#344357]"
                 >Upload Room Images</label
                 >
-                <input id="file-input" type="file" name="room-images[]" multiple class="hidden" />
+                    <input id="file-input" type="file" name="room-images[]" multiple class="hidden" />
                 <div class="flex flex-col">
-                <div
-                    id="drop-zone"
-                    class="w-full h-40 border-2 @error('room-images') border-red-500 @enderror border-dashed border-gray-300 rounded-lg flex justify-center items-center text-gray-400 text-lg"
-                    onclick="document.getElementById('file-input').click()"
-                >
-                    <div class="flex items-center pl-1 overflow-hidden">
                     <div
-                        id="selected-images"
-                        class="flex flex-none"
-                        onclick="event.stopPropagation();"
-                    ></div>
-                    <span class="px-2" id="drag-drop-text"
-                        >Drag and Drop Room Images</span
+                        id="drop-zone"
+                        class="w-full h-40 border-2 @error('room-images') border-red-500 @enderror border-dashed border-gray-300 rounded-lg flex justify-center items-center text-gray-400 text-lg"
+                        onclick="document.getElementById('file-input').click()"
                     >
-                    </div>
+                        <div class="flex items-center pl-1 overflow-hidden">
+                        <div
+                            id="selected-images"
+                            class="flex flex-none"
+                            onclick="event.stopPropagation();"
+                        >
+                            @foreach($images as $image)
+                                <div class="relative mx-1">
+                                    <img src="{{ $image->getUrl() }}" class="w-32 h-24 object-cover rounded-lg" alt="Room image">
+                                    <button
+                                        class="absolute top-1 right-1 h-6 w-6 bg-white text-black text-xs rounded-full flex items-center justify-center opacity-80 hover:opacity-100 transition-opacity focus:outline-none"
+                                    >
+                                        &times;
+                                    </button>
+                                </div>
+                            @endforeach
+                        </div>
 
-                </div>
+                        @unless(count($images) > 0)
+                            <span class="px-2" id="drag-drop-text">Drag and Drop Room Images</span>
+                        @endunless
+                        </div>
+
+                    </div>
                 </div>
                 @error('room-images')
                     <span class="text-sm mt-1 text-red-500">{{ $message }}</span>
@@ -65,7 +78,7 @@
                 <input
                 type="text"
                 name="name"
-                value="{{ old('name') }}"
+                value="{{ $room->name}}"
                 placeholder="Enter Name"
                 class="w-full mt-1.5 text-[13px] outline-none rounded-[6px] border border-slate-300 bg-white px-3 py-2 hover:border-slate-400 @error('name') border-red-500 @enderror"
                 />
@@ -83,7 +96,7 @@
                         name="type_id" class="outline-none text-[13px] appearance-none w-full rounded-[6px] rounded-t-0 border border-slate-300 bg-white px-3 py-2 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:bg-navy-700 dark:hover:border-navy-400 dark:focus:border-accent"
                     >
                         @foreach($types as $type)
-                            <option value="{{ $type->id }}" {{ old('type_id') == $type->id ? 'selected' : '' }}>{{ $type->type }}</option>
+                            <option value="{{ $type->id }}" {{ $room->type->id == $type->id ? 'selected' : '' }}>{{ $type->type }}</option>
                         @endforeach
                     </select>
                     <div
@@ -112,7 +125,7 @@
                 <div class="relative mt-1.5">
                     <select name="statut" class="outline-none text-[13px] appearance-none w-full rounded-[6px] rounded-t-0 border border-slate-300 bg-white px-3 py-2 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:bg-navy-700 dark:hover:border-navy-400 dark:focus:border-accent">
                         @foreach(App\Models\Room::STATUT_RADIO as $value => $label)
-                            <option value="{{ $value }}" {{ old('statut') == $value ? 'selected' : '' }}>{{ $label }}</option>
+                            <option value="{{ $value }}" {{ $room->statut == $value ? 'selected' : '' }}>{{ $label }}</option>
                         @endforeach
                     </select>
                     <div
@@ -141,7 +154,7 @@
                 <div class="relative mt-1.5">
                     <select name="priority" class="outline-none text-[13px] appearance-none w-full rounded-[6px] rounded-t-0 border border-slate-300 bg-white px-3 py-2 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:bg-navy-700 dark:hover:border-navy-400 dark:focus:border-accent">
                         @foreach(App\Models\Room::PRIORITY_RADIO as $value => $label)
-                            <option value="{{ $value }}" {{ old('priority') == $value ? 'selected' : '' }}>{{ $label }}</option>
+                            <option value="{{ $value }}" {{ $room->priority == $value ? 'selected' : '' }}>{{ $label }}</option>
                         @endforeach
                     </select>
                     <div
@@ -170,7 +183,7 @@
                 <input
                 type="number"
                 name="price"
-                value="{{ old('price') }}"
+                value="{{ $room->price }}"
                 placeholder="Total Person"
                 class="w-full mt-1.5 text-[13px] outline-none rounded-[6px] border border-slate-300 @error('price') border-red-500 @enderror bg-white px-3 py-2 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:bg-navy-700 dark:hover:border-navy-400 dark:focus:border-accent"
                 />
@@ -186,7 +199,7 @@
                 <input
                 type="number"
                 name="capacity"
-                value="{{ old('capacity') }}"
+                value="{{ $room->capacity }}"
                 placeholder="Total Person"
                 class="w-full mt-1.5 text-[13px] outline-none rounded-[6px] border border-slate-300 @error('capacity') border-red-500 @enderror bg-white px-3 py-2 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:bg-navy-700 dark:hover:border-navy-400 dark:focus:border-accent"
                 />
@@ -241,7 +254,7 @@
                     <div class="py-1" role="none">
                         <select multiple name="facility_id[]" class="block appearance-none w-full bg-white border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                             @foreach($facilities as $facility)
-                                <option value="{{ $facility->id }}" {{ (collect(old('facility_id'))->contains($facility->id)) ? 'selected':'' }}>{{ $facility->name }}</option>
+                                <option value="{{ $facility->id }}" {{ (collect($room->facilities)->contains('id', $facility->id)) ? 'selected':'' }}>{{ $facility->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -259,7 +272,7 @@
                 <input
                 type="number"
                 name="size"
-                value="{{ old('size') }}"
+                value="{{ $room->size }}"
                 placeholder="Total Person"
                 class="w-full mt-1.5 text-[13px] outline-none rounded-[6px] border border-slate-300 @error('size') border-red-500 @enderror bg-white px-3 py-2 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:bg-navy-700 dark:hover:border-navy-400 dark:focus:border-accent"
                 />

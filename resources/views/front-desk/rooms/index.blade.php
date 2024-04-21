@@ -127,11 +127,13 @@
                         <div>
                             <div class="inline-block">
                                 <!-- Button to open the modal -->
-                                <a href="{{ route('admin.rooms.create') }}" type="button"
-                                    class="inline-flex bg-indigo-600 w-full justify-center items-center gap-x-1.5 rounded-md text-white border-none px-3 pl-4 py-2 text-sm shadow-sm ring-1 ring-inset ring-gray-300">
-                                    <img class="h-[18.5px] w-[18px] shrink-0" alt=""
-                                        src="{{ asset('/img/dashborad/icon-201.svg') }}" />
-                                </a>
+                                @if (Auth::user()->hasRole('Admin'))
+                                    <a href="{{ route('rooms.create') }}" type="button"
+                                        class="inline-flex bg-indigo-600 w-full justify-center items-center gap-x-1.5 rounded-md text-white border-none px-3 pl-4 py-2 text-sm shadow-sm ring-1 ring-inset ring-gray-300">
+                                        <img class="h-[18.5px] w-[18px] shrink-0" alt=""
+                                            src="{{ asset('/img/dashborad/icon-201.svg') }}" />
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -166,7 +168,7 @@
                             role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
                             x-show="open" x-cloak style="display: none;">
                             <div class="py-1" role="none">
-                                <form action="{{ route('admin.rooms.filter') }}" method="POST">
+                                <form action="{{ route('rooms.filter') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="room-status" value="Room Status" id="queryInput" />
 
@@ -208,7 +210,7 @@
                             role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
                             x-show="open" x-cloak style="display: none;">
                             <div class="py-1" role="none">
-                                <form action="{{ route('admin.rooms.filter') }}" method="POST">
+                                <form action="{{ route('rooms.filter') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="room-type" value="Room Type" id="room-type" />
 
@@ -242,12 +244,12 @@
                                     </svg>
                                 </span>
 
-                                <form action="{{ route('admin.rooms.search') }}" method="POST" id="roomForm">
+                                <form action="{{ route('rooms.search') }}" method="POST" id="roomForm">
                                     @csrf
                                     <input
                                         class="w-[220px] sm:w-[180px] lg:w-[240px] pl-10 pr-4 rounded-lg form-input bg-[#ecf1f9] outline-none text-sm py-2 focus:border-indigo-600"
                                         type="text" placeholder="Search" name="room-search"
-                                        onchange="document.getElementById('roomForm').submit();" />
+                                        oninput="document.getElementById('roomForm').submit();" />
 
                                 </form>
                             </div>
@@ -269,7 +271,7 @@
                                         <h3 class="text-[13px] font-semibold text-[#364a63]">Filter Rooms</h3>
                                         <span class="font-bold text-[24] -mt-3" @click="open = !open">...</span>
                                     </div>
-                                    <form action="{{ route('admin.rooms.filter') }}" method="POST">
+                                    <form action="{{ route('rooms.filter') }}" method="POST">
                                         @csrf
                                         <div class="py-4  px-4 border-y">
                                             <div class="flex flex-wrap">
@@ -577,7 +579,7 @@
                                     <td class="whitespace-nowrap px-4 py-3 sm:px-5">
                                         <div class="flex justify-center items-center">
                                             <!-- Show Details Icon -->
-                                            <a href="{{ route('admin.rooms.show', $room->id) }}" class="mr-2">
+                                            <a href="{{ route('rooms.show', $room->id) }}" class="mr-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                                     width="22" height="22" fill="none" stroke="#3367d1"
                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -586,32 +588,34 @@
                                                     <line x1="12" y1="8" x2="12" y2="8" />
                                                 </svg>
                                             </a>
-                                            <!-- Edit Icon -->
-                                            <a href="{{ route('admin.rooms.edit', $room->id) }}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
-                                                    width="32" fill="#364A62" height="32">
-                                                    <path
-                                                        d="M19.7 8.3c-.4-.4-1-.4-1.4 0l-10 10c-.2.2-.3.4-.3.7v4c0 .6.4 1 1 1h4c.3 0 .5-.1.7-.3l10-10c.4-.4.4-1 0-1.4l-4-4zM12.6 22H10v-2.6l6-6 2.6 2.6-6 6zm7.4-7.4L17.4 12l1.6-1.6 2.6 2.6-1.6 1.6z">
-                                                    </path>
-                                                </svg>
-                                            </a>
-                                            <!-- Delete Icon -->
-                                            <form action="{{ route('admin.rooms.destroy', $room->id) }}" method="POST"
-                                                onsubmit="return confirm('Are You sure You want To Delete This Room?')">
-                                                @csrf
-                                                @method('DELETE')
-
-                                                <button type="submit">
-                                                    <svg class="mt-1" xmlns="http://www.w3.org/2000/svg" fill="#E11D48"
-                                                        viewBox="0 0 32 32" width="32" height="32"
-                                                        stroke-width="1">
-                                                        <path d="M13 15h2v6h-2zM17 15h2v6h-2z"></path>
+                                            @if (Auth::user()->hasRole('Admin'))
+                                                <!-- Edit Icon -->
+                                                <a href="{{ route('rooms.edit', $room->id) }}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
+                                                        width="32" fill="#364A62" height="32">
                                                         <path
-                                                            d="M20 9c0-.6-.4-1-1-1h-6c-.6 0-1 .4-1 1v2H8v2h1v10c0 .6.4 1 1 1h12c.6 0 1-.4 1-1V13h1v-2h-4V9zm-6 1h4v1h-4v-1zm7 3v9H11v-9h10z">
+                                                            d="M19.7 8.3c-.4-.4-1-.4-1.4 0l-10 10c-.2.2-.3.4-.3.7v4c0 .6.4 1 1 1h4c.3 0 .5-.1.7-.3l10-10c.4-.4.4-1 0-1.4l-4-4zM12.6 22H10v-2.6l6-6 2.6 2.6-6 6zm7.4-7.4L17.4 12l1.6-1.6 2.6 2.6-1.6 1.6z">
                                                         </path>
                                                     </svg>
-                                                </button>
-                                            </form>
+                                                </a>
+                                                <!-- Delete Icon -->
+                                                <form action="{{ route('rooms.destroy', $room->id) }}" method="POST"
+                                                    onsubmit="return confirm('Are You sure You want To Delete This Room?')">
+                                                    @csrf
+                                                    @method('DELETE')
+
+                                                    <button type="submit">
+                                                        <svg class="mt-1" xmlns="http://www.w3.org/2000/svg" fill="#E11D48"
+                                                            viewBox="0 0 32 32" width="32" height="32"
+                                                            stroke-width="1">
+                                                            <path d="M13 15h2v6h-2zM17 15h2v6h-2z"></path>
+                                                            <path
+                                                                d="M20 9c0-.6-.4-1-1-1h-6c-.6 0-1 .4-1 1v2H8v2h1v10c0 .6.4 1 1 1h12c.6 0 1-.4 1-1V13h1v-2h-4V9zm-6 1h4v1h-4v-1zm7 3v9H11v-9h10z">
+                                                            </path>
+                                                        </svg>
+                                                    </button>
+                                                </form>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>
@@ -625,7 +629,7 @@
                 </div>
                 @if ($rooms->hasPages())
                     <div class="py-4 px-4">
-                        {{ $rooms->links('pagination::custom') }}
+                        {{ $rooms->links() }}
                     </div>
                 @endif
             </div>

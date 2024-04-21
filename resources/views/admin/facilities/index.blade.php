@@ -132,13 +132,13 @@
                                     class="inline-flex bg-indigo-600 w-full justify-center items-center gap-x-1.5 rounded-md text-white border-none px-3 pl-4 py-2 text-sm shadow-sm ring-1 ring-inset ring-gray-300"
                                     id="menu-button" aria-expanded="true" aria-haspopup="true" @click="open = !open">
                                     <img class="h-[18.5px] w-[18px] shrink-0" alt=""
-                                        src="../img/dashborad/icon-201.svg" />
+                                        src="{{asset('img/dashborad/icon-201.svg')}}" />
                                 </button>
                             </div>
 
                             <div class="absolute z-50  sm:right-0 mt-2 w-[125px] origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                 role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
-                                x-show="open">
+                                x-show="open" style="display: none" x-clock>
                                 <div class="py-1" role="none">
                                     <div x-data="{
                                         open: false,
@@ -185,7 +185,7 @@
                                                     </div>
                                                     <div class="mt-2">
                                                         <form id="type-form" @submit.prevent="submitForm"
-                                                            action="{{ route('types.store') }}" method="POST">
+                                                            action="{{ route('admin.types.store') }}" method="POST">
                                                             @csrf
                                                             <div class="border-t px-6 py-4">
                                                                 <div class="">
@@ -237,7 +237,7 @@
                                         </a>
 
                                         <!-- Modal -->
-                                        <div x-show="open" class="fixed z-30 inset-0 flex items-center justify-center"
+                                        <div x-show="open" style="display: none" x-clock class="fixed z-30 inset-0 flex items-center justify-center"
                                             aria-labelledby="modal-title" role="dialog" aria-modal="true">
                                             <div class="fixed w-full h-full  top-0 left-0 bg-gray-500 bg-opacity-75 transition-opacity"
                                                 aria-hidden="true"></div>
@@ -264,7 +264,7 @@
                                                     </div>
                                                     <div class="mt-2">
                                                         <form id="facility-form" @submit.prevent="submitForm"
-                                                            action="{{ route('facilities.store') }}"
+                                                            action="{{ route('admin.facilities.store') }}"
                                                             enctype="multipart/form-data" method="POST">
                                                             @csrf
                                                             <div class="border-t px-6 py-4">
@@ -332,7 +332,7 @@
                                     </svg>
                                 </span>
 
-                                <form action="{{ route('facilities.search') }}" method="POST" id="searchForm">
+                                <form action="{{ route('admin.facilities.search') }}" method="POST" id="searchForm">
                                     @csrf
                                     <input
                                         class="w-[220px] sm:w-[180px] lg:w-[240px] pl-10 pr-4 rounded-lg form-input bg-[#ecf1f9] outline-none text-sm py-2 focus:border-indigo-600"
@@ -459,7 +459,7 @@
                                                                     <form enctype="multipart/form-data"
                                                                         id="facility-form-{{ $facility->id }}"
                                                                         @submit.prevent="submitForm"
-                                                                        action="{{ route('facilities.update', $facility->id) }}"
+                                                                        action="{{ route('admin.facilities.update', $facility->id) }}"
                                                                         method="POST">
                                                                         @csrf
                                                                         @method('PUT')
@@ -550,7 +550,7 @@
                                                             <div
                                                                 class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                                                                 <form class="flex items-center justify-center w-full pb-3"
-                                                                    action="{{ route('facilities.destroy', $facility->id) }}"
+                                                                    action="{{ route('admin.facilities.destroy', $facility->id) }}"
                                                                     method="POST">
                                                                     @csrf
                                                                     @method('DELETE')
@@ -598,7 +598,7 @@
                                     </svg>
                                 </span>
 
-                                <form action="{{ route('types.search') }}" method="POST" id="typesForm">
+                                <form action="{{ route('admin.types.search') }}" method="POST" id="typesForm">
                                     @csrf
                                     <input
                                         class="w-[220px] sm:w-[180px] lg:w-[240px] pl-10 pr-4 rounded-lg form-input bg-[#ecf1f9] outline-none text-sm py-2 focus:border-indigo-600"
@@ -721,7 +721,7 @@
                                                                 <div class="mt-2">
                                                                     <form id="type-form-{{ $type->id }}"
                                                                         @submit.prevent="submitForm"
-                                                                        action="{{ route('types.update', $type->id) }}"
+                                                                        action="{{ route('admin.types.update', $type->id) }}"
                                                                         method="POST">
                                                                         @csrf
                                                                         @method('PUT')
@@ -798,7 +798,7 @@
                                                             <div
                                                                 class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                                                                 <form class="flex items-center justify-center w-full pb-3"
-                                                                    action="{{ route('types.destroy', $type->id) }}"
+                                                                    action="{{ route('admin.types.destroy', $type->id) }}"
                                                                     method="POST">
                                                                     @csrf
                                                                     @method('DELETE')

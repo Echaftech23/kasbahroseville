@@ -117,10 +117,10 @@
                     <div class="flex justify-between items-center flex-wrap">
                         <div class="block-head-content mpb">
                             <h3 class="block-title font-bold text-[24px] text-[#364A63]">
-                                Booking Reports List
+                                Invoices List
                             </h3>
                             <div class="text-[#8094ae]">
-                                <p class="text-sm pt-1">Here is our booking report.</p>
+                                <p class="text-sm pt-1">You have total {{ $totalInvoices }} invoices.</p>
                             </div>
                         </div>
 
@@ -156,16 +156,17 @@
                                     </button>
                                 </div>
 
-                                <div @click.away="open = false" class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                <div class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                     role="menu" aria-orientation="vertical" aria-labelledby="menu-button"
                                     tabindex="-1" x-show="open" x-cloak style="display: none;">
-                                    <form action="{{ route('admin.reports.filter') }}" method="POST">
-                                        @csrf
-                                        <button type="submit" name="from" value="7" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">Last 7 Days</button>
-                                        <button type="submit" name="from" value="30" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">Last 30 Days</button>
-                                        <button type="submit" name="from" value="180" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">Last 6 Months</button>
-                                        <button type="submit" name="from" value="365" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">Last Year</button>
-                                    </form>
+                                    <div class="py-1" role="none">
+                                        <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem"
+                                            tabindex="-1" id="menu-item-0">Last 30 Days</a>
+                                        <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem"
+                                            tabindex="-1" id="menu-item-1">Last 6 Months</a>
+                                        <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem"
+                                            tabindex="-1" id="menu-item-2">Last Year</a>
+                                    </div>
                                 </div>
                             </div>
 
@@ -190,7 +191,7 @@
                                             </defs>
                                         </svg>
 
-                                        Import
+                                        Reports
                                     </button>
                                 </div>
                             </div>
@@ -206,7 +207,7 @@
         <div class="rounded-t-[4px] border bg-white">
             <!-- Booking Section Details Top -->
             <div class="px-5 py-5 flex justify-between items-center border-b-[0.7px]">
-                <h3 class="text-[20px] text-[#364A63] font-semibold">All Reports</h3>
+                <h3 class="text-[20px] text-[#364A63] font-semibold">All Invoice</h3>
 
                 <div class="relative inline-block text-left">
                     <div class="flex hidden-area">
@@ -221,7 +222,8 @@
                                     </svg>
                                 </span>
 
-                                <form action="#">
+                                <form action="{{ route('rooms.search') }}" method="POST" id="roomForm">
+                                    @csrf
                                     <input
                                         class="w-[220px] sm:w-[180px] lg:w-[240px] pl-10 pr-4 rounded-lg form-input bg-[#ecf1f9] outline-none text-sm py-2 focus:border-indigo-600"
                                         type="text" placeholder="Search" name="room-search"
@@ -261,69 +263,78 @@
                         <thead>
                             <tr class="bg-[#F8FAFC] border-b-[0.7px]">
                                 <th class="whitespace-nowrap px-4 py-3 text-[13px] text-[#364A62] lg:px-5">
-                                    Room ID
-                                </th>
-                                <th class="whitespace-nowrap px-4 py-3 text-[13px] text-[#364A62] lg:px-5">
-                                    Room Name
+                                    Payment ID
                                 </th>
                                 <th class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5">
-                                    Room Type
+                                    Date
                                 </th>
                                 <th class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5">
-                                    From
+                                    Amount
                                 </th>
                                 <th class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5">
-                                    TO
+                                    Status
                                 </th>
                                 <th class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5">
-                                    total Amount
-                                </th>
-                                <th class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5">
-                                    More
+                                    Actions
                                 </th>
                             </tr>
                         </thead>
                         <tbody x-data="{ expanded: false }">
-                            @forelse ($rooms as $room)
+                            @forelse ($payments as $payment)
                                 <tr class="border-y">
-                                    <td class="whitespace-nowrap px-4 py-3 sm:px-5">{{ $room->id }}</td>
+                                    <td class="whitespace-nowrap px-4 py-3 sm:px-5">{{ $payment->id }}</td>
                                     <td
                                         class="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5">
-                                        {{ $room->name }}
+                                        {{ $payment->created_at }}
                                     </td>
                                     <td
-                                        class="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5">
-                                        {{ $room->type->type }}
+                                        class="text-[13px] whitespace-nowrap text-slate-700 font-semibold text-sm px-4 py-3 sm:px-5">
+                                        <span class="font-bold">$</span>{{ $payment->totalAmount }}
                                     </td>
-                                    <td
-                                        class="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5">
-                                        {{ $from->format('d M Y') }}
-                                    </td>
-                                    <td
-                                        class="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5">
-                                        {{ $to->format('d M Y') }}
-                                    </td>
-                                    <td
-                                        class="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5">
-                                        ${{ $room->totalAmount }}
+                                    <td class="whitespace-nowrap px-4 py-3 sm:px-5">
+                                        <div class="flex space-x-2">
+                                            <div
+                                                class="badge space-x-2.5 text-[13px] flex items-center font-semibold
+                                                {{ $payment->statut == 'Completed' ? 'text-green-400' : 'text-[#ffc107]' }}">
+                                                <div class="size-2 rounded-full bg-current"></div>
+                                                <span>{{ $payment->statut }}</span>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td class="whitespace-nowrap px-4 py-3 sm:px-5">
                                         <div class="flex items-center">
+                                            <button data-url="{{ route('invoice.download', $payment) }}"
+                                                class="print-button btn size-6 rounded-full flex justify-center outline-none mr-2 items-center hover:bg-[#6576FF]  dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25 sm:h-9 sm:w-9">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="hover:fill-white size-5"
+                                                    fill="none" viewBox="0 0 24 24" stroke="#6576FF"
+                                                    stroke-width="1.5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                                                </svg>
+                                            </button>
+
+                                            <!-- Show Details Icon -->
+                                            <a href="{{ route('payments.show', $payment->id) }}"
+                                                class="badge mr-2 text-[#6576FF] space-x-2 p-2 px-3 text-[13px] rounded-sm font-semibold flex items-center focus:bg-[#6576FF] hover:bg-[#6576FF] hover:text-white focus:text-white bg-slate-100 dark:bg-navy-500 dark:text-navy-100">
+                                                <span>View</span>
+                                            </a>
+
+
                                             <div x-data="{
                                                 open: false,
                                                 name: '',
                                                 nameError: false,
                                                 submitForm: function() {
                                                     if (this.name) {
-                                                        let form = document.querySelector('#payment-form-' + {{ $room->id }});
+                                                        let form = document.querySelector('#payment-form-' + {{ $payment->id }});
                                                         form.submit();
                                                     }
                                                 }
                                             }">
                                                 <!-- Button trigger modal -->
-                                                <a @click="open = true, name = '{{ $room->name }}'"
+                                                <a @click="open = true, name = '{{ $payment->amountPaid }}'"
                                                     class="badge mr-2 text-white space-x-2 p-2 px-3 text-[13px] rounded-sm font-semibold flex items-center focus:bg-[#6576FF] hover:bg-[#6576FF] hover:text-white focus:text-white bg-blue-600 dark:bg-navy-500 dark:text-navy-100">
-                                                    <span>View</span>
+                                                    <span>Edit</span>
                                                 </a>
 
                                                 <!-- Modal -->
@@ -335,12 +346,12 @@
 
                                                     <!-- Modal content -->
                                                     <div
-                                                        class="bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all w-11/12 sm:max-w-3xl sm:w-full">
+                                                        class="bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:max-w-sm sm:w-full">
                                                         <div class="pb-4 sm:py-6 sm:pb-4">
-                                                            <div class="flex items-center justify-between px-4 sm:px-4 sm:pl-8 mb-4">
+                                                            <div class="flex items-center justify-between px-6">
                                                                 <h3 class="text-lg leading-6 font-medium text-gray-900"
                                                                     id="modal-title">
-                                                                    Details
+                                                                    Edit Payment
                                                                 </h3>
                                                                 <button type="button" @click="open = false"
                                                                     class=" text-gray-400 bg-transparent  hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
@@ -353,58 +364,57 @@
                                                                     </svg>
                                                                 </button>
                                                             </div>
-                                                            <div class="w-11/12 mb-6 mx-auto">
-                                                                <div class="min-w-full max-h-80 overflow-auto">
-                                                                    <table class="w-full border-2 text-left">
-                                                                        <thead>
-                                                                            <tr class="bg-[#F8FAFC] border-b-[0.7px]">
-                                                                                <th
-                                                                                    class="whitespace-nowrap px-4 py-3 text-[13px] text-[#364A62] lg:px-5">
-                                                                                    ID
-                                                                                </th>
-                                                                                <th
-                                                                                    class="whitespace-nowrap px-4 py-3 text-[13px] text-[#364A62] lg:px-5">
-                                                                                    Room Name
-                                                                                </th>
-                                                                                <th
-                                                                                    class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5">
-                                                                                    Payment
-                                                                                </th>
-                                                                                <th
-                                                                                    class="whitespace-nowrap px-4 py-3 uppercase text-[13px] text-[#364A62] lg:px-5">
-                                                                                    Amount
-                                                                                </th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody x-data="{ expanded: false }">
-                                                                            @forelse ($room->reservations as $reservation)
-                                                                                <tr class="border-y">
-                                                                                    <td
-                                                                                        class="whitespace-nowrap px-4 py-3 sm:px-5">
-                                                                                        {{ $reservation->id }}</td>
-                                                                                    <td
-                                                                                        class="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5">
-                                                                                        {{ $reservation->payment->created_at->format('d M Y') }}
-                                                                                    </td>
-                                                                                    <td
-                                                                                        class="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5">
-                                                                                        {{ $reservation->payment->statut }}
-                                                                                    </td>
-                                                                                    <td
-                                                                                        class="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-700 dark:text-navy-100 sm:px-5">
-                                                                                        {{ $reservation->payment->amountPaid }}
-                                                                                    </td>
-                                                                                </tr>
-                                                                            @empty
-                                                                                <tr>
-                                                                                    <td colspan="4"
-                                                                                        class="text-center text-gray-400 py-4">No
-                                                                                        Payment found</td>
-                                                                                </tr>
-                                                                            @endforelse
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>
+                                                            <div class="mt-2">
+                                                                <form enctype="multipart/form-data"
+                                                                    id="payment-form-{{ $payment->id }}"
+                                                                    @submit.prevent="submitForm"
+                                                                    action="{{ route('payments.update', $payment) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('PUT')
+                                                                    <div class="border-t px-6 py-4">
+                                                                        <div class="">
+
+                                                                            <input type="hidden" name="reservation_id" value="{{$payment->reservation_id}}">
+                                                                            <label for="amountPaid-{{ $payment->id }}"
+                                                                                class="block text-sm font-medium text-gray-700">
+                                                                                Name
+                                                                            </label>
+                                                                            <input type="text"
+                                                                                id="amountPaid-{{ $payment->id }}"
+                                                                                name="amountPaid" x-model="name"
+                                                                                placeholder="payment Name"
+                                                                                class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+                                                                            <label for="amountPaid-{{ $payment->id }}"
+                                                                                class="block text-sm mt-3 font-medium text-gray-700">
+                                                                                Statut
+                                                                            </label>
+
+                                                                            <select name="statut"
+                                                                                class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                                                @foreach (App\Models\Payment::STATUT_RADIO as $status)
+                                                                                    <option value="{{ $status }}"
+                                                                                        {{ $payment->statut == $status ? 'selected' : '' }}>
+                                                                                        {{ $status }}
+                                                                                    </option>
+                                                                                @endforeach
+                                                                            </select>
+
+                                                                        </div>
+
+                                                                        <div class="mt-5  sm:mt-6">
+                                                                            <button type="submit"
+                                                                                class="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
+                                                                                Save
+                                                                            </button>
+                                                                            <button type="button" @click="open = false"
+                                                                                class="mt-3 inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                                                                                Close
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -415,15 +425,15 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="9" class="text-center text-gray-400 py-4">No Report found</td>
+                                    <td colspan="9" class="text-center text-gray-400 py-4">No payments found</td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
-                @if ($rooms->hasPages())
+                @if ($payments->hasPages())
                     <div class="py-4 px-4">
-                        {{ $rooms->links() }}
+                        {{ $payments->links('pagination::custom') }}
                     </div>
                 @endif
             </div>
