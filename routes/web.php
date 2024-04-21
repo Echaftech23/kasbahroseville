@@ -38,10 +38,7 @@ Route::middleware(['guest'])->group(function () {
 Route::middleware(['auth', 'isAdmin'])->group(function () {
 
     Route::get('/dashboard', [ReportController::class, 'getStats'])->name('dashboard');
-
     Route::get('/profile', [GuestController::class, 'profile'])->name('profile');
-
-    Route::get('/front-desk', [AdminReservationController::class, 'events'])->name('events');
 
     Route::resource('rooms', RoomController::class);
     Route::post('rooms/search', [RoomController::class, 'search'])->name('rooms.search');
@@ -49,9 +46,10 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::post('reservations/search', [AdminReservationController::class, 'search'])->name('reservations.search');
     Route::post('reservations/filter', [AdminReservationController::class, 'filter'])->name('reservations.filter');
 
+    Route::get('/front-desk', [AdminReservationController::class, 'events'])->name('events');
+
     Route::resource('payments', AdminPaymentController::class);
     Route::get('/admin/payments/invoices/{payment}', [AdminPaymentController::class, 'download'])->name('invoice.download');
-
 
     Route::get('/booking/reports', [ReportController::class, 'index'])->name('reports.index');
     Route::post('reports/search', [ReportController::class, 'search'])->name('reports.search');
@@ -74,6 +72,13 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
 });
 
 
+// Route::middleware(['auth', 'dashboard'])->group(function () {
+// });
+
+Route::middleware(['auth', 'isFrontDesk'])->group(function () {
+
+
+});
 
 //Home routes
 Route::get('/home', [HomeController::class, 'index'])->name('home');

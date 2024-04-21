@@ -25,27 +25,31 @@
     </div>
 
     <div class="flex items-center">
-        <div x-data="{ dropdownOpen: false }" class="relative">
+        <div x-data="{ dropdownOpen: false }" class="relative" @click.away="dropdownOpen = false">
             <button class="flex items-center justify-center" @click="dropdownOpen = ! dropdownOpen">
                 <div class="relative block w-8 h-8 overflow-hidden rounded-full shadow focus:outline-none mr-2">
                     <img class="object-cover w-full h-full"
-                        src="https://images.unsplash.com/photo-1528892952291-009c663ce843?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=296&amp;q=80"
+                        src="{{ Auth::user()->getFirstMediaUrl('profile') ? Auth::user()->getFirstMediaUrl('profile') : asset('img/bg-img/default-profile.jpeg') }}"
                         alt="Your avatar" />
                 </div>
                 <span class="text-sm font-medium mobile md:block cursor-pointer">Rachid Echafai</span>
             </button>
-            <div x-show="dropdownOpen" @click="dropdownOpen = false" class="fixed inset-0 z-10 w-full h-full"
-                style="display: none"></div>
 
-            <div x-show="dropdownOpen"
-                class="absolute right-0 z-10 w-[140px] mt-2 overflow-hidden bg-white rounded-md shadow-xl border-t-4 border-indigo-600"
-                style="display: none">
-                <a href="#"
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white">Profile</a>
-                <a href="#"
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white">Settings</a>
-                <a href="#"
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white">Logout</a>
+            <div x-show="dropdownOpen" @click="dropdownOpen = ! dropdownOpen"
+                class="absolute right-0 z-10 bg-white shadow-lg mt-2 w-[150px] border p-3 overflow-hidden rounded-md"
+                style="display: none;">
+                <a href="{{ url('profile') }}" class="flex w-full items-center px-2 py-2 text-s">
+                    <img src="{{ asset('img/dashborad/profile.svg') }}" class="w-5  mr-1 inline-flex" alt="">
+                    <span>Profile</span>
+                </a>
+                <a href="{{ url('settings') }}" class="flex w-full items-center px-2 py-2 text-s">
+                    <img src="{{ asset('img/dashborad/speen.svg') }}" class="w-5 mr-1 inline-flex" alt="">
+                    <span>Settings</span>
+                </a>
+                <a href="{{ url('logout') }}" class="flex w-full items-center px-2 py-2 text-s">
+                    <img src="{{ asset('img/dashborad/logout.svg') }}" class="w-5 mr-1 inline-flex" alt="">
+                    <span>Logout</span>
+                </a>
             </div>
         </div>
 
@@ -96,16 +100,6 @@
                         Like Your reply on
                         <span class="font-bold text-indigo-400" href="#">Test with TDD</span>
                         artical . 1h
-                    </p>
-                </a>
-                <a href="#"
-                    class="flex items-center px-4 py-3 -mx-2 text-gray-600 hover:text-white hover:bg-indigo-600">
-                    <img class="object-cover w-8 h-8 mx-1 rounded-full"
-                        src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=398&amp;q=80"
-                        alt="avatar" />
-                    <p class="mx-2 text-sm">
-                        <span class="font-bold" href="#">Abigail Bennett</span>
-                        start following you . 3h
                     </p>
                 </a>
             </div>

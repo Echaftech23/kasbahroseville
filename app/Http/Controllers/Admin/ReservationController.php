@@ -130,7 +130,7 @@ class ReservationController extends Controller
                 $reservation->fill($request->all());
 
                 if ($reservation->isDirty(['room_id', 'checkIn', 'checkOut', 'total_children', 'total_adults'])) {
-                    if (!$room->isAvailable($request->total_children, $request->total_adults, $request->checkIn, $request->checkOut) && $reservation->statut !== 'Rejected') {
+                    if (!$room->isAvailable($request->total_children, $request->total_adults, $request->checkIn, $request->checkOut)) {
                         return redirect()->back()->with('error', 'Room is not available')->withInput();
                     }
                 }
@@ -261,7 +261,6 @@ class ReservationController extends Controller
     public function destroy(Reservation $reservation)
     {
         try {
-            abort_if(!$reservation, 404, 'Room not found.');
 
             $reservation->delete();
 

@@ -126,7 +126,7 @@
                                     class="mx-auto w-28 h-28 relative -mt-16 border-4 border-white rounded-full overflow-hidden">
                                     <img class="object-cover object-center h-32"
                                         src='{{ $profile->getFirstMediaUrl('profile') ? $profile->getFirstMediaUrl('profile') : asset('img/bg-img/default-profile.jpeg') }}'
-                                        alt='Woman looking front'>
+                                        alt='profile image'>
                                 </div>
                                 <div class="text-center mt-2">
                                     <div class="flex justify-center items-center space-x-2">
