@@ -78,4 +78,62 @@
         </div>
     </div>
     <!-- Video Area End -->
+
+    <!-- Service Area Start -->
+    <section class="kasbah-service-area section-padding-100-0">
+      <div class="container mx-auto">
+        <div class="flex flex-col">
+          <div class="w-full">
+            <!-- Section Heading -->
+            <div
+              class="section-heading text-center wow fadeInUp"
+              data-wow-delay="100ms"
+            >
+              <h6>Ultimate Solutions</h6>
+              <h2>Our Kasbah &amp; Room</h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap -mx-4">
+          <!-- Single Service Area -->
+          <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8 md:mb-0">
+            <div
+              class="single-service-area mb-100 wow fadeInUp"
+              data-wow-delay="300ms"
+            >
+              <img src="{{asset('img/bg-img/21.jpg')}}" alt="" />
+              <div class="service-title flex items-center justify-center">
+                <h5>Restaurant &amp; Lounge</h5>
+              </div>
+            </div>
+          </div>
+          <!-- Single Service Area -->
+          <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8 md:mb-0">
+            <div
+              class="single-service-area mb-100 wow fadeInUp"
+              data-wow-delay="500ms"
+            >
+              <img src="{{asset('img/bg-img/22.jpg')}}" alt="" />
+              <div class="service-title flex items-center justify-center">
+                <h5>Spa &amp; Fitness</h5>
+              </div>
+            </div>
+          </div>
+          <!-- Single Service Area -->
+          <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8 md:mb-0">
+            <div
+              class="single-service-area mb-100 wow fadeInUp"
+              data-wow-delay="700ms"
+            >
+              <img src="{{asset('img/bg-img/23.jpg')}}" alt="" />
+              <div class="service-title flex items-center justify-center">
+                <h5>Pool &amp; Party</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Service Area End -->
 @endsection
