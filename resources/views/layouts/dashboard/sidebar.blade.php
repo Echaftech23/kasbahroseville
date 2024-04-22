@@ -416,12 +416,12 @@
                     </a>
 
                     <a class="flex items-center px-6 py-1 text-[15px] text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
-                        href="{{ route('admin.types.index') }}">
+                        href="#">
                         <span class="mx-3">Privacy & Policy</span>
                     </a>
 
                     <a class="flex items-center px-6 py-1 text-gray-500 text-[14px] hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
-                        href="{{ route('admin.facilities.index') }}">
+                        href="{{ route('auth.logout') }}">
                         <span class="mx-3">Sign Out</span>
                     </a>
                 </div>

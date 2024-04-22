@@ -22,6 +22,17 @@ class HomeController extends Controller
         return view('home.index', compact('rooms'));
     }
 
+    public function about(Request $request)
+    {
+        $rooms = Room::with('type', 'facilities')->latest()->paginate(6);
+
+        if ($request->ajax()) {
+            return view('data', compact('rooms'));
+        }
+
+        return view('home.about', compact('rooms'));
+    }
+
 
     public function search(Request $request)
     {

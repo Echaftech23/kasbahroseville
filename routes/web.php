@@ -128,8 +128,6 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
 });
 
 
-
-
 // Front Desk Routes :
 Route::middleware(['auth', 'isFrontDesk'])->group(function () {
     Route::get('/front-desk/dashboard', [FrontDeskReportController::class, 'getStats'])->name('front-desk.dashboard');
@@ -179,12 +177,14 @@ Route::middleware(['auth', 'isFrontDesk'])->group(function () {
 });
 
 //Home routes
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::resource('home/rooms', GuestRoomController::class)->only('index', 'show')->names([
     'index' => 'home.rooms.index',
     'show' => 'home.rooms.show',
 ]);
 
+Route::view('/home/about', 'home.about')->name('about');
+Route::get('/home/about', [HomeController::class, 'about'])->name('home.about');
 Route::post('/home/search', [HomeController::class, 'search'])->name('search');
 
 // Stripe : Payment Gateway

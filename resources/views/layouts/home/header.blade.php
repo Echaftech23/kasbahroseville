@@ -147,7 +147,7 @@
                             <ul id="nav">
                                 <li class="active"><a href="{{ route('home') }}">Home</a></li>
                                 <li><a href="{{ route('home.rooms.index') }}">Rooms</a></li>
-                                <li><a href="{{ route('home') }}">About Us</a></li>
+                                <li><a href="{{ route('home.about') }}">About Us</a></li>
                                 <li><a href="{{ route('home') }}">Blogs</a></li>
                                 <li><a href="{{ route('home') }}">Contact</a></li>
                             </ul>
