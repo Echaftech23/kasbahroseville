@@ -3,7 +3,7 @@
     <div class="py-0 pr-0 pl-[7px]">
         <div class="flex items-center flex-wrap justify-between">
         <div class="flex flex-col items-start justify-start">
-            <div class="relative text-[13px] text-[#8094AE] leading-[24px]">© 2024 Kasbah Roseville Dashboard</div>
+            <div class="text-[13px] text-[#8094AE] leading-[24px]">© 2024 Kasbah Roseville Dashboard</div>
         </div>
         <div
             class="flex flex-row items-center justify-center py-0 px-0 box-border"

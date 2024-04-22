@@ -76,8 +76,6 @@ class ReportController extends Controller
             ->get()
             ->pluck('total', 'type');
 
-        // dd($roomBookings);
-
         $averageDailyRevenue = $totalRevenueLast30Days / 30;
 
         return view('front-desk.index', compact('totalRevenueLast30Days',  'weeklyRevenue', 'averageDailyRevenue', 'totalBooking', 'totalCustomer', 'roomBookings'));

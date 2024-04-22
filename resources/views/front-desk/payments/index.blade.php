@@ -156,7 +156,7 @@
                                     </button>
                                 </div>
 
-                                <div class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                <div @click.away="open = false" class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                     role="menu" aria-orientation="vertical" aria-labelledby="menu-button"
                                     tabindex="-1" x-show="open" x-cloak style="display: none;">
                                     <div class="py-1" role="none">
@@ -207,7 +207,7 @@
         <div class="rounded-t-[4px] border bg-white">
             <!-- Booking Section Details Top -->
             <div class="px-5 py-5 flex justify-between items-center border-b-[0.7px]">
-                <h3 class="text-[20px] text-[#364A63] font-semibold">All Invoice</h3>
+                <h3 class="hidden sm:block text-[20px] text-[#364A63] font-semibold">All Invoice</h3>
 
                 <div class="relative inline-block text-left">
                     <div class="flex hidden-area">
@@ -222,7 +222,7 @@
                                     </svg>
                                 </span>
 
-                                <form action="{{ route('rooms.search') }}" method="POST" id="roomForm">
+                                <form action="#" id="roomForm">
                                     @csrf
                                     <input
                                         class="w-[220px] sm:w-[180px] lg:w-[240px] pl-10 pr-4 rounded-lg form-input bg-[#ecf1f9] outline-none text-sm py-2 focus:border-indigo-600"
@@ -303,7 +303,7 @@
                                     </td>
                                     <td class="whitespace-nowrap px-4 py-3 sm:px-5">
                                         <div class="flex items-center">
-                                            <button data-url="{{ route('invoice.download', $payment) }}"
+                                            <button data-url="{{ route('front-desk.invoice.download', $payment) }}"
                                                 class="print-button btn size-6 rounded-full flex justify-center outline-none mr-2 items-center hover:bg-[#6576FF]  dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25 sm:h-9 sm:w-9">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="hover:fill-white size-5"
                                                     fill="none" viewBox="0 0 24 24" stroke="#6576FF"
@@ -314,7 +314,7 @@
                                             </button>
 
                                             <!-- Show Details Icon -->
-                                            <a href="{{ route('payments.show', $payment->id) }}"
+                                            <a href="{{ route('front-desk.payments.show', $payment->id) }}"
                                                 class="badge mr-2 text-[#6576FF] space-x-2 p-2 px-3 text-[13px] rounded-sm font-semibold flex items-center focus:bg-[#6576FF] hover:bg-[#6576FF] hover:text-white focus:text-white bg-slate-100 dark:bg-navy-500 dark:text-navy-100">
                                                 <span>View</span>
                                             </a>
@@ -368,7 +368,7 @@
                                                                 <form enctype="multipart/form-data"
                                                                     id="payment-form-{{ $payment->id }}"
                                                                     @submit.prevent="submitForm"
-                                                                    action="{{ route('payments.update', $payment) }}"
+                                                                    action="{{ route('front-desk.payments.update', $payment) }}"
                                                                     method="POST">
                                                                     @csrf
                                                                     @method('PUT')
@@ -378,7 +378,7 @@
                                                                             <input type="hidden" name="reservation_id" value="{{$payment->reservation_id}}">
                                                                             <label for="amountPaid-{{ $payment->id }}"
                                                                                 class="block text-sm font-medium text-gray-700">
-                                                                                Name
+                                                                                Amount Paid
                                                                             </label>
                                                                             <input type="text"
                                                                                 id="amountPaid-{{ $payment->id }}"

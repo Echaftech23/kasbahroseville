@@ -127,11 +127,40 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
 
 });
 
-Route::middleware(['auth', 'isFrontDesk'])->group(function () {
-//     Route::get('/front-desk/dashboard', [FrontDeskReportController::class, 'getStats'])->name('front-desk.dashboard');
 
-//     // Route::post('/front-desk/reservations/search', [FrontDeskReservationController::class, 'search'])->name('reservations.search');
-//     // Route::post('/front-desk/reservations/filter', [FrontDeskReservationController::class, 'filter'])->name('reservations.filter');
+
+
+// Front Desk Routes :
+Route::middleware(['auth', 'isFrontDesk'])->group(function () {
+    Route::get('/front-desk/dashboard', [FrontDeskReportController::class, 'getStats'])->name('front-desk.dashboard');
+
+    Route::get('/front-desk/calender', [FrontDeskReservationController::class, 'events'])->name('front-desk.calender');
+
+    Route::resource('/front-desk/rooms', FrontDeskRoomController::class)->names([
+        'index' => 'front-desk.rooms.index',
+        'show' => 'front-desk.rooms.show',
+    ]);
+
+    Route::resource('/front-desk/guests', FrontDeskGuestController::class)->names([
+        'index' => 'front-desk.guests.index',
+        'show' => 'front-desk.guests.show',
+    ]);
+
+    Route::post('/front-desk/guests/search', [FrontDeskGuestController::class, 'search'])->name('front-desk.guests.search');
+    Route::get('/front-desk/payments/invoices/{payment}', [FrontDeskPaymentController::class, 'download'])->name('front-desk.invoice.download');
+
+    Route::resource('/front-desk/payments', FrontDeskPaymentController::class)->names([
+        'index' => 'front-desk.payments.index',
+        'create' => 'front-desk.payments.create',
+        'store' => 'front-desk.payments.store',
+        'show' => 'front-desk.payments.show',
+        'edit' => 'front-desk.payments.edit',
+        'update' => 'front-desk.payments.update',
+        'destroy' => 'front-desk.payments.destroy'
+    ]);
+
+    Route::get('/front-desk/profile', [FrontDeskGuestController::class, 'profile'])->name('front-desk.profile');
+    Route::put('/front-desk/guests/updateProfile/{profile}', [FrontDeskGuestController::class, 'updateProfile'])->name('front-desk.guests.updateProfile');
 
     Route::resource('/front-desk/reservations', FrontDeskReservationController::class)->names([
         'index' => 'front-desk.reservations.index',
@@ -143,19 +172,10 @@ Route::middleware(['auth', 'isFrontDesk'])->group(function () {
         'destroy' => 'front-desk.reservations.destroy'
     ]);
 
-//     Route::get('/front-desk/calender', [FrontDeskReservationController::class, 'events'])->name('front-desk.calender');
-
-//     // Route::resource('/front-desk/rooms', FrontDeskRoomController::class);
-
-//     // Route::post('/front-desk/rooms/search', [FrontDeskRoomController::class, 'search'])->name('rooms.search');
-//     // Route::post('/front-desk/rooms/filter', [FrontDeskRoomController::class, 'filter'])->name('rooms.filter');
-
-//     // Route::resource('payments', FrontDeskPaymentController::class);
-//     Route::get('/admin/payments/invoices/{payment}', [FrontDeskPaymentController::class, 'download'])->name('invoice.download');
-
-//     Route::resource('guests', FrontDeskGuestController::class);
-//     Route::post('guests/search', [FrontDeskGuestController::class, 'search'])->name('guests.search');
-
+    Route::post('/front-desk/rooms/search', [FrontDeskRoomController::class, 'search'])->name('front-desk.rooms.search');
+    Route::post('/front-desk/rooms/filter', [FrontDeskRoomController::class, 'filter'])->name('front-desk.rooms.filter');
+    Route::post('/front-desk/reservations/search', [FrontDeskReservationController::class, 'search'])->name('front-desk.reservations.search');
+    Route::post('/front-desk/reservations/filter', [FrontDeskReservationController::class, 'filter'])->name('front-desk.reservations.filter');
 });
 
 //Home routes

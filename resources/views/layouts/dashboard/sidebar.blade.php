@@ -31,10 +31,10 @@
                 <span class="mx-3">Dashboard</span>
             </a>
 
-            <a class="{{ Request::routeIs('front-desk.reservations.index') || Request::routeIs('reservations.filter') || Request::routeIs('front-desk.reservations.create') || Request::routeIs('front-desk.reservations.edit') ? 'text-white bg-gray-700 bg-opacity-25' : 'text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100' }} flex items-center px-6 py-2 mt-4"
+             <a class="{{ Request::routeIs('front-desk.reservations.index') || Request::routeIs('front-desk.reservations.search') || Request::routeIs('front-desk.reservations.filter') || Request::routeIs('front-desk.reservations.create') || Request::routeIs('front-desk.reservations.edit') ? 'text-white bg-gray-700 bg-opacity-25' : 'text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100' }} flex items-center px-6 py-2 mt-4"
                 href="{{ route('front-desk.reservations.index') }}">
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
-                    class="{{ Request::routeIs('front-desk.reservations.index') || Request::routeIs('reservations.filter') || Request::routeIs('front-desk.reservations.create') || Request::routeIs('front-desk.reservations.edit') ? 'fill-pink-600' : 'fill-gray-500' }}"
+                    class="{{ Request::routeIs('front-desk.reservations.index') || Request::routeIs('front-desk.reservations.search') || Request::routeIs('front-desk.reservations.filter') || Request::routeIs('front-desk.reservations.create') || Request::routeIs('front-desk.reservations.edit') ? 'fill-pink-600' : 'fill-gray-500' }}"
                     xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_15_1315)">
                         <path
@@ -77,11 +77,11 @@
                 <span class="mx-3">Front Desk</span>
             </a>
 
-            <a class="{{ Request::routeIs('rooms.index') || Request::routeIs('rooms.show')  ? 'text-white bg-gray-700 bg-opacity-25' : 'text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100' }} flex items-center px-6 py-2 mt-4"
-                href="{{ route('rooms.index') }}">
+            <a class="{{ Request::routeIs('front-desk.rooms.index') || Request::routeIs('front-desk.rooms.show') || Request::routeIs('front-desk.rooms.search') || Request::routeIs('front-desk.rooms.filter')  ? 'text-white bg-gray-700 bg-opacity-25' : 'text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100' }} flex items-center px-6 py-2 mt-4"
+                href="{{ route('front-desk.rooms.index') }}">
 
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
-                        class="{{ Request::routeIs('rooms.index') || Request::routeIs('rooms.show') || Request::routeIs('rooms.search') || Request::routeIs('rooms.filter') ? 'fill-pink-600' : 'fill-gray-500' }}"
+                        class="{{ Request::routeIs('front-desk.rooms.index') || Request::routeIs('front-desk.rooms.index') || Request::routeIs('front-desk.rooms.show') || Request::routeIs('front-desk.rooms.search') || Request::routeIs('front-desk.rooms.filter') ? 'fill-pink-600' : 'fill-gray-500' }}"
                         xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_15_1329)">
                             <path
@@ -98,10 +98,10 @@
                 <span class="mx-3">Rooms</span>
             </a>
 
-            <a class="{{ Request::routeIs('guests.index') || Request::routeIs('guests.show') || Request::routeIs('guests.search') ? 'text-white bg-gray-700 bg-opacity-25' : 'text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100' }} flex items-center px-6 py-2 mt-4"
-                href="{{ route('guests.index') }}">
+            <a class="{{ Request::routeIs('front-desk.guests.index') || Request::routeIs('front-desk.guests.show') || Request::routeIs('front-desk.guests.search') ? 'text-white bg-gray-700 bg-opacity-25' : 'text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100' }} flex items-center px-6 py-2 mt-4"
+                href="{{ route('front-desk.guests.index') }}">
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
-                    class="{{ Request::routeIs('guests.index') || Request::routeIs('guests.show') || Request::routeIs('guests.search') ? 'fill-pink-600' : 'fill-gray-500' }}"
+                    class="{{ Request::routeIs('front-desk.guests.index') || Request::routeIs('front-desk.guests.show') || Request::routeIs('front-desk.guests.search') ? 'fill-pink-600' : 'fill-gray-500' }}"
                     xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_15_1353)">
                         <path
@@ -118,10 +118,10 @@
                 <span class="mx-3">Guests</span>
             </a>
 
-            <a class="{{ Request::routeIs('payments.index') || Request::routeIs('payments.create') || Request::routeIs('payments.show') ? 'text-white bg-gray-700 bg-opacity-25' : 'text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100' }} flex items-center px-6 py-2 mt-4"
-                href="{{ route('payments.index') }}">
+            <a class="{{ Request::routeIs('front-desk.payments.index') || Request::routeIs('front-desk.payments.create') || Request::routeIs('front-desk.payments.show') ? 'text-white bg-gray-700 bg-opacity-25' : 'text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100' }} flex items-center px-6 py-2 mt-4"
+                href="{{ route('front-desk.payments.index') }}">
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
-                    class="{{ Request::routeIs('payments.index') || Request::routeIs('payments.create') || Request::routeIs('payments.edit') || Request::routeIs('payments.show') ? 'fill-pink-600' : 'fill-gray-500' }}"
+                    class="{{ Request::routeIs('front-desk.payments.index') || Request::routeIs('front-desk.payments.create') || Request::routeIs('front-desk.payments.edit') || Request::routeIs('front-desk.payments.show') ? 'fill-pink-600' : 'fill-gray-500' }}"
                     xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_15_1362)">
                         <path
@@ -143,7 +143,7 @@
                 <h2 id="accordion-color-heading-1">
                     <div class="flex items-center">
                         <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
-                            class="{{Request::routeIs('profile') ? 'fill-pink-600' : 'fill-gray-500' }}"
+                            class="{{Request::routeIs('front-desk.profile') ? 'fill-pink-600' : 'fill-gray-500' }}"
                             xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_15_1383)">
                                 <path
@@ -158,7 +158,7 @@
                         </svg>
 
                         <button @click="open = !open"
-                            class="{{ Request::routeIs('profile')  ? 'text-white' : 'text-gray-500' }} flex outline-none items-center justify-between w-full px-3"
+                            class="{{ Request::routeIs('front-desk.profile')  ? 'text-white' : 'text-gray-500' }} flex outline-none items-center justify-between w-full px-3"
                             :aria-expanded="open.toString()">
                             <span>Settings</span>
                             <svg :class="{ 'rotate-180': open }" class="-mr-1 h-5 w-5 font-bold text-gray-400"
@@ -176,17 +176,17 @@
                     x-transition:leave="transition ease-in-out duration-300"
                     x-transition:leave-start="transform translate-y-0" x-transition:leave-end="transform -translate-y-2">
                     <a class="flex items-center px-6 py-1 text-gray-500 text-[14px] hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
-                        href="{{ route('profile') }}">
+                        href="{{ route('front-desk.profile') }}">
                         <span class="mx-3">Account</span>
                     </a>
 
                     <a class="flex items-center px-6 py-1 text-[15px] text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
-                        href="{{ route('types.index') }}">
+                        href="#">
                         <span class="mx-3">Privacy & Policy</span>
                     </a>
 
                     <a class="flex items-center px-6 py-1 text-gray-500 text-[14px] hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
-                        href="{{ route('facilities.index') }}">
+                        href="{{ route('auth.logout') }}">
                         <span class="mx-3">Sign Out</span>
                     </a>
                 </div>

@@ -48,6 +48,22 @@ class GuestController extends Controller
         }
     }
 
+    public function updateProfile(Request $request, User $profile)
+    {
+        try {
+
+            if ($request->hasFile('user-image')) {
+                $profile->clearMediaCollection('profile');
+                $profile->addMediaFromRequest('user-image')->toMediaCollection('profile');
+            }
+
+            $profile->update($request->all());
+            return redirect()->back()->with('success', 'Profile updated successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('warning', 'Something went wrong!');
+        }
+    }
+
     /**
      * Display the specified resource.
      */

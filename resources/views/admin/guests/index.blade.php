@@ -134,7 +134,7 @@
         <div class="rounded-t-[4px] border bg-white">
             <!-- Booking Section Details Top -->
             <div class="px-5 py-5 flex justify-between items-center border-b-[0.7px]">
-                <h3 class="text-[20px] text-[#364A63] font-semibold">All Guests</h3>
+                <h3 class="hidden sm:block text-[20px] text-[#364A63] font-semibold">All Guests</h3>
 
                 <div class="relative inline-block text-left">
                     <div class="flex hidden-area">

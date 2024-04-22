@@ -134,7 +134,7 @@
         <div class="rounded-t-[4px] border bg-white">
             <!-- Booking Section Details Top -->
             <div class="px-5 py-5 flex justify-between items-center border-b-[0.7px]">
-                <h3 class="text-[20px] text-[#364A63] font-semibold">All Guests</h3>
+                <h3 class="hidden sm:block text-[20px] text-[#364A63] font-semibold">All Guests</h3>
 
                 <div class="relative inline-block text-left">
                     <div class="flex hidden-area">
@@ -149,7 +149,7 @@
                                     </svg>
                                 </span>
 
-                                <form action="{{ route('guests.search') }}" method="POST" id="guestForm">
+                                <form action="{{ route('front-desk.guests.search') }}" method="POST" id="guestForm">
                                     @csrf
                                     <input
                                         class="w-[220px] sm:w-[180px] lg:w-[240px] pl-10 pr-4 rounded-lg form-input bg-[#ecf1f9] outline-none text-sm py-2 focus:border-indigo-600"
@@ -254,155 +254,10 @@
                                     </td>
                                     <td class="whitespace-nowrap flex items-center px-4 py-3 sm:px-5">
 
-                                        <a href="{{ route('guests.show', $guest) }}"
-                                            class="badge mr-2 text-[#6576FF] space-x-2 p-2 px-3 text-[12px] rounded-sm font-semibold flex items-center focus:bg-[#6576FF] hover:bg-[#6576FF] hover:text-white focus:text-white bg-slate-100 dark:bg-navy-500 dark:text-navy-100">
+                                        <a href="{{ route('front-desk.guests.show', $guest) }}"
+                                            class="badge mr-2 text-white space-x-2 p-2 px-3 text-[13px] rounded-sm font-semibold flex items-center focus:bg-[#6576FF] hover:bg-[#6576FF] hover:text-white focus:text-white bg-blue-600 dark:bg-navy-500 dark:text-navy-100">
                                             <span>View</span>
                                         </a>
-
-                                        <div x-data="{
-                                            open: false,
-                                            statut: '',
-                                            nameError: false,
-                                            submitForm: function() {
-                                                if (this.statut) {
-                                                    let form = document.querySelector('#guest-form-' + {{ $guest->id }});
-                                                    form.submit();
-                                                }
-                                            }
-                                        }">
-                                            <!-- Button trigger modal -->
-                                            <a @click="open = true, statut = '{{ $guest->statut }}'"
-                                                class="badge mr-2 text-white space-x-2 p-2 px-3 text-[13px] rounded-sm font-semibold flex items-center focus:bg-[#6576FF] hover:bg-[#6576FF] hover:text-white focus:text-white bg-blue-600 dark:bg-navy-500 dark:text-navy-100">
-                                                <span>Edit</span>
-                                            </a>
-
-                                            <!-- Modal -->
-                                            <div x-show="open" x-cloak style="display: none;"
-                                                class="fixed z-50 inset-0 flex items-center justify-center"
-                                                aria-labelledby="modal-title" role="dialog" aria-modal="true">
-                                                <div class="fixed w-full h-full  top-0 left-0 bg-gray-500 bg-opacity-75 transition-opacity"
-                                                    aria-hidden="true"></div>
-
-                                                <!-- Modal content -->
-                                                <div
-                                                    class="bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:max-w-sm sm:w-full">
-                                                    <div class="pb-4 sm:py-6 sm:pb-4">
-                                                        <div class="flex items-center justify-between px-6">
-                                                            <h3 class="text-lg leading-6 font-medium text-gray-900"
-                                                                id="modal-title">
-                                                                Edit guest
-                                                            </h3>
-                                                            <button type="button" @click="open = false"
-                                                                class=" text-gray-400 bg-transparent  hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
-                                                                <svg class="w-3 h-3" aria-hidden="true"
-                                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                    viewBox="0 0 14 14">
-                                                                    <path stroke="currentColor" stroke-linecap="round"
-                                                                        stroke-linejoin="round" stroke-width="2"
-                                                                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                                                                </svg>
-                                                            </button>
-                                                        </div>
-                                                        <div class="mt-2">
-                                                            <form
-                                                                id="guest-form-{{ $guest->id }}"
-                                                                @submit.prevent="submitForm"
-                                                                action="{{ route('guests.update', $guest) }}"
-                                                                method="POST">
-                                                                @csrf
-                                                                @method('PUT')
-                                                                <div class="border-t px-6 py-4">
-                                                                    <div class="">
-                                                                        <label for="amountPaid-{{ $guest->id }}"
-                                                                            class="block text-sm mt-3 font-medium text-gray-700">
-                                                                            Statut
-                                                                        </label>
-
-                                                                        <select name="statut"
-                                                                            class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                                                            @foreach (App\Models\User::STATUT_RADIO as $status)
-                                                                                <option value="{{ $status }}"
-                                                                                    {{ $guest->statut == $status ? 'selected' : '' }}>
-                                                                                    {{ $status }}
-                                                                                </option>
-                                                                            @endforeach
-                                                                        </select>
-
-                                                                    </div>
-
-                                                                    <div class="mt-5  sm:mt-6">
-                                                                        <button type="submit"
-                                                                            class="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
-                                                                            Save
-                                                                        </button>
-                                                                        <button type="button" @click="open = false"
-                                                                            class="mt-3 inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                                                                            Close
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Delete Icon -->
-                                        <div x-data="{ open: false }">
-                                            <!-- Delete Icon -->
-
-
-                                            <button @click="open = true"
-                                                class="badge mr-2 text-white space-x-2 p-2 px-3 text-[13px] rounded-sm font-semibold flex items-center focus:bg-red-600 hover:bg-red-600 hover:text-white focus:text-white bg-red-500 dark:bg-navy-500 dark:text-navy-100">
-                                                <span>Delete</span>
-                                            </button>
-
-                                            <!-- Modal -->
-                                            <div x-show="open"
-                                                class="fixed z-50 inset-0 flex items-center justify-center"
-                                                aria-labelledby="modal-title" role="dialog" aria-modal="true">
-                                                <div class="fixed w-full h-full  top-0 left-0 bg-gray-500 bg-opacity-75 transition-opacity"
-                                                    aria-hidden="true"></div>
-
-                                                <!-- Modal content -->
-                                                <div
-                                                    class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                                                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                                                        <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
-                                                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                            fill="none" viewBox="0 0 20 20">
-                                                            <path stroke="currentColor" stroke-linecap="round"
-                                                                stroke-linejoin="round" stroke-width="2"
-                                                                d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                                        </svg>
-                                                        <h3
-                                                            class="mb-3 text-center text-lg font-normal text-gray-500 dark:text-gray-400">
-                                                            Are you sure you want to delete
-                                                            this Reservation?</h3>
-                                                    </div>
-                                                    <div
-                                                        class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                                                        <form class="flex items-center justify-center w-full pb-3"
-                                                            action="{{ route('guests.destroy', $guest) }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
-
-                                                            <button type="submit" @click="open = false"
-                                                                class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
-                                                                Yes, I'm sure
-                                                            </button>
-                                                            <button type="button" @click="open = false"
-                                                                class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">No,
-                                                                cancel
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
                                     </td>
                                 </tr>
                             @empty

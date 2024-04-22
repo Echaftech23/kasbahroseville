@@ -179,7 +179,7 @@
 
                             <div class="inline-block">
                                 <div>
-                                    <a href="{{ route('admin.reservations.create') }}" type="button"
+                                    <a href="{{ route('front-desk.reservations.create') }}" type="button"
                                         class="inline-flex bg-indigo-600 w-full justify-center items-center gap-x-1.5 rounded-md text-white border-none px-3 py-2 text-sm shadow-sm ring-1 ring-inset ring-gray-300">
                                         <img class="h-[18.5px] w-[18px] shrink-0" alt=""
                                             src="../img/dashborad/icon-201.svg" />

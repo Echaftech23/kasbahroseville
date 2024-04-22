@@ -126,7 +126,7 @@
                 </div>
 
                 <div class="w-260 w-320 sm:col-span-2 lg:col-span-3">
-                    <a href="{{ url()->previous() }}"
+                    <a href="{{ route('front-desk.rooms.index') }}"
                         class="bg-[#466ff4] mt-4 px-3 py-2 text-white text-xs font-semibold rounded-[6px] hover:bg-[#466ff4] focus:outline-none focus:ring-2 focus:ring-gray-400">
                         Back
                     </a>

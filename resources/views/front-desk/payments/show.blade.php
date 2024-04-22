@@ -52,7 +52,7 @@
 
                         <div>
                             <div class="relative flex items-center mr-1" x-data="{ open: false }">
-                                <button id="printButton" data-url="{{ route('invoice.download', $payment) }}"
+                                <button id="printButton" data-url="{{ route('front-desk.invoice.download', $payment) }}"
                                     class="btn size-6 rounded-full flex justify-center outline-none mr-2 items-center hover:bg-[#6576FF]  dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25 sm:h-9 sm:w-9">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="hover:fill-white size-8" fill="none"
                                         viewBox="0 0 24 24" stroke="#6576FF" stroke-width="1.5">
@@ -61,7 +61,7 @@
                                     </svg>
                                 </button>
 
-                                <a href="{{ route('payments.index') }}"
+                                <a href="{{ route('front-desk.payments.index') }}"
                                     class="inline-flex bg-indigo-600 w-full justify-center items-center gap-x-1.5 rounded-md text-white border-none px-3 py-2 text-sm shadow-sm ring-1 ring-inset ring-gray-300"
                                     id="menu-button" aria-expanded="true" aria-haspopup="true" @click="open = !open">
                                     <img src="{{asset('img/dashborad/arrow-left.svg')}}" class="w-4" alt="">

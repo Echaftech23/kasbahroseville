@@ -43,10 +43,15 @@ class RoomController extends Controller
     public function search(Request $request)
     {
         $search = $request->get('room-search');
-        $rooms = Room::where('name', 'like', '%' . $search . '%')
-            ->orWhere('price', 'like', '%' . $search . '%')
-            ->orWhere('priority', 'like', '%' . $search . '%')
-            ->latest()->paginate(10);
+        $rooms = Room::where(function ($query) use ($search) {
+            $query->where('name', 'like', '%' . $search . '%')
+                ->orWhere('price', 'like', '%' . $search . '%')
+                ->orWhere('priority', 'like', '%' . $search . '%');
+        })
+        ->orWhereHas('type', function ($query) use ($search) {
+            $query->where('type', 'like', '%' . $search . '%');
+        })
+        ->latest()->paginate(10);
 
         return view('front-desk.rooms.index', ['rooms' => $rooms]);
     }

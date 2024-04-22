@@ -152,9 +152,9 @@
                                                         d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                                                 </svg>
 
-                                                <label class="font-semibold">Email :</label>
+                                                <label class="text-sm sm:text-[16px] font-semibold">Email :</label>
                                             </div>
-                                            <span class="text-gray-500">{{ $profile->email }}</span>
+                                            <span class="text-sm sm:text-[16px] text-gray-500">{{ $profile->email }}</span>
                                         </div>
 
                                         <div class="flex items-center mt-2">
@@ -165,9 +165,9 @@
                                                         d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                                                 </svg>
 
-                                                <label class="font-semibold">Phone :</label>
+                                                <label class="text-sm sm:text-[16px] font-semibold">Phone :</label>
                                             </div>
-                                            <span class="text-gray-500">{{ $profile->phone }}</span>
+                                            <span class=" text-sm sm:text-[16px] text-gray-500">{{ $profile->phone }}</span>
                                         </div>
 
                                         <div class="flex items-center mt-2">
@@ -178,9 +178,9 @@
                                                         d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                                                 </svg>
 
-                                                <label class="font-semibold">CreatedAT :</label>
+                                                <label class="text-sm sm:text-[16px] font-semibold">CreatedAT :</label>
                                             </div>
-                                            <span class="text-gray-500">{{ $profile->created_at }}</span>
+                                            <span class="text-sm sm:text-[16px] text-gray-500">{{ $profile->created_at }}</span>
                                         </div>
 
                                         <div class="flex justify-end mt-2">
@@ -198,7 +198,7 @@
                                                 }">
                                                     <!-- Button trigger modal -->
                                                     <a @click="open = true, statut = '{{ $profile->statut }}'"
-                                                        class="text-sm cursor-pointer text-center rounded-[8px] bg-blue-600 hover:shadow-lg font-semibold text-white px-4 py-2">
+                                                        class="text-xs sm:text-sm cursor-pointer text-center rounded-[8px] bg-blue-600 hover:shadow-lg font-semibold text-white px-4 py-2">
                                                         <span>Edit</span>
                                                     </a>
 
@@ -232,12 +232,37 @@
                                                                 <div class="mt-2">
                                                                     <form id="guest-form-{{ $profile->id }}"
                                                                         @submit.prevent="submitForm"
-                                                                        action="{{ route('guests.update', $profile) }}"
-                                                                        method="POST">
+                                                                        action="{{ route('front-desk.guests.updateProfile', $profile) }}"
+                                                                        method="POST" enctype="multipart/form-data">
                                                                         @csrf
                                                                         @method('PUT')
                                                                         <div class="border-t px-6 py-4">
                                                                             <div class="">
+                                                                                <label for="name-{{ $profile->name }}"
+                                                                                    class="block text-sm mt-3 font-medium text-gray-700">
+                                                                                    Name
+                                                                                </label>
+                                                                                <input type="text" id="name-{{ $profile->name }}" name="name"
+                                                                                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                                                    value="{{ $profile->name }}">
+
+                                                                                <label for="image"
+                                                                                    class="block text-sm mt-3 font-medium text-gray-700">
+                                                                                    Image Upload
+                                                                                </label>
+
+                                                                                <input type="file" id="image" name="user-image"
+                                                                                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+                                                                                <label for="name-{{ $profile->name }}"
+                                                                                    class="block text-sm mt-3 font-medium text-gray-700">
+                                                                                    Phone
+                                                                                </label>
+
+                                                                                <input type="text" id="phone-{{ $profile->phone }}" name="phone"
+                                                                                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                                                    value="{{ $profile->phone }}">
+
                                                                                 <label for="amountPaid-{{ $profile->id }}"
                                                                                     class="block text-sm mt-3 font-medium text-gray-700">
                                                                                     Statut
@@ -252,6 +277,7 @@
                                                                                         </option>
                                                                                     @endforeach
                                                                                 </select>
+
 
                                                                             </div>
 
@@ -274,7 +300,7 @@
                                                 </div>
 
                                                 <button
-                                                    class="text-sm text-center rounded-[8px] bg-red-600 hover:shadow-lg font-semibold mx-2 text-white px-4 py-2">Delete
+                                                    class="text-xs sm:text-sm text-center rounded-[8px] bg-red-600 hover:shadow-lg font-semibold mx-2 text-white px-4 py-2">Delete
                                                 </button>
                                             </div>
                                         </div>

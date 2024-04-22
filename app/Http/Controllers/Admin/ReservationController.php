@@ -166,11 +166,9 @@ class ReservationController extends Controller
 
     public function filter(Request $request)
     {
-        $query = Reservation::query();
+        $query = Reservation::with('room', 'user', 'payment');
 
-        $reservations = Reservation::with('room', 'user', 'payment');
-
-        if ($request->has('payment_statut')) {
+        if ($request->input('payment_statut')) {
             $query->whereHas('payment', function ($query) use ($request) {
                 $query->where('statut', $request->get('payment_statut'));
             });
@@ -198,7 +196,7 @@ class ReservationController extends Controller
                     $date = $date->subMonth();
                     break;
             }
-            $query->where('created_at','>=', $date)->get();
+            $query->where('created_at', '>=', $date);
         }
 
         if ($request->has('statut')) {
@@ -206,10 +204,6 @@ class ReservationController extends Controller
         }
 
         $reservations = $query->latest()->paginate(10);
-
-        if ($reservations->isEmpty()) {
-            return view('admin.bookings.index')->with('error', 'No reservations found.');
-        }
 
         return view('admin.bookings.index', compact('reservations'));
     }

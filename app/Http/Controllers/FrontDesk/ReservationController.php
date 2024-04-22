@@ -173,39 +173,12 @@ class ReservationController extends Controller
                 $query->where('name', 'like', '%' . $search . '%');
             })->latest()->paginate(10);
 
-        $links = $reservations->links('vendor.pagination.custom')->toHtml();
-
-        $reservationData = $reservations->map(function ($reservation) {
-            return [
-                'detailsUrl' => route('front-desk.reservations.edit', $reservation->id),
-                'updateUrl' => route('front-desk.reservations.update', $reservation->id),
-                'deleteUrl' => route('front-desk.reservations.destroy', $reservation->id),
-                'id' => $reservation->id,
-                'image' => $reservation->user->getFirstMediaUrl('profile'),
-                'name' => $reservation->user->name,
-                'email' => $reservation->user->email,
-                'phone' => $reservation->user->phone,
-                'checkIn' => $reservation->checkIn,
-                'checkOut' => $reservation->checkOut,
-                'totalAmount' => $reservation->payment->totalAmount,
-                'amountPaid' => $reservation->payment->amountPaid,
-                'statut' => $reservation->statut,
-                'ref' => $reservation->ref,
-                'room' => $reservation->room->name,
-                'room_type' => $reservation->room->type->type,
-                'room_price' => $reservation->room->price,
-                'created_at' => $reservation->created_at,
-            ];
-        });
-
-        return response()->json(['reservations' => $reservationData, 'links' => $links,]);
+        return view('front-desk.bookings.index', ['reservations' => $reservations]);
     }
 
     public function filter(Request $request)
     {
-        $query = Reservation::query();
-
-        $reservations = Reservation::with('room', 'user', 'payment');
+        $query = Reservation::with('room', 'user', 'payment');
 
         if ($request->input('payment_statut')) {
             $query->whereHas('payment', function ($query) use ($request) {
@@ -235,7 +208,7 @@ class ReservationController extends Controller
                     $date = $date->subMonth();
                     break;
             }
-            $query->where('created_at', '>=', $date)->get();
+            $query->where('created_at', '>=', $date);
         }
 
         if ($request->has('statut')) {
@@ -243,12 +216,6 @@ class ReservationController extends Controller
         }
 
         $reservations = $query->latest()->paginate(10);
-
-        // dd($reservations);
-
-        if ($reservations->isEmpty()) {
-            return view('front-desk.bookings.index')->with('error', 'No reservations found.');
-        }
 
         return view('front-desk.bookings.index', compact('reservations'));
     }
@@ -263,7 +230,7 @@ class ReservationController extends Controller
 
             $reservation->delete();
 
-            return redirect()->route('front-desk.bookings.index')->with('success', 'Reservation deleted successfully.');
+            return redirect()->route('front-desk.reservations.index')->with('success', 'Reservation deleted successfully.');
         } catch (\Exception $e) {
             return back()->with('error', 'Something went wrong! Please try again.');
         }
