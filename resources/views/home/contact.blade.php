@@ -73,4 +73,48 @@
         </div>
     </section>
     <!-- Google Maps & Contact Info Area End -->
+
+    <!-- Contact Form Area Start -->
+    <div class="kasbah-contact-form-area section-padding-100">
+        <div class="container mx-auto">
+            <div class="flex flex-wrap">
+                <div class="w-full">
+                    <!-- Section Heading -->
+                    <div class="section-heading text-center wow fadeInUp" data-wow-delay="100ms">
+                        <h6>Contact Us</h6>
+                        <h2>Leave Message</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex">
+                <div class="w-full">
+                    <!-- Form -->
+                    <div class="kasbah-contact-form">
+                        <form action="#">
+                            <div class="flex flex-wrap">
+                                <div class="w-full lg:w-6/12 lg:pr-4 wow fadeInUp" data-wow-delay="100ms">
+                                    <input type="text" name="message-name" class="form-control mb-30"
+                                        placeholder="Your Name" />
+                                </div>
+                                <div class="w-full lg:w-6/12 lg:pl-4 wow fadeInUp" data-wow-delay="100ms">
+                                    <input type="email" name="message-email" class="form-control mb-30"
+                                        placeholder="Your Email" />
+                                </div>
+                                <div class="w-full wow fadeInUp" data-wow-delay="100ms">
+                                    <textarea name="message" class="form-control mb-30" placeholder="Your Message"></textarea>
+                                </div>
+                                <div class="w-full text-center wow fadeInUp" data-wow-delay="100ms">
+                                    <button type="submit" class="btn hero-btn mt-15">
+                                        Send Message
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Contact Form Area End -->
 @endsection
