@@ -185,7 +185,8 @@ Route::resource('home/rooms', GuestRoomController::class)->only('index', 'show')
 
 
 Route::get('/about', [HomeController::class, 'about'])->name( 'home.about');
-Route::get('/blogs', [HomeController::class, 'blog'])->name('home.blog');
+Route::get('/blogs', [ HomeController::class, 'blog'])->name('home.blog');
+Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact');
 Route::post('/home/search', [HomeController::class, 'search'])->name('search');
 
 // Stripe : Payment Gateway
