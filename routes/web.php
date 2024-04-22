@@ -183,8 +183,9 @@ Route::resource('home/rooms', GuestRoomController::class)->only('index', 'show')
     'show' => 'home.rooms.show',
 ]);
 
-Route::view('/home/about', 'home.about')->name('about');
-Route::get('/home/about', [HomeController::class, 'about'])->name('home.about');
+
+Route::get('/about', [HomeController::class, 'about'])->name( 'home.about');
+Route::get('/blogs', [HomeController::class, 'blog'])->name('home.blog');
 Route::post('/home/search', [HomeController::class, 'search'])->name('search');
 
 // Stripe : Payment Gateway
