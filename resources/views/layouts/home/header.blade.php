@@ -89,11 +89,26 @@
                                 <div x-show="dropdownOpen"
                                     class="absolute right-0 z-10 bg-white shadow-lg mt-2 w-[160px] border p-3 overflow-hidden rounded-md"
                                     style="display: none;">
-                                    <a href="#" class="flex w-full items-center px-2 py-2 text-s">
-                                        <img src="{{ asset('img/dashborad/profile.svg') }}"
-                                            class="w-5  mr-1 inline-flex" alt="">
-                                        <span>Profile</span>
-                                    </a>
+                                    @if (Auth::user()->hasRole('Guest'))
+                                        <a href="{{ route('admin.profile') }}" class="flex w-full items-center px-2 py-2 text-s">
+                                            <img src="{{ asset('img/dashborad/profile.svg') }}"
+                                                class="w-5  mr-1 inline-flex" alt="">
+                                            <span>Profile</span>
+                                        </a>
+                                    @elseif (Auth::user()->hasRole('front-desk'))
+                                        <a href="{{ route('front-desk.profile') }}" class="flex w-full items-center px-2 py-2 text-s">
+                                            <img src="{{ asset('img/dashborad/profile.svg') }}"
+                                                class="w-5  mr-1 inline-flex" alt="">
+                                            <span>Profile</span>
+                                        </a>
+                                    @else
+                                        <a href="#" class="flex w-full items-center px-2 py-2 text-s">
+                                            <img src="{{ asset('img/dashborad/profile.svg') }}"
+                                                class="w-5  mr-1 inline-flex" alt="">
+                                            <span>Profile</span>
+                                        </a>
+                                    @endif
+
                                     @if (Auth::user()->hasRole('Guest'))
                                         @if (Auth::user()->reservations->count() > 0)
                                             <a href="{{ route('user.reservations') }}"
@@ -176,11 +191,26 @@
                                         <div x-show="dropdownOpen"
                                             class="absolute right-0 z-10 bg-white shadow-lg mt-2 w-[160px] border p-3 overflow-hidden rounded-md"
                                             style="display: none;">
-                                            <a href="{{ url('logout') }}" class="flex w-full items-center px-2 py-2 text-s">
-                                                <img src="{{ asset('img/dashborad/profile.svg') }}"
-                                                    class="w-5  mr-1 inline-flex" alt="">
-                                                <span>Profile</span>
-                                            </a>
+                                            @if (Auth::user()->hasRole('Guest'))
+                                                <a href="{{ route('admin.profile') }}" class="flex w-full items-center px-2 py-2 text-s">
+                                                    <img src="{{ asset('img/dashborad/profile.svg') }}"
+                                                        class="w-5  mr-1 inline-flex" alt="">
+                                                    <span>Profile</span>
+                                                </a>
+                                            @elseif (Auth::user()->hasRole('front-desk'))
+                                                <a href="{{ route('front-desk.profile') }}" class="flex w-full items-center px-2 py-2 text-s">
+                                                    <img src="{{ asset('img/dashborad/profile.svg') }}"
+                                                        class="w-5  mr-1 inline-flex" alt="">
+                                                    <span>Profile</span>
+                                                </a>
+                                            @else
+                                                <a href="#" class="flex w-full items-center px-2 py-2 text-s">
+                                                    <img src="{{ asset('img/dashborad/profile.svg') }}"
+                                                        class="w-5  mr-1 inline-flex" alt="">
+                                                    <span>Profile</span>
+                                                </a>
+                                            @endif
+
                                             @if (Auth::user()->hasRole('Guest'))
                                                 @if (Auth::user()->reservations->count() > 0)
                                                     <a href="{{ route('user.reservations') }}"
@@ -198,7 +228,7 @@
                                                         class="w-5 mr-1 inline-flex" alt="">
                                                     <span>Dashboard</span>
                                                 </a>
-                                            @else
+                                            @elseif (Auth::user()->hasRole('front)desk'))
                                                 <a href="{{ route('front-desk.dashboard') }}"
                                                     class="flex w-full items-center px-2 py-2 text-s">
                                                     <img src="{{ asset('img/dashborad/dashboard.svg') }}"

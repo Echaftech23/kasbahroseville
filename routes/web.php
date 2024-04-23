@@ -178,7 +178,7 @@ Route::middleware(['auth', 'isFrontDesk'])->group(function () {
 
 //Home routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::resource('home/rooms', GuestRoomController::class)->only('index', 'show')->names([
+Route::resource('/rooms', GuestRoomController::class)->only('index', 'show')->names([
     'index' => 'home.rooms.index',
     'show' => 'home.rooms.show',
 ]);
@@ -186,6 +186,7 @@ Route::resource('home/rooms', GuestRoomController::class)->only('index', 'show')
 
 Route::get('/about', [HomeController::class, 'about'])->name( 'home.about');
 Route::get('/blogs', [ HomeController::class, 'blog'])->name('home.blog');
+Route::get('/blogs/{blog}', [HomeController::class, 'singleBlog'])->name('home.single-blog');
 Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact');
 Route::post('/home/search', [HomeController::class, 'search'])->name('search');
 
@@ -193,10 +194,10 @@ Route::post('/home/search', [HomeController::class, 'search'])->name('search');
 Route::middleware('auth')->group(function () {
     Route::post('/checkout', [PaymentController::class, 'checkout'])->name('checkout');
     Route::get('/success', [PaymentController::class, 'success'])->name('success');
-    Route::get('/home/reservations', [ReservationController::class, 'index'])->name('user.reservations');
+    Route::get('/user/reservations', [ReservationController::class, 'index'])->name('user.reservations');
 
     // Reservation :
-    Route::post('/home/rooms', [ReservationController::class, 'available_rooms'])->name('rooms.availability');
+    Route::post('/rooms', [ReservationController::class, 'available_rooms'])->name('rooms.availability');
     Route::resource('reservations', ReservationController::class);
 
     // Payment :

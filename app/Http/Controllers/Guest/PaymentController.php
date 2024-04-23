@@ -65,7 +65,7 @@ class PaymentController extends Controller
             $payment->totalAmount = $session->amount_total / 100;
             $payment->amountPaid = $payment->totalAmount;
             $payment->reservation_id = $reservation->id;
-            $payment->statut = $session->payment_status == 'paid' ? 'Complete' : $session->payment_status;
+            $payment->statut = $session->payment_status == 'paid' ? 'Completed' : $session->payment_status;
             $payment->save();
 
             $paymentMethode = new PaymentMethode;

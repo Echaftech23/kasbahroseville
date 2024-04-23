@@ -34,17 +34,17 @@
                     <div class="single-blog-post flex items-center mb-50 wow fadeInUp" data-wow-delay="100ms">
                         <!-- Post Thumbnail -->
                         <div class="post-thumbnail">
-                            <a href="single-blog.html"><img src="{{asset('img/bg-img/event-1.jpg')}}" alt="" /></a>
+                            <a href="{{route('home.single-blog', 1)}}"><img src="{{asset('img/bg-img/event-1.jpg')}}" alt="" /></a>
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
                             <!-- Post Meta -->
                             <div class="post-meta">
-                                <a href="single-blog.html" class="post-author">Jan 01, 2024</a>
-                                <a href="single-blog.html" class="post-tutorial">Event</a>
+                                <a href="{{route('home.single-blog', 1)}}" class="post-author">Jan 01, 2024</a>
+                                <a href="{{route('home.single-blog', 1)}}" class="post-tutorial">Event</a>
                             </div>
                             <!-- Post Title -->
-                            <a href="single-blog.html" class="post-title">15 of the Best Moroccan Riads Interior Design
+                            <a href="{{route('home.single-blog', 1)}}" class="post-title">15 of the Best Moroccan Riads Interior Design
                                 Decor</a>
                             <p>
                                 Just stumbled upon the most enchanting secret – Moroccan
@@ -52,7 +52,7 @@
                                 lanterns, each telling a unique tale of culture and
                                 elegance...
                             </p>
-                            <a href="single-blog.html" class="btn continue-btn">Read More</a>
+                            <a href="{{route('home.single-blog', 1)}}" class="btn continue-btn">Read More</a>
                         </div>
                     </div>
 
@@ -60,17 +60,17 @@
                     <div class="single-blog-post flex items-center mb-50 wow fadeInUp" data-wow-delay="300ms">
                         <!-- Post Thumbnail -->
                         <div class="post-thumbnail">
-                            <a href="single-blog.html"><img src="{{asset('img/bg-img/26.jpg')}}" alt="" /></a>
+                            <a href="{{route('home.single-blog', 1)}}"><img src="{{asset('img/bg-img/26.jpg')}}" alt="" /></a>
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
                             <!-- Post Meta -->
                             <div class="post-meta">
-                                <a href="single-blog.html" class="post-author">Jan 01, 2024</a>
-                                <a href="single-blog.html" class="post-tutorial">Event</a>
+                                <a href="{{route('home.single-blog', 1)}}" class="post-author">Jan 01, 2024</a>
+                                <a href="{{route('home.single-blog', 1)}}" class="post-tutorial">Event</a>
                             </div>
                             <!-- Post Title -->
-                            <a href="single-blog.html" class="post-title">Global Travel And Vacations Luxury Travel On A
+                            <a href="{{route('home.single-blog', 1)}}" class="post-title">Global Travel And Vacations Luxury Travel On A
                                 Tight
                                 Budget</a>
                             <p>
@@ -79,7 +79,7 @@
                                 household chores, there is precious little time left over for
                                 you.
                             </p>
-                            <a href="single-blog.html" class="btn continue-btn">Read More</a>
+                            <a href="{{route('home.single-blog', 1)}}" class="btn continue-btn">Read More</a>
                         </div>
                     </div>
 
@@ -87,17 +87,17 @@
                     <div class="single-blog-post flex items-center mb-50 wow fadeInUp" data-wow-delay="400ms">
                         <!-- Post Thumbnail -->
                         <div class="post-thumbnail">
-                            <a href="single-blog.html"><img src="{{asset('img/bg-img/flag.jpg')}}" alt="" /></a>
+                            <a href="{{route('home.single-blog', 1)}}"><img src="{{asset('img/bg-img/flag.jpg')}}" alt="" /></a>
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
                             <!-- Post Meta -->
                             <div class="post-meta">
-                                <a href="single-blog.html" class="post-author">Jan 01, 2024</a>
-                                <a href="single-blog.html" class="post-tutorial">Event</a>
+                                <a href="{{route('home.single-blog', 1)}}" class="post-author">Jan 01, 2024</a>
+                                <a href="{{route('home.single-blog', 1)}}" class="post-tutorial">Event</a>
                             </div>
                             <!-- Post Title -->
-                            <a href="single-blog.html" class="post-title">
+                            <a href="{{route('home.single-blog', 1)}}" class="post-title">
                                 18 Super Important Must Knows Before You Travel to Morocco
                             </a>
                             <p>
@@ -106,7 +106,7 @@
                                 distinctive taste to your sausages, burgers, ribs, and other
                                 grilled ite...
                             </p>
-                            <a href="single-blog.html" class="btn continue-btn">Read More</a>
+                            <a href="{{route('home.single-blog', 1)}}" class="btn continue-btn">Read More</a>
                         </div>
                     </div>
 
@@ -114,24 +114,24 @@
                     <div class="single-blog-post flex items-center mb-50 wow fadeInUp" data-wow-delay="500ms">
                         <!-- Post Thumbnail -->
                         <div class="post-thumbnail">
-                            <a href="single-blog.html"><img src="{{asset('img/bg-img/28.jpg')}}" alt="" /></a>
+                            <a href="{{route('home.single-blog', 1)}}"><img src="{{asset('img/bg-img/28.jpg')}}" alt="" /></a>
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
                             <!-- Post Meta -->
                             <div class="post-meta">
-                                <a href="single-blog.html" class="post-author">Jan 01, 2024</a>
-                                <a href="single-blog.html" class="post-tutorial">Event</a>
+                                <a href="{{route('home.single-blog', 1)}}" class="post-author">Jan 01, 2024</a>
+                                <a href="{{route('home.single-blog', 1)}}" class="post-tutorial">Event</a>
                             </div>
                             <!-- Post Title -->
-                            <a href="single-blog.html" class="post-title">Les Houches The Hidden Gem Of The Chamonix
+                            <a href="{{route('home.single-blog', 1)}}" class="post-title">Les Houches The Hidden Gem Of The Chamonix
                                 Valley</a>
                             <p>
                                 Las Vegas has more than 100,000 hotel rooms to choose from.
                                 There is something for every budget, and enough entertainment
                                 within walking distance to keep anyone occupied for months.
                             </p>
-                            <a href="single-blog.html" class="btn continue-btn">Read More</a>
+                            <a href="{{route('home.single-blog', 1)}}" class="btn continue-btn">Read More</a>
                         </div>
                     </div>
 
@@ -176,16 +176,16 @@
                             <div class="single-recent-post flex">
                                 <!-- Thumb -->
                                 <div class="post-thumb">
-                                    <a href="single-blog.html"><img src="{{asset('img/blogs/blog-5.jpg')}}" alt="" /></a>
+                                    <a href="{{route('home.single-blog', 1)}}"><img src="{{asset('img/blogs/blog-5.jpg')}}" alt="" /></a>
                                 </div>
                                 <!-- Content -->
                                 <div class="post-content">
                                     <!-- Post Meta -->
                                     <div class="post-meta">
-                                        <a href="single-blog.html" class="post-author">Jan 01, 2024</a>
-                                        <a href="single-blog.html" class="post-tutorial">Event</a>
+                                        <a href="{{route('home.single-blog', 1)}}" class="post-author">Jan 01, 2024</a>
+                                        <a href="{{route('home.single-blog', 1)}}" class="post-tutorial">Event</a>
                                     </div>
-                                    <a href="single-blog.html" class="post-title">Marrakech Top Things To Do</a>
+                                    <a href="{{route('home.single-blog', 1)}}" class="post-title">Marrakech Top Things To Do</a>
                                 </div>
                             </div>
 
@@ -193,16 +193,16 @@
                             <div class="single-recent-post flex">
                                 <!-- Thumb -->
                                 <div class="post-thumb">
-                                    <a href="single-blog.html"><img src="{{asset('img/blogs/blog-4.jpg')}}" alt="" /></a>
+                                    <a href="{{route('home.single-blog', 1)}}"><img src="{{asset('img/blogs/blog-4.jpg')}}" alt="" /></a>
                                 </div>
                                 <!-- Content -->
                                 <div class="post-content">
                                     <!-- Post Meta -->
                                     <div class="post-meta">
-                                        <a href="single-blog.html" class="post-author">Jan 01, 2024</a>
-                                        <a href="single-blog.html" class="post-tutorial">Event</a>
+                                        <a href="{{route('home.single-blog', 1)}}" class="post-author">Jan 01, 2024</a>
+                                        <a href="{{route('home.single-blog', 1)}}" class="post-tutorial">Event</a>
                                     </div>
-                                    <a href="single-blog.html" class="post-title">World Heritage Sites in Morocco</a>
+                                    <a href="{{route('home.single-blog', 1)}}" class="post-title">World Heritage Sites in Morocco</a>
                                 </div>
                             </div>
 
@@ -210,17 +210,17 @@
                             <div class="single-recent-post flex">
                                 <!-- Thumb -->
                                 <div class="post-thumb">
-                                    <a href="single-blog.html"><img src="{{asset("img/blogs/berber-people-2.jpg")}}"
+                                    <a href="{{route('home.single-blog', 1)}}"><img src="{{asset("img/blogs/berber-people-2.jpg")}}"
                                             alt="" /></a>
                                 </div>
                                 <!-- Content -->
                                 <div class="post-content">
                                     <!-- Post Meta -->
                                     <div class="post-meta">
-                                        <a href="single-blog.html" class="post-author">Jan 01, 2024</a>
-                                        <a href="single-blog.html" class="post-tutorial">Event</a>
+                                        <a href="{{route('home.single-blog', 1)}}" class="post-author">Jan 01, 2024</a>
+                                        <a href="{{route('home.single-blog', 1)}}" class="post-tutorial">Event</a>
                                     </div>
-                                    <a href="single-blog.html" class="post-title">Erg Chigaga: Into The Wild Sahara</a>
+                                    <a href="{{route('home.single-blog', 1)}}" class="post-title">Erg Chigaga: Into The Wild Sahara</a>
                                 </div>
                             </div>
 
@@ -228,7 +228,7 @@
                             <div class="single-recent-post flex">
                                 <!-- Thumb -->
                                 <div class="post-thumb">
-                                    <a href="single-blog.html">
+                                    <a href="{{route('home.single-blog', 1)}}">
                                         <img src="{{asset('img/blogs/berber-people.jpg')}}" alt="" />
                                     </a>
                                 </div>
@@ -236,10 +236,10 @@
                                 <div class="post-content">
                                     <!-- Post Meta -->
                                     <div class="post-meta">
-                                        <a href="single-blog.html" class="post-author">Jan 01, 2024</a>
-                                        <a href="single-blog.html" class="post-tutorial">Event</a>
+                                        <a href="{{route('home.single-blog', 1)}}" class="post-author">Jan 01, 2024</a>
+                                        <a href="{{route('home.single-blog', 1)}}" class="post-tutorial">Event</a>
                                     </div>
-                                    <a href="single-blog.html" class="post-title">Who Are The Morocco Berbers?</a>
+                                    <a href="{{route('home.single-blog', 1)}}" class="post-title">Who Are The Morocco Berbers?</a>
                                 </div>
                             </div>
                         </div>

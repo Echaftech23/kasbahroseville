@@ -28,7 +28,7 @@ class AuthController extends Controller
             'level' => 'Admin'
         ]);
 
-        $user->roles()->sync([3]);
+        $user->roles()->sync([2]);
         return redirect()->route('login')->with('success', 'Registered successfully');
     }
 
@@ -56,7 +56,7 @@ class AuthController extends Controller
             return redirect()->route('front-desk.dashboard');
         }
         else {
-            return redirect('/home')->with('success', "logged In Successfully");
+            return redirect('/')->with('success', "logged In Successfully");
         }
 
         return redirect('/login');

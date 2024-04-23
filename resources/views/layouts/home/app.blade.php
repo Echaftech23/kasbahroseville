@@ -26,12 +26,10 @@
 
 <body>
     <!-- Preloader -->
-    {{-- <div
-      id="preloader"
-      class="w-full h-full fixed top-0 left-0 bg-preload flex items-center justify-center overflow-hidden"
-    >
-      <div class="loader text-white relative"></div>
-    </div> --}}
+    <div id="preloader"
+        class="w-full h-full fixed top-0 left-0 bg-preload flex items-center justify-center overflow-hidden">
+        <div class="loader text-white relative"></div>
+    </div>
     <!-- /Preloader -->
 
     <!-- Header Area Start -->

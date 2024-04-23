@@ -44,6 +44,17 @@ class HomeController extends Controller
         return view('home.blog', compact('rooms'));
     }
 
+    public function singleBlog(Request $request, int $blogId)
+    {
+        $rooms = Room::with('type', 'facilities')->latest()->paginate(6);
+
+        if ($request->ajax()) {
+            return view('data', compact('rooms'));
+        }
+
+        return view('home.single-blog', compact('rooms'));
+    }
+
     public function contact(Request $request)
     {
         $rooms = Room::with('type', 'facilities')->latest()->paginate(6);

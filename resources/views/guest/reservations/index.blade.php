@@ -215,8 +215,8 @@
                 </div>
                 <nav class="grid-cols-3 kasbah-pagination w-fit wow fadeInUp mt-50 bg-white rounded-lg"
                     data-wow-delay="1000ms" id="pagination-container">
-                    @if ($rooms->hasPages())
-                        {{ $rooms->links('vendor.pagination.custom') }}
+                    @if ($reservations->hasPages())
+                        {{ $reservations->links('vendor.pagination.custom') }}
                     @endif
                 </nav>
             </main>
