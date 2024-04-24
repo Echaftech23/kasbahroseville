@@ -4,7 +4,7 @@
 @if (Session::has('success'))
     <div id="dismiss-alert" x-data="{ show: true }" x-show="show" x-transition:leave="transition ease-in duration-2000"
         x-transition:leave-start="opacity-100 translate-x-0" x-transition:leave-end="opacity-0 -translate-x-full"
-        x-init="setTimeout(() => show = false, 4000)" class="fixed left-0 top-[24%] m-6 max-w-md rounded-lg p-4"
+        x-init="setTimeout(() => show = false, 7000)" class="fixed left-0 top-[24%] m-6 max-w-md rounded-lg p-4"
         style="z-index: 9999; background-color: #E42C76; color: #fff; border-color: #E42C76;" role="alert">
         <div class="flex">
             <div class="flex-shrink-0">
@@ -78,7 +78,7 @@
 @if (Session::has('error'))
     <div id="dismiss-alert" x-data="{ show: true }" x-show="show" x-transition:leave="transition ease-in duration-2000"
         x-transition:leave-start="opacity-100 translate-x-0" x-transition:leave-end="opacity-0 -translate-x-full"
-        x-init="setTimeout(() => show = false, 4000)" class="fixed left-0 top-1/4 m-6 max-w-md rounded-lg p-4"
+        x-init="setTimeout(() => show = false, 6000)" class="fixed left-0 top-1/4 m-6 max-w-md rounded-lg p-4"
         style="z-index: 9999; background-color: #eb2817; color: #fff; border-color: #eb2817;" role="alert">
         <div class="flex items-center">
             <div class="flex-shrink-0">
@@ -161,50 +161,7 @@
                             <h6>Size: <span>{{ $room->size }}sqf</span></h6>
                             <h6>Capacity: <span>Max persion {{ $room->capacity }}</span></h6>
                             <h6>Type: <span>{{ $room->type->type }}</span></h6>
-                            <h6>Actions:
-                                <span>
-                                    <td class="whitespace-nowrap">
-                                        <div class="flex justify-center items-center">
-                                            <!-- Show Details Icon -->                                            
-                                            <a href="{{route('invoiceDetails', $reservation->payment)}}" class="mr-2">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                    width="22" height="22" fill="none" stroke="#3367d1"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                    <circle cx="12" cy="12" r="10" />
-                                                    <line x1="12" y1="16" x2="12" y2="12" />
-                                                    <line x1="12" y1="8" x2="12" y2="8" />
-                                                </svg>
-                                            </a>
-                                            <!-- Edit Icon -->
-                                            <a href="{{ route('reservations.edit', $reservation) }}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
-                                                    width="32" fill="#364A62" height="32">
-                                                    <path
-                                                        d="M19.7 8.3c-.4-.4-1-.4-1.4 0l-10 10c-.2.2-.3.4-.3.7v4c0 .6.4 1 1 1h4c.3 0 .5-.1.7-.3l10-10c.4-.4.4-1 0-1.4l-4-4zM12.6 22H10v-2.6l6-6 2.6 2.6-6 6zm7.4-7.4L17.4 12l1.6-1.6 2.6 2.6-1.6 1.6z">
-                                                    </path>
-                                                </svg>
-                                            </a>
-                                            <!-- Delete Icon -->
-                                            <form action="{{ route('rooms.destroy', $room->id) }}" method="POST"
-                                                onsubmit="return confirm('Are You sure You want To Cancel This Reservation?')">
-                                                @csrf
-                                                @method('DELETE')
-
-                                                <button type="submit">
-                                                    <svg class="mt-1" xmlns="http://www.w3.org/2000/svg" fill="#E11D48"
-                                                        viewBox="0 0 32 32" width="32" height="32"
-                                                        stroke-width="1">
-                                                        <path d="M13 15h2v6h-2zM17 15h2v6h-2z"></path>
-                                                        <path
-                                                            d="M20 9c0-.6-.4-1-1-1h-6c-.6 0-1 .4-1 1v2H8v2h1v10c0 .6.4 1 1 1h12c.6 0 1-.4 1-1V13h1v-2h-4V9zm-6 1h4v1h-4v-1zm7 3v9H11v-9h10z">
-                                                        </path>
-                                                    </svg>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </span>
-                            </h6>
+                            <h6>Created_at: <span>{{ $reservation->created_at->format('d M, Y H:i:s') }}</span></h6>
                         </div>
 
                         <p>
@@ -238,11 +195,13 @@
                             <div class="input-daterange">
                                 <div class="flex no-gutters">
                                     <div class="w-6/12">
-                                        <input type="text" disabled value="{{ $reservation->checkIn }}" class="input-smalld form-control" name="checkIn" />
+                                        <input type="text" disabled value="{{ $reservation->checkIn }}"
+                                            class="input-smalld form-control" name="checkIn" />
                                     </div>
 
                                     <div class="w-6/12">
-                                        <input type="text" disabled value="{{ $reservation->checkOut }}" class="input-small form-control" name="checkOut" />
+                                        <input type="text" disabled value="{{ $reservation->checkOut }}"
+                                            class="input-small form-control" name="checkOut" />
                                     </div>
                                 </div>
                             </div>
@@ -251,11 +210,13 @@
                             <div class="flex">
                                 <div class="w-6/12 md:pr-4">
                                     <label for="guests">Adults</label>
-                                    <input type="text" disabled value="{{ $reservation->total_adults }}" class="input-small form-control"/>
+                                    <input type="text" disabled value="{{ $reservation->total_adults }}"
+                                        class="input-small form-control" />
                                 </div>
                                 <div class="w-6/12 md:pl-4">
                                     <label for="guests">Children</label>
-                                    <input type="text" disabled value="{{ $reservation->total_children }}" class="input-small form-control"/>
+                                    <input type="text" disabled value="{{ $reservation->total_children }}"
+                                        class="input-small form-control" />
                                 </div>
                             </div>
                         </div>
@@ -268,14 +229,49 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-
-                            <form action="{{route('invoiceDetails', $reservation)}}" method="GET">
-                                <button class="w-full {{ $reservation->statut == 'Pending' ? 'booked-btn' : 'hero-btn' }}"
-                                    {{ $reservation->statut == 'Pending' ? 'disabled' : '' }}>
-                                    {{ $reservation->statut == 'Pending'  ? 'Pending' : 'Check Invoice' }}
+                        <div class="form-group flex">
+                            <form action="{{ route('reservations.destroy', $reservation) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button
+                                    class="p-[14px] px-6 bg-[#E42C76] text-white hover:text-white hover:bg-black font-semibold text-sm">
+                                    Cancel Booking
                                 </button>
                             </form>
+
+                            <form action="{{ route('invoiceDetails', $reservation->payment) }}" method="GET">
+                                <button
+                                    class="p-[14px] mx-3 px-6 bg-[#E42C76] text-white hover:text-white hover:bg-black font-semibold text-sm">
+                                    Check Invoice
+                                </button>
+                            </form>
+                        </div>
+
+                        <div class="mt-8 p-4 bg-red-100 border-l-4 border-red-500 text-red-700">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <svg width="30px" height="30px" viewBox="0 0 24 24" fill="red"
+                                        xmlns="http://www.w3.org/2000/svg" stroke="#ffff">
+
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0" />
+
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+
+                                        <g id="SVGRepo_iconCarrier">
+                                            <path
+                                                d="M12 15H12.01M12 12V9M4.98207 19H19.0179C20.5615 19 21.5233 17.3256 20.7455 15.9923L13.7276 3.96153C12.9558 2.63852 11.0442 2.63852 10.2724 3.96153L3.25452 15.9923C2.47675 17.3256 3.43849 19 4.98207 19Z"
+                                                stroke="" stroke-width="1" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </g>
+
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="font-bold">Please Note</p>
+                                    <p class="text-sm">Reservation can only be deleted within 24 hours of creation and not on the same day.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

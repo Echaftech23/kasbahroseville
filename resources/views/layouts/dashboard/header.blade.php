@@ -38,6 +38,24 @@
             <div x-show="dropdownOpen" @click="dropdownOpen = ! dropdownOpen"
                 class="absolute right-0 z-10 bg-white shadow-lg mt-2 w-[150px] border p-3 overflow-hidden rounded-md"
                 style="display: none;">
+                <a href="{{ url('/') }}" class="flex w-full items-center px-2 py-2 text-s">
+                    <svg width="20" height="20" viewBox="0 0 25 25" fill="none"
+                        class="mr-1 inline-flex fill-gray-500"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_15_1329)">
+                            <path
+                                d="M11.5349 14.04V23.04H7.55054V14.04H11.5349ZM18.1677 9.56348L10.1521 3.25879C10.074 3.19629 9.98413 3.14551 9.88257 3.10645C9.78101 3.06738 9.66772 3.04785 9.54272 3.04785C9.41772 3.04785 9.30444 3.06738 9.20288 3.10645C9.10132 3.14551 9.00366 3.19629 8.90991 3.25879H8.93335L0.917725 9.56348C0.80835 9.65723 0.718506 9.77051 0.648193 9.90332C0.577881 10.0361 0.542725 10.1807 0.542725 10.3369V20.251C0.542725 21.0166 0.812256 21.6729 1.35132 22.2197C1.89038 22.7666 2.54272 23.04 3.30835 23.04H5.53491V13.0322C5.53491 12.7666 5.63257 12.5361 5.82788 12.3408C6.02319 12.1455 6.26147 12.0479 6.54272 12.0479H12.5427C12.824 12.0479 13.0623 12.1455 13.2576 12.3408C13.4529 12.5361 13.5505 12.7666 13.5505 13.0322V23.04H15.7771C16.5427 23.04 17.1951 22.7666 17.7341 22.2197C18.2732 21.6729 18.5427 21.0166 18.5427 20.251V10.3369C18.5427 10.1807 18.5076 10.0361 18.4373 9.90332C18.3669 9.77051 18.2771 9.65723 18.1677 9.56348Z" />
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_15_1329">
+                                <rect width="24" height="24" fill="white"
+                                    transform="matrix(1 0 0 -1 0.542725 24.54)" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+
+                    <span>Home</span>
+                </a>
                 <a href="{{ url('profile') }}" class="flex w-full items-center px-2 py-2 text-s">
                     <img src="{{ asset('img/dashborad/profile.svg') }}" class="w-5  mr-1 inline-flex" alt="">
                     <span>Profile</span>

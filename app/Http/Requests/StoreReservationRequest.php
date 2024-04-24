@@ -25,7 +25,7 @@ class StoreReservationRequest extends FormRequest
         if (Auth::user()->hasRole('Guest')) {
             return [
                 'room_id' => 'required|exists:rooms,id',
-                'checkIn' => 'required|date|after:today',
+                'checkIn' => 'required|date|after_or_equal:today',
                 'checkOut' => 'required|date|after:checkIn',
                 'total_adults' => 'required|integer|min:1',
                 'total_children' => 'required|integer|min:0',
@@ -39,7 +39,7 @@ class StoreReservationRequest extends FormRequest
             'email' =>
             'required|email',
             'room_id' => 'required|exists:rooms,id',
-            'checkIn' => 'required|date|after:today',
+            'checkIn' => 'required|date|after_or_equal:today',
             'checkOut' => 'required|date|after:checkIn',
             'total_adults' => 'required|integer|min:1',
             'total_children' => 'required|integer|min:0',

@@ -95,7 +95,7 @@
                                                 class="w-5  mr-1 inline-flex" alt="">
                                             <span>Profile</span>
                                         </a>
-                                    @elseif (Auth::user()->hasRole('front-desk'))
+                                    @elseif (Auth::user()->hasRole('Front-desk'))
                                         <a href="{{ route('front-desk.profile') }}" class="flex w-full items-center px-2 py-2 text-s">
                                             <img src="{{ asset('img/dashborad/profile.svg') }}"
                                                 class="w-5  mr-1 inline-flex" alt="">
@@ -197,7 +197,7 @@
                                                         class="w-5  mr-1 inline-flex" alt="">
                                                     <span>Profile</span>
                                                 </a>
-                                            @elseif (Auth::user()->hasRole('front-desk'))
+                                            @elseif (Auth::user()->hasRole('Front-desk'))
                                                 <a href="{{ route('front-desk.profile') }}" class="flex w-full items-center px-2 py-2 text-s">
                                                     <img src="{{ asset('img/dashborad/profile.svg') }}"
                                                         class="w-5  mr-1 inline-flex" alt="">
@@ -228,7 +228,7 @@
                                                         class="w-5 mr-1 inline-flex" alt="">
                                                     <span>Dashboard</span>
                                                 </a>
-                                            @elseif (Auth::user()->hasRole('front)desk'))
+                                            @elseif (Auth::user()->hasRole('Front-desk'))
                                                 <a href="{{ route('front-desk.dashboard') }}"
                                                     class="flex w-full items-center px-2 py-2 text-s">
                                                     <img src="{{ asset('img/dashborad/dashboard.svg') }}"

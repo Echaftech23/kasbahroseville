@@ -120,7 +120,6 @@
 
                 function getBackgroundColor(statut) {
                     var colors = {
-                        'Pending': '#F97316',
                         'Confirmed': '#3B82F6',
                         'Checked In': '#22C55E',
                         'Checked Out': '#FFA500',
@@ -200,12 +199,6 @@
             <div id="calendar"></div>
             <div>
                 <div class="flex items-center sm:-mt-6 flex-wrap">
-                    <div
-                        class="badge space-x-2.5 text-[13px] flex mr-8 items-center font-semibold
-                        text-orange-500">
-                        <div class="size-2 rounded-full bg-current"></div>
-                        <span>Pending</span>
-                    </div>
                     <div
                         class="badge space-x-2.5 text-[13px] flex mr-8 items-center font-semibold
                         text-blue-500">

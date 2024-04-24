@@ -205,7 +205,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('reservations', ReservationController::class);
 
     // Payment :
-    Route::get('/home/payments/invoices/{payment}', [PaymentController::class, 'show'])->name('invoiceDetails');
+    Route::get('/payments/invoices/{payment}', [PaymentController::class, 'show'])->name('invoiceDetails');
 
     Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
 });

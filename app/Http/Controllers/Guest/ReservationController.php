@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Guest;
 use App\Models\Reservation;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreReservationRequest;
-use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -72,14 +71,20 @@ class ReservationController extends Controller
             $price = $request->input('price');
 
             $availableRooms = Room::whereDoesntHave('reservations', function ($query) use ($checkIn, $checkOut) {
-                $query->whereDate('checkIn', '<=', $checkIn)
-                    ->whereDate('checkOut', '>=', $checkOut);
+                $query->where(function ($query) use ($checkIn, $checkOut) {
+                    $query->where('checkIn', '<', $checkOut)
+                    ->where('checkOut', '>', $checkIn);
+                })->orWhere(function ($query) use ($checkIn, $checkOut) {
+                    $query->whereBetween('checkIn', [$checkIn, $checkOut])
+                    ->orWhereBetween('checkOut', [$checkIn, $checkOut]);
+                });
             })
-                ->where('capacity', '>=', $children + $adults)
-                ->where('price', '<=', $price)
-                ->with('type', 'facilities')
-                ->latest()
-                ->paginate(3);
+
+            ->where('capacity', '>=', $children + $adults)
+            ->where('price', '<=', $price)
+            ->with('type', 'facilities')
+            ->latest()
+            ->paginate(3);
 
             $links = $availableRooms->links('vendor.pagination.header')->toHtml();
 
@@ -137,18 +142,21 @@ class ReservationController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateReservationRequest $request, Reservation $reservation)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      */
+
     public function destroy(Reservation $reservation)
     {
-        //
+        $this->authorize('delete', $reservation);
+
+        $hoursSinceCreation = $reservation->created_at->diffInHours(now());
+        $isSameDay = $reservation->created_at->isToday();
+
+        if($hoursSinceCreation <= 48 && !$isSameDay) {
+            $reservation->delete();
+            return redirect()->route('reservations.index')->with('success', 'Reservation deleted successfully');
+        }
+
+        return back()->with('error', 'Reservation can only be deleted within 24 hours of creation and not on the same day');
     }
 }
