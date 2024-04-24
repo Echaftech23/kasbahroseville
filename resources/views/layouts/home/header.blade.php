@@ -90,7 +90,7 @@
                                     class="absolute right-0 z-10 bg-white shadow-lg mt-2 w-[160px] border p-3 overflow-hidden rounded-md"
                                     style="display: none;">
                                     @if (Auth::user()->hasRole('Guest'))
-                                        <a href="{{ route('admin.profile') }}" class="flex w-full items-center px-2 py-2 text-s">
+                                        <a href="{{ route('guest.profile', Auth::user()->id) }}" class="flex w-full items-center px-2 py-2 text-s">
                                             <img src="{{ asset('img/dashborad/profile.svg') }}"
                                                 class="w-5  mr-1 inline-flex" alt="">
                                             <span>Profile</span>
@@ -102,7 +102,7 @@
                                             <span>Profile</span>
                                         </a>
                                     @else
-                                        <a href="#" class="flex w-full items-center px-2 py-2 text-s">
+                                        <a href="{{ route('admin.profile') }}" class="flex w-full items-center px-2 py-2 text-s">
                                             <img src="{{ asset('img/dashborad/profile.svg') }}"
                                                 class="w-5  mr-1 inline-flex" alt="">
                                             <span>Profile</span>
@@ -192,7 +192,7 @@
                                             class="absolute right-0 z-10 bg-white shadow-lg mt-2 w-[160px] border p-3 overflow-hidden rounded-md"
                                             style="display: none;">
                                             @if (Auth::user()->hasRole('Guest'))
-                                                <a href="{{ route('admin.profile') }}" class="flex w-full items-center px-2 py-2 text-s">
+                                                <a href="{{ route('guest.profile', Auth::user()->id) }}" class="flex w-full items-center px-2 py-2 text-s">
                                                     <img src="{{ asset('img/dashborad/profile.svg') }}"
                                                         class="w-5  mr-1 inline-flex" alt="">
                                                     <span>Profile</span>
@@ -204,7 +204,7 @@
                                                     <span>Profile</span>
                                                 </a>
                                             @else
-                                                <a href="#" class="flex w-full items-center px-2 py-2 text-s">
+                                                <a href="{{ route('admin.profile') }}" class="flex w-full items-center px-2 py-2 text-s">
                                                     <img src="{{ asset('img/dashborad/profile.svg') }}"
                                                         class="w-5  mr-1 inline-flex" alt="">
                                                     <span>Profile</span>

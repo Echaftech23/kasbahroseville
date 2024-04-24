@@ -190,6 +190,10 @@ Route::get('/blogs/{blog}', [HomeController::class, 'singleBlog'])->name('home.s
 Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact');
 Route::post('/home/search', [HomeController::class, 'search'])->name('search');
 
+//Profile :
+Route::get('/guest/profile/{guest}', [HomeController::class, 'profile'])->name('guest.profile');
+Route::put('/guest/updateProfile/{profile}', [HomeController::class, 'updateProfile'])->name('guest.updateProfile');
+
 // Stripe : Payment Gateway
 Route::middleware('auth')->group(function () {
     Route::post('/checkout', [PaymentController::class, 'checkout'])->name('checkout');

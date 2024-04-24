@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Room;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -64,6 +65,38 @@ class HomeController extends Controller
         }
 
         return view('home.contact', compact('rooms'));
+    }
+
+    public function profile(Request $request, User $guest)
+    {
+        try {
+            $reservations = $guest->reservations()->latest()->paginate(6);
+            $rooms = Room::with('type', 'facilities')->latest()->paginate(6);
+
+            if ($request->ajax()) {
+                return view('data', compact('rooms'));
+            }
+
+            return view('guest.profile', compact('guest', 'reservations', 'rooms'));
+        } catch (\Exception $e) {
+            return back()->with('error', 'Something went wrong!');
+        }
+    }
+
+    public function updateProfile(Request $request, User $profile)
+    {
+        try {
+
+            if ($request->hasFile('user-image')) {
+                $profile->clearMediaCollection('profile');
+                $profile->addMediaFromRequest('user-image')->toMediaCollection('profile');
+            }
+
+            $profile->update($request->all());
+            return redirect()->back()->with('success', 'Profile updated successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('warning', 'Something went wrong!');
+        }
     }
 
     public function search(Request $request)

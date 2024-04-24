@@ -1,4 +1,5 @@
 @extends('layouts.home.app')
+
 {{-- Success Alert --}}
 @if (Session::has('success'))
     <div id="dismiss-alert" x-data="{ show: true }" x-show="show" x-transition:leave="transition ease-in duration-2000"
