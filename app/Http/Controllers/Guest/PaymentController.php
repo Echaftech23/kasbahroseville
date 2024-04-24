@@ -91,6 +91,8 @@ class PaymentController extends Controller
      */
     public function show(Payment $payment)
     {
+        $this->authorize('view', $payment);
+
         $rooms = Room::with('type', 'facilities')->latest()->paginate(6);
         return view('guest.invoice', compact('rooms', 'payment'));
     }
