@@ -20,6 +20,6 @@ class FrontDeskMiddleware
             return $next($request);
         }
 
-        return redirect('login')->with('error', "You don't have Frony Desk access.");
+        return redirect()->route('home')->with('warning', "You don't have Front Desk access.");
     }
 }

@@ -6,6 +6,7 @@ use App\Models\Reservation;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreReservationRequest;
 use App\Models\Room;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -150,13 +151,13 @@ class ReservationController extends Controller
         $this->authorize('delete', $reservation);
 
         $hoursSinceCreation = $reservation->created_at->diffInHours(now());
-        $isSameDay = $reservation->created_at->isToday();
+        $isSameDay = Carbon::parse($reservation->checkIn)->isToday();
 
         if($hoursSinceCreation <= 48 && !$isSameDay) {
             $reservation->delete();
             return redirect()->route('reservations.index')->with('success', 'Reservation deleted successfully');
         }
 
-        return back()->with('error', 'Reservation can only be deleted within 24 hours of creation and not on the same day');
+        return back()->with('error', 'Reservation can only be deleted within 48 hours of creation and not on the same day of check-in');
     }
 }

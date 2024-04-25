@@ -34,7 +34,7 @@
                             <label class="block mb-2 text-sm font-bold text-gray-700" for="email">
                                 Email
                             </label>
-                            <input name="email" value="{{old('email')}}" class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline @error('email') border-red-500 @enderror" id="email" type="email" placeholder="Email" />
+                            <input type="email" name="email" value="{{old('email')}}" class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline @error('email') border-red-500 @enderror" id="email" type="email" placeholder="Email" />
                             @error('email')
                             <span class="text-sm text-red-500">{{ $message }}</span>
                             @enderror

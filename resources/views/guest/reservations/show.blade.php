@@ -268,7 +268,7 @@
                                 </div>
                                 <div class="ml-3">
                                     <p class="font-bold">Please Note</p>
-                                    <p class="text-sm">Reservation can only be deleted within 24 hours of creation and not on the same day.
+                                    <p class="text-sm">Reservation can only be deleted within 48 hours of creation and not on the same day of check-in
                                     </p>
                                 </div>
                             </div>
