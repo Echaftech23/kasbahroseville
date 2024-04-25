@@ -37,7 +37,7 @@ class UpdateReservationRequest extends FormRequest
             'total_adults' => 'required|integer|min:1',
             'total_children' => 'required|integer|min:0',
             'statut' => ['required', 'in:Pending,Confirmed,Rejected, "Checked In", "Checked Out", "Due In", "Due Out"'],
-            'room_statut' => ['required', 'in:"Available", "Out of service", "Booked"'],
+            'room_statut' => ['required', 'in:"Available", "Out of service"'],
             'totalAmount' => 'required|numeric',
             'amountPaid' => 'required|numeric',
         ];

@@ -345,6 +345,11 @@
                                     <p class="my-2 grow text-left line-clamp-3">
                                         {{ $reservation->room->description }}
                                     </p>
+
+                                    <div>
+                                        <a href="{{ route('reservations.show', $reservation) }}"
+                                            class="btn hero-btn mt-30">View Details</a>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach

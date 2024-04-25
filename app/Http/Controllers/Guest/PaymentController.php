@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Guest;
 
 use App\Models\Payment;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdatePaymentRequest;
 use App\Models\PaymentMethode;
 use App\Models\Reservation;
 use App\Models\Room;
@@ -72,10 +71,6 @@ class PaymentController extends Controller
             $paymentMethode->type = 'credit card';
             $paymentMethode->payment_id = $payment->id;
             $paymentMethode->save();
-
-            // Retrieve the room and update its status
-            $room = Room::find(session('room_id'));
-            $room->update(['room_statut' => 'Booked']);
 
             return redirect()->route('reservations.index')->with('success', 'Congratulaion, Reservation created successfully');
         }

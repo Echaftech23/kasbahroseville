@@ -140,6 +140,10 @@
                     initialView: 'dayGridMonth',
                     themeSystem: 'tailwind',
                     events: events,
+
+                    eventClick: function(info) {
+                        window.location.href = info.event.url;
+                },
                 });
 
                 calendar.render();

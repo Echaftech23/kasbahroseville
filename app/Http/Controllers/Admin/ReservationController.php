@@ -38,6 +38,7 @@ class ReservationController extends Controller
                 'title' => $reservation->user->name,
                 'statut' => $reservation->statut,
                 'start' => $reservation->checkIn,
+                'url' => route('admin.reservations.edit', $reservation->id),
                 'end' => $reservation->checkOut,
             ];
         }
@@ -88,8 +89,6 @@ class ReservationController extends Controller
                 PaymentMethode::create([
                     'payment_id' => $payment->id,
                 ]);
-
-                $room->update(['room_statut' => 'Booked']);
 
                 return redirect()->route('admin.reservations.index')->with('success', 'Reservation created successfully!');
             }

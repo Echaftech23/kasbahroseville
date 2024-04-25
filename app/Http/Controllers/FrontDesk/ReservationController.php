@@ -89,8 +89,6 @@ class ReservationController extends Controller
                     'payment_id' => $payment->id,
                 ]);
 
-                $room->update(['room_statut' => 'Booked']);
-
                 return redirect()->route('front-desk.reservations.index')->with('success', 'Reservation created successfully!');
             } else {
                 return redirect()->back()->with('error', 'Room is not available')->withInput();

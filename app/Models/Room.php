@@ -31,7 +31,6 @@ class Room extends Model implements HasMedia
     ];
 
     public const ROOM_STATUT_RADIO = [
-        'Booked' => 'Booked',
         'Available' => 'Available',
         'Out of service' => 'Out of service',
     ];

@@ -80,7 +80,7 @@
                                 <button class="flex items-center justify-center" @click="dropdownOpen = !dropdownOpen">
                                     <div
                                         class="relative block w-8 h-8 overflow-hidden rounded-full shadow focus:outline-none mr-2">
-                                        <img class="object-cover w-full h-full" src="{{ asset('img/bg-img/1.jpg') }}"
+                                        <img class="object-cover w-full h-full" src="{{ Auth::user()->getFirstMediaUrl('profile') ? Auth::user()->getFirstMediaUrl('profile') : asset('img/bg-img/default-profile.jpeg') }}"
                                             alt="Your avatar" />
                                     </div>
                                     <span
@@ -182,7 +182,7 @@
                                             <div
                                                 class="relative block w-10 h-10 overflow-hidden rounded-full shadow focus:outline-none mr-2">
                                                 <img class="object-cover w-full h-full"
-                                                    src="{{ asset('img/bg-img/1.jpg') }}" alt="Your avatar" />
+                                                    src="{{ Auth::user()->getFirstMediaUrl('profile') ? Auth::user()->getFirstMediaUrl('profile') : asset('img/bg-img/default-profile.jpeg') }}" alt="Your avatar" />
                                             </div>
                                             <span
                                                 class="text-sm font-medium mobile md:block cursor-pointer">{{ Auth::user()->name }}</span>
